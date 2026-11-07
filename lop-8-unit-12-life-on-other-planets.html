@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F5C45">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homebar{display:flex;max-width:560px;margin:0 auto;padding-block:10px}
+.homebar a{font:600 14px "Be Vietnam Pro",system-ui,sans-serif;color:inherit;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(127,127,127,.35)}</style>
+<title>Lớp 8 · Life on Other Planets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F6F2; --surface:#FFFFFF; --ink:#16302A; --muted:#55706A; --line:#D6E0DA;
+  --board:#1F5C45; --board-ink:#F4F8F2; --chalk:#E8B931; --chalk-ink:#2A2206;
+  --ok:#1E8A55; --ok-bg:#DDF3E6; --bad:#B8402F; --bad-bg:#F8E1DC;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1D18; --surface:#16291F; --ink:#E6EFE9; --muted:#9DB5AB; --line:#2A4238;
+    --board:#1B4A38; --board-ink:#EEF5EF; --chalk:#F0C849; --chalk-ink:#241C02;
+    --ok:#5CCB8F; --ok-bg:#173A29; --bad:#F08A78; --bad-bg:#3E1E18;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1D18; --surface:#16291F; --ink:#E6EFE9; --muted:#9DB5AB; --line:#2A4238;
+  --board:#1B4A38; --board-ink:#EEF5EF; --chalk:#F0C849; --chalk-ink:#241C02;
+  --ok:#5CCB8F; --ok-bg:#173A29; --bad:#F08A78; --bad-bg:#3E1E18;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;padding-inline:16px;padding-block:0 40px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header.board{background:var(--board);color:var(--board-ink);border-radius:0 0 18px 18px;padding:20px 20px 18px;margin-inline:-16px;display:flex;flex-direction:column;gap:6px}
+@media (min-width:600px){header.board{margin-inline:0}}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+h1{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:32px;line-height:1.1;margin:0;text-wrap:balance}
+h1 .u{color:var(--chalk)}
+.sub{margin:0;font-size:14px;opacity:.9}
+.meter{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--chalk);transition:width .3s}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2}
+.tabs button{font:600 13px "Be Vietnam Pro",sans-serif;border:0;background:none;color:var(--muted);padding:10px 4px;border-radius:10px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--board);color:var(--board-ink)}
+button:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+h2{font-family:"Baloo 2",sans-serif;font-weight:600;font-size:22px;margin:0}
+.hint{color:var(--muted);font-size:14px;margin:0}
+section{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;gap:12px;min-height:250px}
+.word{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:40px;line-height:1.1;margin:0;overflow-wrap:anywhere}
+.ipa{color:var(--muted);font-size:15px}
+.mean{font-size:20px;font-weight:600;color:var(--board)}
+:root[data-theme="dark"] .mean{color:var(--chalk)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mean{color:var(--chalk)}}
+.ex{border-left:3px solid var(--chalk);padding-left:12px;font-size:15px}
+.ex em{display:block;color:var(--muted);font-style:normal;font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:600 15px "Be Vietnam Pro",sans-serif;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;border-radius:12px;cursor:pointer;min-height:44px}
+.btn.primary{background:var(--chalk);color:var(--chalk-ink);border-color:transparent}
+.btn.speak{background:var(--board);color:var(--board-ink);border-color:transparent}
+.spacer{flex:1}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{font:600 16px "Be Vietnam Pro",sans-serif;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:14px;border-radius:12px;cursor:pointer;min-height:56px}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.opt:disabled{cursor:default}
+.q{font-size:19px;font-weight:500;margin:0}
+.q b{display:inline-block;min-width:70px;border-bottom:2px solid var(--chalk);text-align:center}
+.fb{font-size:15px;min-height:1.5em;margin:0}
+.fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+.big-listen{align-self:center;width:96px;height:96px;border-radius:50%;border:0;background:var(--board);color:var(--board-ink);font:800 15px "Baloo 2",sans-serif;cursor:pointer}
+.note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.done{text-align:center;align-items:center;justify-content:center}
+.done .score{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:48px;color:var(--board);font-variant-numeric:tabular-nums}
+.line{display:flex;flex-wrap:wrap;gap:8px;min-height:56px;padding:10px;border:2px dashed var(--line);border-radius:12px;align-items:center}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.tok{font:600 16px "Be Vietnam Pro",sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 12px;border-radius:10px;cursor:pointer;min-height:44px}
+.tok.on{background:var(--chalk);color:var(--chalk-ink);border-color:transparent}
+.pool .tok:disabled{opacity:.25;cursor:default}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<nav class="homebar"><a href="index.html">← Trang chủ</a></nav>
+<div class="wrap">
+  <header class="board">
+    <span class="eyebrow">Tiếng Anh 8 · Global Success · Unit 12</span>
+    <h1>Life on <span class="u">Other Planets</span></h1>
+    <p class="sub">Sự sống trên hành tinh khác; câu hỏi tường thuật (asked if / whether, asked + từ để hỏi).</p>
+    <div class="meter"><div class="bar"><i id="pbar"></i></div><span id="ptext" class="count">0/4 phần</span></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button id="t-vocab" role="tab" aria-selected="true" data-tab="vocab">1. Từ vựng</button>
+    <button id="t-listen" role="tab" aria-selected="false" data-tab="listen">2. Nghe</button>
+    <button id="t-practice" role="tab" aria-selected="false" data-tab="practice">3. Ngữ pháp</button>
+    <button id="t-order" role="tab" aria-selected="false" data-tab="order">4. Viết câu</button>
+  </nav>
+
+  <section id="vocab">
+    <div><h2>Học từ mới</h2><p class="hint">Bấm "Nghe" để nghe phát âm, "Xem nghĩa" để lật thẻ.</p></div>
+    <div class="card" id="fc"></div>
+    <div class="row">
+      <button class="btn" id="prev">← Trước</button>
+      <span class="spacer"></span>
+      <span class="count" id="fcCount"></span>
+      <span class="spacer"></span>
+      <button class="btn primary" id="next">Tiếp →</button>
+    </div>
+  </section>
+
+  <section id="listen" hidden>
+    <div><h2>Nghe câu và chọn từ</h2><p class="hint">Bấm loa để nghe cả câu, rồi chọn từ mới có trong câu đó.</p></div>
+    <div class="card" id="lc"></div>
+  </section>
+
+  <section id="practice" hidden>
+    <div><h2>Chọn từ đúng</h2><p class="hint">Câu hỏi Yes/No: asked (me) + if / whether + chủ ngữ + động từ lùi thì. Câu hỏi có từ để hỏi: asked (me) + what / where / why… + chủ ngữ + động từ lùi thì. Không đảo trợ động từ, không dùng do / does / did, cuối câu dùng dấu chấm.</p></div>
+    <div class="card" id="pc"></div>
+  </section>
+
+  <section id="order" hidden>
+    <div><h2>Sắp xếp thành câu</h2><p class="hint">Bấm từng từ theo đúng thứ tự để tạo câu. Bấm vào từ đã chọn để bỏ bớt.</p></div>
+    <div class="card" id="oc"></div>
+  </section>
+
+  <p class="note">Nội dung do nhóm tự soạn theo chủ đề của bài, không chép từ sách giáo khoa. Phát âm dùng giọng đọc có sẵn trên điện thoại.</p>
+</div>
+
+<script>
+const WORDS=[
+ {w:"planet",ipa:"/ˈplænɪt/",vi:"hành tinh",ex:"Mars is the fourth planet from the Sun.",exvi:"Sao Hỏa là hành tinh thứ tư tính từ Mặt Trời."},
+ {w:"alien",ipa:"/ˈeɪliən/",vi:"người ngoài hành tinh",ex:"My sister asked me if aliens were real.",exvi:"Em gái hỏi em người ngoài hành tinh có thật không."},
+ {w:"spaceship",ipa:"/ˈspeɪsʃɪp/",vi:"tàu vũ trụ",ex:"The spaceship landed on the Moon.",exvi:"Tàu vũ trụ đã đáp xuống Mặt Trăng."},
+ {w:"astronaut",ipa:"/ˈæstrənɔːt/",vi:"phi hành gia",ex:"An astronaut sleeps in a small bed in space.",exvi:"Phi hành gia ngủ trên một chiếc giường nhỏ ngoài không gian."},
+ {w:"solar system",ipa:"/ˈsəʊlə ˌsɪstəm/",vi:"hệ Mặt Trời",ex:"There are eight planets in the solar system.",exvi:"Có tám hành tinh trong hệ Mặt Trời."},
+ {w:"galaxy",ipa:"/ˈɡæləksi/",vi:"thiên hà",ex:"Our galaxy is called the Milky Way.",exvi:"Thiên hà của chúng ta được gọi là Dải Ngân Hà."},
+ {w:"gravity",ipa:"/ˈɡrævəti/",vi:"trọng lực",ex:"There is less gravity on the Moon.",exvi:"Trên Mặt Trăng trọng lực yếu hơn."},
+ {w:"oxygen",ipa:"/ˈɒksɪdʒən/",vi:"khí ô-xy",ex:"People need oxygen to live.",exvi:"Con người cần ô-xy để sống."},
+ {w:"surface",ipa:"/ˈsɜːfɪs/",vi:"bề mặt",ex:"The surface of Mars is red and dry.",exvi:"Bề mặt Sao Hỏa màu đỏ và khô."},
+ {w:"telescope",ipa:"/ˈtelɪskəʊp/",vi:"kính thiên văn",ex:"We looked at the stars through a telescope.",exvi:"Chúng em ngắm sao qua kính thiên văn."},
+ {w:"creature",ipa:"/ˈkriːtʃə/",vi:"sinh vật",ex:"Scientists look for small creatures on other planets.",exvi:"Các nhà khoa học tìm kiếm sinh vật nhỏ trên các hành tinh khác."},
+ {w:"UFO",ipa:"/ˌjuː ef ˈəʊ/",vi:"vật thể bay không xác định",ex:"My little brother thinks he saw a UFO.",exvi:"Em trai em nghĩ là đã nhìn thấy một UFO."}
+];
+const PRACTICE=[
+ {q:"She asked me ___ I liked science.",a:"if",o:["if","that","what","do"],why:"Tường thuật câu hỏi Yes/No: asked + if / whether."},
+ {q:"He asked me where I ___.",a:"lived",o:["live","lived","did live","do live"],why:"Lùi thì và không dùng do / did: where I lived."},
+ {q:"Tom asked me what ___ doing.",a:"I was",o:["was I","I was","am I","I am"],why:"Không đảo ngữ, lùi thì: what I was doing."},
+ {q:"The teacher asked us whether we ___ see the Moon.",a:"could",o:["can","could","cans","did"],why:"Lùi thì: can → could."},
+ {q:"My sister asked me why Mars ___ red.",a:"was",o:["is","was","were","be"],why:"Lùi thì: is → was; chủ ngữ số ít → was."},
+ {q:"People cannot breathe on the Moon because there is no ___.",a:"oxygen",o:["oxygen","gravity","water","surface"],why:"Thở cần khí ô-xy: oxygen."},
+ {q:"An ___ is a person who travels into space.",a:"astronaut",o:["alien","astronaut","inventor","creature"],why:"Phi hành gia: astronaut."},
+ {q:"We watched the stars through a ___.",a:"telescope",o:["telescope","telephone","television","microscope"],why:"Ngắm sao dùng kính thiên văn: telescope."}
+];
+const ORDER=[
+ {s:"She asked me if aliens were real.",vi:"Em ấy hỏi em người ngoài hành tinh có thật không."},
+ {s:"He asked me where astronauts slept.",vi:"Cậu ấy hỏi em phi hành gia ngủ ở đâu."},
+ {s:"I asked him whether people could live on Mars.",vi:"Em hỏi ông ấy con người có thể sống trên Sao Hỏa không."},
+ {s:"There are eight planets in the solar system.",vi:"Có tám hành tinh trong hệ Mặt Trời."},
+ {s:"We looked at the Moon through a telescope.",vi:"Chúng em ngắm Mặt Trăng qua kính thiên văn."}
+];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const done=store.get("g8u12done",{vocab:false,listen:false,practice:false,order:false});
+function renderProgress(){const n=Object.values(done).filter(Boolean).length;document.getElementById("pbar").style.width=(n/4*100)+"%";document.getElementById("ptext").textContent=n+"/4 phần";}
+function mark(k){done[k]=true;store.set("g8u12done",done);renderProgress();}
+renderProgress();
+
+let voice=null;
+function pickVoice(){if(!("speechSynthesis" in window))return;const vs=speechSynthesis.getVoices();voice=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null;}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function say(t){if(!("speechSynthesis" in window))return false;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;u.rate=.85;speechSynthesis.speak(u);return true;}
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* Tabs */
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  ["vocab","listen","practice","order"].forEach(id=>document.getElementById(id).hidden=id!==b.dataset.tab);
+}));
+
+/* Flashcards */
+let fi=0,flipped=false,seen=new Set();
+function renderFC(){
+  const c=WORDS[fi];seen.add(fi);if(seen.size===WORDS.length)mark("vocab");
+  document.getElementById("fc").innerHTML=`
+   <p class="word">${esc(c.w)}</p><span class="ipa">${esc(c.ipa)}</span>
+   ${flipped?`<span class="mean">${esc(c.vi)}</span><div class="ex">${esc(c.ex)}<em>${esc(c.exvi)}</em></div>`:""}
+   <div class="spacer"></div>
+   <div class="row"><button class="btn speak" id="sp">🔊 Nghe</button><button class="btn" id="fl">${flipped?"Ẩn nghĩa":"Xem nghĩa"}</button>${flipped?'<button class="btn" id="spx">Nghe câu ví dụ</button>':""}</div>`;
+  document.getElementById("fcCount").textContent=(fi+1)+" / "+WORDS.length;
+  document.getElementById("sp").onclick=()=>say(c.w);
+  document.getElementById("fl").onclick=()=>{flipped=!flipped;renderFC()};
+  const x=document.getElementById("spx");if(x)x.onclick=()=>say(c.ex);
+}
+document.getElementById("prev").onclick=()=>{fi=(fi-1+WORDS.length)%WORDS.length;flipped=false;renderFC()};
+document.getElementById("next").onclick=()=>{fi=(fi+1)%WORDS.length;flipped=false;renderFC()};
+renderFC();
+
+/* Listening */
+let lq=[],li=0,lscore=0;
+function startListen(){lq=shuffle(WORDS).slice(0,6);li=0;lscore=0;renderLC();}
+function renderLC(){
+  const el=document.getElementById("lc");
+  if(li>=lq.length){mark("listen");el.className="card done";el.innerHTML=`<span class="score">${lscore}/${lq.length}</span><p class="hint">${lscore===lq.length?"Tuyệt vời! Em nghe đúng hết.":"Nghe lại các từ sai ở phần 1 rồi thử lần nữa."}</p><button class="btn primary" id="lr">Làm lại</button>`;document.getElementById("lr").onclick=startListen;return;}
+  el.className="card";
+  const t=lq[li],opts=shuffle([t,...shuffle(WORDS.filter(w=>w!==t)).slice(0,3)]);
+  el.innerHTML=`<span class="count">Câu ${li+1} / ${lq.length}</span>
+    <button class="big-listen" id="play" aria-label="Nghe câu">🔊<br>Nghe</button>
+    <div class="opts">${opts.map(o=>`<button class="opt" data-w="${esc(o.w)}">${esc(o.w)}</button>`).join("")}</div>
+    <p class="fb" id="lfb"></p>`;
+  document.getElementById("play").onclick=()=>{if(!say(t.ex))document.getElementById("lfb").textContent="Máy này chưa có giọng đọc tiếng Anh.";};
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.w===t.w;if(ok)lscore++;
+    el.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.w===t.w)x.classList.add("ok");});
+    if(!ok)b.classList.add("bad");
+    const fb=document.getElementById("lfb");fb.className="fb "+(ok?"ok":"bad");
+    fb.innerHTML=(ok?"Đúng rồi! ":"Chưa đúng. ")+"<b>"+esc(t.w)+"</b> = "+esc(t.vi)+"<br>"+esc(t.ex);
+    const nx=document.createElement("div");nx.className="row";nx.innerHTML='<span class="spacer"></span><button class="btn primary">Câu tiếp →</button>';el.appendChild(nx);nx.querySelector("button").onclick=()=>{li++;renderLC()};
+  });
+}
+startListen();
+
+/* Practice */
+let pi=0,pscore=0;
+function renderPC(){
+  const el=document.getElementById("pc");
+  if(pi>=PRACTICE.length){mark("practice");el.className="card done";el.innerHTML=`<span class="score">${pscore}/${PRACTICE.length}</span><p class="hint">${pscore===PRACTICE.length?"Em làm đúng tất cả!":"Xem lại phần giải thích và làm lại nhé."}</p><button class="btn primary" id="pr">Làm lại</button>`;document.getElementById("pr").onclick=()=>{pi=0;pscore=0;renderPC()};return;}
+  el.className="card";
+  const p=PRACTICE[pi];
+  el.innerHTML=`<span class="count">Câu ${pi+1} / ${PRACTICE.length}</span>
+    <p class="q">${esc(p.q).replace("___","<b>&nbsp;?&nbsp;</b>")}</p>
+    <div class="opts">${p.o.map(o=>`<button class="opt" data-a="${o}">${o}</button>`).join("")}</div>
+    <p class="fb" id="pfb"></p><div class="row" id="pnext"></div>`;
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.a===p.a;if(ok)pscore++;
+    el.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.a===p.a)x.classList.add("ok");});
+    if(!ok)b.classList.add("bad");
+    const fb=document.getElementById("pfb");fb.className="fb "+(ok?"ok":"bad");
+    fb.textContent=(ok?"Đúng rồi. ":"Chưa đúng. ")+p.why;
+    el.querySelector(".q b").textContent=p.a;
+    document.getElementById("pnext").innerHTML='<span class="spacer"></span><button class="btn primary" id="pn">Câu tiếp →</button>';
+    document.getElementById("pn").onclick=()=>{pi++;renderPC()};
+    say(p.q.replace("___",p.a));
+  });
+}
+renderPC();
+
+/* Sentence building: tap the words in the right order */
+let oi=0,oscore=0,picked=[],otries=0;
+const otoks=s=>s.split(" ");
+function renderOC(){
+  const el=document.getElementById("oc");
+  if(oi>=ORDER.length){mark("order");el.className="card done";el.innerHTML=`<span class="score">${oscore}/${ORDER.length}</span><p class="hint">${oscore===ORDER.length?"Em sắp xếp đúng tất cả ngay lần đầu!":"Đọc lại các câu và làm lại nhé."}</p><button class="btn primary" id="or">Làm lại</button>`;document.getElementById("or").onclick=()=>{oi=0;oscore=0;renderOC()};return;}
+  el.className="card";
+  const it=ORDER[oi],words=otoks(it.s);
+  if(!picked.length&&!el.dataset.pool){el.dataset.pool=JSON.stringify(shuffleNot(words.map((w,k)=>k)))}
+  const pool=JSON.parse(el.dataset.pool);
+  el.innerHTML=`<span class="count">Câu ${oi+1} / ${ORDER.length}</span>
+    <p class="hint"><b>Nghĩa:</b> ${esc(it.vi)}</p>
+    <div class="line" id="oline">${picked.length?picked.map((k,i)=>`<button class="tok on" data-i="${i}">${esc(words[k])}</button>`).join(""):'<span class="hint">Bấm các từ bên dưới theo đúng thứ tự</span>'}</div>
+    <div class="pool">${pool.map(k=>`<button class="tok" data-k="${k}" ${picked.includes(k)?"disabled":""}>${esc(words[k])}</button>`).join("")}</div>
+    <p class="fb" id="ofb"></p><div class="row" id="onext"></div>`;
+  el.querySelectorAll(".pool .tok").forEach(b=>b.onclick=()=>{picked.push(+b.dataset.k);renderOC();check()});
+  el.querySelectorAll(".line .tok").forEach(b=>b.onclick=()=>{picked.splice(+b.dataset.i);renderOC()});
+}
+function check(){
+  const it=ORDER[oi],words=otoks(it.s);
+  if(picked.length<words.length)return;
+  const got=picked.map(k=>words[k]).join(" ");
+  const fb=document.getElementById("ofb");
+  document.querySelectorAll("#oc .tok").forEach(x=>x.disabled=true);
+  if(got===it.s){
+    if(otries===0)oscore++;
+    fb.className="fb ok";fb.textContent="Đúng rồi! "+it.s;say(it.s);
+    document.getElementById("onext").innerHTML='<span class="spacer"></span><button class="btn primary" id="on">Câu tiếp →</button>';
+    document.getElementById("on").onclick=()=>{oi++;picked=[];otries=0;delete document.getElementById("oc").dataset.pool;renderOC()};
+  }else{
+    otries++;
+    fb.className="fb bad";fb.textContent="Chưa đúng thứ tự. "+(otries>=2?"Câu đúng: "+it.s:"Em bấm “Làm lại câu này” và thử lần nữa.");
+    document.getElementById("onext").innerHTML='<button class="btn" id="oagain">Làm lại câu này</button>';
+    document.getElementById("oagain").onclick=()=>{picked=[];renderOC()};
+  }
+}
+function shuffleNot(a){let b;do{b=shuffle(a)}while(a.length>1&&b.every((x,i)=>x===a[i]));return b}
+renderOC();
+</script>
+
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}</script>
+<script src="tra-tu.js" defer></script>
+</body>
+</html>

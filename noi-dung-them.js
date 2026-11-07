@@ -1,0 +1,206 @@
+// Nội dung tự soạn: truyện tranh, chữ cái và âm, bài nghe luyện thi. Không chép từ sách hay app nào.
+
+/* ---------- Truyện tranh: mỗi khung có hình (emoji), câu tiếng Anh, nghĩa tiếng Việt.
+   g: hợp với lớp nào; u: dùng lại từ của Unit nào; gl: từ khó và nghĩa (chạm vào để xem, lưu vào Sổ từ). ---------- */
+const TRUYEN = [
+ {id:"t1", g:"6", u:1, title:"Tân's First Day", vi:"Ngày đầu tiên của Tân", cover:"🎒",
+  panels:[
+   ["🌄🏫","It is the first day at the new school.","Hôm nay là ngày đầu tiên ở trường mới."],
+   ["👦🎒","Tân has a new school bag and two notebooks.","Tân có một chiếc cặp mới và hai quyển vở."],
+   ["👦👧","He meets a girl. Her name is H'Lan.","Cậu gặp một bạn gái. Tên bạn ấy là H'Lan."],
+   ["👧📚","H'Lan likes maths and English.","H'Lan thích môn toán và tiếng Anh."],
+   ["👨‍🏫🏫","Their teacher is kind. He smiles a lot.","Thầy giáo của các bạn rất hiền. Thầy cười nhiều."],
+   ["⚽🏃","At break time, they play football together.","Giờ ra chơi, các bạn cùng chơi bóng đá."],
+   ["😊👦👧","Tân is happy. He has a new friend.","Tân rất vui. Cậu có một người bạn mới."]
+  ],
+  gl:{"first":"đầu tiên","new":"mới","notebooks":"quyển vở","meets":"gặp","likes":"thích","maths":"môn toán","kind":"tốt bụng, hiền","smiles":"mỉm cười","break":"giờ nghỉ","together":"cùng nhau","happy":"vui","friend":"bạn"}},
+ {id:"t2", g:"6", u:2, title:"Grandma's Stilt House", vi:"Nhà sàn của bà", cover:"🏡",
+  panels:[
+   ["🏡🌳","My grandma lives in a stilt house near the forest.","Bà em sống trong một ngôi nhà sàn gần rừng."],
+   ["🪜🏡","There are ten steps up to the door.","Có mười bậc thang lên tới cửa."],
+   ["🔥🍲","The kitchen is at the back. We cook rice there.","Bếp ở phía sau. Chúng em nấu cơm ở đó."],
+   ["🐔🐖","Under the house, there are chickens and a pig.","Dưới gầm nhà có gà và một con lợn."],
+   ["🛏️🌙","At night, we sleep on mats in the big room.","Buổi tối, chúng em ngủ trên chiếu ở gian lớn."],
+   ["❤️👵","I love my grandma's house. It is cool and quiet.","Em yêu nhà của bà. Nhà mát mẻ và yên tĩnh."]
+  ],
+  gl:{"stilt":"(nhà) sàn","near":"gần","forest":"rừng","steps":"bậc thang","door":"cửa","kitchen":"nhà bếp","back":"phía sau","cook":"nấu","under":"dưới","chickens":"gà","sleep":"ngủ","mats":"chiếu","cool":"mát","quiet":"yên tĩnh"}},
+ {id:"t3", g:"6", u:6, title:"Tet in the Village", vi:"Tết ở làng", cover:"🧧",
+  panels:[
+   ["🌸🏘️","Tet is coming. The village is busy.","Tết sắp đến. Cả làng nhộn nhịp."],
+   ["🧹🏠","We clean the house and buy flowers.","Chúng em dọn nhà và mua hoa."],
+   ["🍙🍃","Mum and I make banh chung with green leaves.","Mẹ và em gói bánh chưng bằng lá xanh."],
+   ["🧧👴","On the first morning, Grandpa gives us lucky money.","Sáng mùng một, ông lì xì cho chúng em."],
+   ["🥁💃","In the afternoon, we watch the gong show.","Buổi chiều, chúng em xem biểu diễn cồng chiêng."],
+   ["🎉👨‍👩‍👧","We wish everyone a happy new year.","Chúng em chúc mọi người năm mới vui vẻ."]
+  ],
+  gl:{"coming":"sắp đến","village":"làng","busy":"bận rộn, nhộn nhịp","clean":"dọn dẹp","flowers":"hoa","leaves":"lá","lucky":"may mắn","money":"tiền","afternoon":"buổi chiều","gong":"cồng chiêng","wish":"chúc","everyone":"mọi người"}},
+ {id:"t4", g:"7", u:2, title:"Y Bin Gets Healthy", vi:"Y Bin khỏe lên", cover:"🥦",
+  panels:[
+   ["😴📱","Y Bin often stays up late with his phone.","Y Bin hay thức khuya với điện thoại."],
+   ["🤒🏫","In the morning, he feels tired at school.","Buổi sáng, cậu thấy mệt ở trường."],
+   ["👩‍⚕️💬","The school nurse says, \"You need more sleep.\"","Cô y tế nói: \"Em cần ngủ nhiều hơn.\""],
+   ["🛏️⏰","Now he goes to bed at half past nine.","Bây giờ cậu đi ngủ lúc chín rưỡi."],
+   ["🥦🍚","He eats more vegetables and drinks more water.","Cậu ăn nhiều rau hơn và uống nhiều nước hơn."],
+   ["🏃☀️","He also runs around the school yard every day.","Cậu cũng chạy quanh sân trường mỗi ngày."],
+   ["💪😄","After a month, Y Bin feels strong and happy.","Sau một tháng, Y Bin thấy khỏe mạnh và vui vẻ."]
+  ],
+  gl:{"often":"thường","stays up late":"thức khuya","tired":"mệt","nurse":"y tá","need":"cần","sleep":"giấc ngủ, ngủ","vegetables":"rau","drinks":"uống","water":"nước","yard":"sân","month":"tháng","strong":"khỏe mạnh"}},
+ {id:"t5", g:"7", u:3, title:"Clean River Day", vi:"Ngày làm sạch dòng sông", cover:"🌊",
+  panels:[
+   ["🌊🗑️","There is a lot of rubbish in the river near our school.","Có rất nhiều rác ở con sông gần trường em."],
+   ["🙋‍♀️🙋","Our class decides to help.","Lớp em quyết định giúp."],
+   ["🧤🛍️","On Sunday, we bring gloves and big bags.","Chủ nhật, chúng em mang găng tay và túi lớn."],
+   ["🚮💪","We pick up plastic bottles for three hours.","Chúng em nhặt chai nhựa trong ba tiếng."],
+   ["🐟🌊","Now the water is cleaner. We can see the fish.","Bây giờ nước sạch hơn. Chúng em nhìn thấy cá."],
+   ["🤝🏅","The village thanks us. We feel proud.","Cả làng cảm ơn chúng em. Chúng em thấy tự hào."]
+  ],
+  gl:{"rubbish":"rác","river":"sông","decides":"quyết định","help":"giúp đỡ","bring":"mang theo","gloves":"găng tay","pick up":"nhặt","plastic":"nhựa","bottles":"chai","cleaner":"sạch hơn","thanks":"cảm ơn","proud":"tự hào"}},
+ {id:"t6", g:"8", u:4, title:"The Gong Festival", vi:"Lễ hội cồng chiêng", cover:"🥁",
+  panels:[
+   ["🌕🏘️","Every year, my village holds a gong festival.","Hằng năm, làng em tổ chức lễ hội cồng chiêng."],
+   ["🏠🌾","People gather in front of the communal house.","Mọi người tập trung trước nhà rông."],
+   ["🥁👴","The elders play the gongs in a big circle.","Các già làng đánh cồng chiêng thành một vòng tròn lớn."],
+   ["💃🕺","Young people dance around the fire.","Thanh niên múa quanh đống lửa."],
+   ["🍶🍖","Guests try rice wine and grilled meat.","Khách được nếm rượu cần và thịt nướng."],
+   ["📜❤️","The festival keeps our culture alive.","Lễ hội giữ cho văn hóa của chúng em sống mãi."]
+  ],
+  gl:{"holds":"tổ chức","festival":"lễ hội","gather":"tập trung","communal house":"nhà rông","elders":"người lớn tuổi, già làng","circle":"vòng tròn","dance":"múa, nhảy","fire":"lửa","guests":"khách","rice wine":"rượu cần","grilled":"nướng","culture":"văn hóa","alive":"còn sống, tồn tại"}},
+ {id:"t7", g:"8", u:9, title:"The Big Storm", vi:"Cơn bão lớn", cover:"⛈️",
+  panels:[
+   ["📻⛈️","The radio says a big storm is coming.","Đài báo có một cơn bão lớn sắp đến."],
+   ["🔨🏠","Dad and I tie the roof down with strong ropes.","Bố và em buộc chặt mái nhà bằng dây chắc."],
+   ["🔦🍚","Mum prepares rice, water and a torch.","Mẹ chuẩn bị gạo, nước và đèn pin."],
+   ["🌧️💨","At night, heavy rain and strong winds hit the village.","Ban đêm, mưa to và gió mạnh ập vào làng."],
+   ["🌳🛣️","In the morning, some trees have fallen on the road.","Buổi sáng, vài cây đổ xuống đường."],
+   ["🤝🧹","Everyone works together to clear the road.","Mọi người cùng nhau dọn đường."],
+   ["☀️😊","Luckily, nobody is hurt.","May mắn là không ai bị thương."]
+  ],
+  gl:{"storm":"cơn bão","radio":"đài","tie":"buộc","roof":"mái nhà","ropes":"dây thừng","prepares":"chuẩn bị","torch":"đèn pin","heavy":"nặng, to","winds":"gió","hit":"đánh vào","fallen":"đổ, ngã","clear":"dọn sạch","luckily":"may mắn thay","hurt":"bị thương"}},
+ {id:"t8", g:"9", u:1, title:"Ama Thuy's Brocade Shop", vi:"Cửa hàng thổ cẩm của Ama Thủy", cover:"🧵",
+  panels:[
+   ["🧵🏪","Ama Thuy runs a small brocade shop in our town.","Ama Thủy có một cửa hàng thổ cẩm nhỏ ở thị trấn."],
+   ["👩‍🦳🪡","Her mother taught her to weave when she was ten.","Mẹ bà dạy bà dệt vải khi bà mười tuổi."],
+   ["🎨🧶","Each pattern tells a story about the forest and the mountains.","Mỗi hoa văn kể một câu chuyện về núi rừng."],
+   ["🧳📸","Tourists love her scarves and bags.","Khách du lịch rất thích khăn và túi của bà."],
+   ["👧👦🪡","Now she teaches young people in the village for free.","Bây giờ bà dạy miễn phí cho thanh niên trong làng."],
+   ["🌱🏘️","Thanks to her, this traditional craft will not disappear.","Nhờ bà, nghề truyền thống này sẽ không mất đi."]
+  ],
+  gl:{"runs":"điều hành, mở (cửa hàng)","brocade":"thổ cẩm","taught":"đã dạy","weave":"dệt","pattern":"hoa văn","mountains":"núi","tourists":"khách du lịch","scarves":"khăn quàng","for free":"miễn phí","thanks to":"nhờ có","traditional":"truyền thống","craft":"nghề thủ công","disappear":"biến mất"}},
+ {id:"t9", g:"9", u:12, title:"What Will You Be?", vi:"Em sẽ làm nghề gì?", cover:"🎓",
+  panels:[
+   ["🎓🤔","Grade 9 students must choose their future path.","Học sinh lớp 9 phải chọn con đường tương lai."],
+   ["👩‍⚕️💉","H'Mai wants to be a nurse in her home village.","H'Mai muốn làm y tá ở làng quê."],
+   ["🚜🌱","Rơ Châm Đức plans to study agriculture and grow coffee.","Rơ Châm Đức định học nông nghiệp và trồng cà phê."],
+   ["👨‍🏫📖","Tân dreams of becoming an English teacher.","Tân mơ trở thành giáo viên tiếng Anh."],
+   ["🗣️🧑‍🏫","Their teacher says, \"Choose a job you enjoy and that helps others.\"","Thầy nói: \"Hãy chọn nghề em thích và giúp được người khác.\""],
+   ["✨📚","They all promise to study hard this year.","Các bạn đều hứa năm nay sẽ học chăm chỉ."]
+  ],
+  gl:{"choose":"chọn","future":"tương lai","path":"con đường","nurse":"y tá","plans":"dự định","agriculture":"nông nghiệp","grow":"trồng","dreams":"mơ ước","becoming":"trở thành","job":"nghề, công việc","enjoy":"thích","others":"người khác","promise":"hứa","hard":"chăm chỉ"}}
+];
+
+/* ---------- Chữ cái và âm: cho em mới bắt đầu (học lại từ đầu) ---------- */
+const CHU_CAI = [
+ ["A","/æ/","đọc gần như \"a\" ngắn, miệng mở rộng",[["apple","🍎","quả táo"],["ant","🐜","con kiến"],["bag","🎒","cái cặp"]]],
+ ["B","/b/","môi khép lại rồi bật ra, như \"b\"",[["ball","⚽","quả bóng"],["bird","🐦","con chim"],["book","📕","quyển sách"]]],
+ ["C","/k/","như \"c\" trong \"cá\"",[["cat","🐱","con mèo"],["cup","🥤","cái cốc"],["car","🚗","ô tô"]]],
+ ["D","/d/","lưỡi chạm lợi trên, như \"đ\" nhẹ",[["dog","🐶","con chó"],["duck","🦆","con vịt"],["door","🚪","cái cửa"]]],
+ ["E","/e/","như \"e\" trong \"em\"",[["egg","🥚","quả trứng"],["elephant","🐘","con voi"],["bed","🛏️","cái giường"]]],
+ ["F","/f/","răng trên chạm môi dưới, thổi hơi, như \"ph\"",[["fish","🐟","con cá"],["frog","🐸","con ếch"],["flower","🌸","bông hoa"]]],
+ ["G","/g/","như \"g\" trong \"gà\"",[["goat","🐐","con dê"],["girl","👧","bạn gái"],["green","🟩","màu xanh lá"]]],
+ ["H","/h/","thở ra nhẹ, như \"h\"",[["hat","👒","cái mũ"],["house","🏠","ngôi nhà"],["horse","🐴","con ngựa"]]],
+ ["I","/ɪ/","\"i\" ngắn, nhanh",[["ink","🖋️","mực"],["fish","🐟","con cá"],["six","6️⃣","số sáu"]]],
+ ["J","/dʒ/","gần như \"gi\" mạnh",[["juice","🧃","nước ép"],["jump","🦘","nhảy"],["jacket","🧥","áo khoác"]]],
+ ["K","/k/","như \"c\", giống chữ C",[["kite","🪁","con diều"],["key","🔑","chìa khóa"],["king","🤴","nhà vua"]]],
+ ["L","/l/","đầu lưỡi chạm lợi trên, như \"l\"",[["lion","🦁","con sư tử"],["leaf","🍃","chiếc lá"],["lamp","💡","cái đèn"]]],
+ ["M","/m/","khép môi, ngân \"m\"",[["moon","🌙","mặt trăng"],["milk","🥛","sữa"],["mango","🥭","quả xoài"]]],
+ ["N","/n/","lưỡi chạm lợi trên, ngân \"n\"",[["nose","👃","cái mũi"],["nest","🪺","tổ chim"],["nine","9️⃣","số chín"]]],
+ ["O","/ɒ/","\"o\" ngắn, tròn môi",[["orange","🍊","quả cam"],["dog","🐶","con chó"],["box","📦","cái hộp"]]],
+ ["P","/p/","khép môi rồi bật hơi mạnh",[["pig","🐷","con lợn"],["pen","🖊️","cái bút"],["pencil","✏️","bút chì"]]],
+ ["Q","/kw/","đọc như \"qu\"",[["queen","👸","nữ hoàng"],["quiet","🤫","yên lặng"],["quick","⚡","nhanh"]]],
+ ["R","/r/","cong lưỡi, không rung, như \"r\" nhẹ",[["rain","🌧️","mưa"],["rice","🍚","cơm, gạo"],["red","🟥","màu đỏ"]]],
+ ["S","/s/","xì hơi qua răng, như \"x\"",[["sun","☀️","mặt trời"],["star","⭐","ngôi sao"],["snake","🐍","con rắn"]]],
+ ["T","/t/","lưỡi chạm lợi trên, bật hơi, như \"th\" nhẹ",[["tree","🌳","cái cây"],["tiger","🐯","con hổ"],["ten","🔟","số mười"]]],
+ ["U","/ʌ/","như \"ă\" ngắn",[["umbrella","☂️","cái ô"],["up","⬆️","lên trên"],["sun","☀️","mặt trời"]]],
+ ["V","/v/","răng trên chạm môi dưới, rung, như \"v\"",[["van","🚐","xe tải nhỏ"],["violin","🎻","đàn vi-ô-lông"],["vegetables","🥦","rau"]]],
+ ["W","/w/","tròn môi rồi mở ra, như \"oa\"",[["water","💧","nước"],["window","🪟","cửa sổ"],["watch","⌚","đồng hồ đeo tay"]]],
+ ["X","/ks/","đọc như \"ks\" ở cuối từ",[["box","📦","cái hộp"],["fox","🦊","con cáo"],["six","6️⃣","số sáu"]]],
+ ["Y","/j/","như \"d\" miền Nam (\"dê\")",[["yellow","🟨","màu vàng"],["yes","👍","vâng, có"],["yo-yo","🪀","con quay yo-yo"]]],
+ ["Z","/z/","như \"s\" nhưng rung cổ họng",[["zebra","🦓","ngựa vằn"],["zoo","🦒","sở thú"],["zero","0️⃣","số không"]]]
+];
+
+/* ---------- Bài nghe luyện thi lớp 10-12: đoạn văn tự soạn, đọc bằng giọng của điện thoại ---------- */
+const BAI_NGHE = [
+ {id:"n1", g:"10", title:"Living Green in the Highlands", vi:"Sống xanh ở vùng cao",
+  text:"In many villages in the Central Highlands, people are finding simple ways to live green. Families collect rainwater in large tanks and use it to water their gardens. Instead of burning plastic, students bring their rubbish to a recycling corner at school. Some farmers now grow coffee under the shade of taller trees. This protects the soil and keeps the land cool during the dry season. Local leaders say that small actions, repeated every day, can make a big difference. They hope that young people will lead these changes in the future.",
+  qs:[["What do families use rainwater for?",["Cooking rice","Watering gardens","Washing motorbikes","Making coffee"],1],
+      ["What do students do with their rubbish?",["Burn it at home","Throw it in the river","Bring it to a recycling corner","Sell it at the market"],2],
+      ["Why do farmers grow coffee under taller trees?",["To sell more wood","To protect the soil","To attract tourists","To grow it faster"],1],
+      ["When does the shade keep the land cool?",["During the dry season","During the rainy season","At night","In winter"],0],
+      ["According to local leaders, what makes a big difference?",["Expensive machines","Small daily actions","New roads","Foreign help"],1]]},
+ {id:"n2", g:"10", title:"The Sound of the Gongs", vi:"Âm thanh của cồng chiêng",
+  text:"The space of gong culture in the Central Highlands was recognised by UNESCO in 2005. For the Bahnar, Jarai and many other groups, gongs are not just musical instruments. They are used in important events such as harvest festivals, weddings and ceremonies for new communal houses. Each set of gongs has its own voice, and players must listen carefully to one another. Today, fewer young people know how to play. To solve this problem, some schools invite village elders to teach gong classes after school. Students say that learning the gongs makes them proud of their roots.",
+  qs:[["When was the space of gong culture recognised by UNESCO?",["In 1995","In 2005","In 2015","In 2025"],1],
+      ["Which event is NOT mentioned?",["Harvest festivals","Weddings","Birthday parties","Ceremonies for communal houses"],2],
+      ["What must gong players do?",["Play as loudly as possible","Listen carefully to one another","Read music sheets","Play alone"],1],
+      ["What is the problem today?",["Gongs are too expensive","Fewer young people can play","Festivals are banned","Elders refuse to teach"],1],
+      ["How do students feel about learning the gongs?",["Bored","Tired","Proud of their roots","Worried"],2]]},
+ {id:"n3", g:"11", title:"Learning with Technology", vi:"Học tập với công nghệ",
+  text:"Smartphones have changed the way many students learn. With a few minutes each day, a student can review vocabulary, listen to short stories or practise speaking with a learning app. However, technology also brings challenges. Some students spend hours on social media and lose sleep. Experts suggest a simple rule: use your phone as a tool, not as a toy. They recommend setting a clear goal before opening an app and turning off notifications while studying. Teachers also play an important role by showing students reliable websites and good learning habits.",
+  qs:[["What can students do with a few minutes each day?",["Build a website","Review vocabulary","Repair a phone","Write a novel"],1],
+      ["What challenge is mentioned?",["Phones are too heavy","Losing sleep because of social media","Apps are too expensive","There is no internet"],1],
+      ["What is the experts' simple rule?",["Never use phones","Use your phone as a tool, not a toy","Buy a new phone every year","Study only at night"],1],
+      ["What should students do before opening an app?",["Charge the phone","Set a clear goal","Call a friend","Turn up the volume"],1],
+      ["What role do teachers play?",["Selling phones","Showing reliable websites and good habits","Banning all apps","Fixing the internet"],1]]},
+ {id:"n4", g:"11", title:"A Volunteer Summer", vi:"Một mùa hè tình nguyện",
+  text:"Last summer, a group of twenty high school students spent two weeks volunteering in a remote village. In the mornings, they helped repair the road to the primary school. In the afternoons, they taught children basic English and maths. In the evenings, everyone sat around a fire and shared stories. At first, the volunteers found life without electricity difficult. But soon they learned to enjoy the quiet nights and the bright stars. When they left, the children gave them handmade bracelets. Many volunteers said it was the most meaningful summer of their lives.",
+  qs:[["How long did the students volunteer?",["Two days","Two weeks","Two months","Twenty days"],1],
+      ["What did they do in the mornings?",["Taught English","Repaired a road","Cooked meals","Planted trees"],1],
+      ["What was difficult at first?",["The food","Life without electricity","The long walk","Speaking the local language"],1],
+      ["What did the children give the volunteers?",["Flowers","Handmade bracelets","Letters","Photos"],1],
+      ["How did many volunteers describe the summer?",["Boring","Tiring","The most meaningful","Too short"],2]]},
+ {id:"n5", g:"12", title:"Choosing Your Path After School", vi:"Chọn hướng đi sau khi ra trường",
+  text:"After finishing grade 12, students face an important decision. Some choose university, while others prefer vocational schools that teach practical skills such as nursing, mechanics or tourism. Career advisers suggest three questions to ask yourself. First, what are you good at? Second, what do you enjoy doing? Third, what jobs will be needed in your area in the future? In the Central Highlands, there is growing demand for workers in agriculture technology, healthcare and eco-tourism. Whatever path you take, advisers say that English and computer skills will give you a strong advantage.",
+  qs:[["What do vocational schools teach?",["Only theory","Practical skills","Foreign languages only","Sports"],1],
+      ["How many questions do career advisers suggest?",["Two","Three","Four","Five"],1],
+      ["Which question is NOT one of them?",["What are you good at?","What do you enjoy doing?","How much money do your friends earn?","What jobs will be needed in your area?"],2],
+      ["Which field is in growing demand in the Central Highlands?",["Fishing","Eco-tourism","Shipbuilding","Mining"],1],
+      ["What will give you a strong advantage?",["A big house","English and computer skills","A motorbike","Many friends online"],1]]},
+ {id:"n6", g:"12", title:"Healthy Habits for Exam Season", vi:"Thói quen lành mạnh mùa thi",
+  text:"Exam season can be stressful, but good habits can help you perform at your best. First, sleep at least seven hours a night, because your brain stores new information while you sleep. Second, study in short sessions of about thirty minutes, followed by a five-minute break. Third, eat regular meals with plenty of vegetables and drink enough water. Finally, do some light exercise, such as walking or stretching, to reduce stress. Students who follow these habits usually remember more and feel calmer on the day of the exam.",
+  qs:[["How many hours should you sleep a night?",["At least five","At least seven","Exactly nine","Ten or more"],1],
+      ["Why is sleep important?",["The brain stores new information","It makes you taller","It saves electricity","It helps you eat less"],0],
+      ["How long should each study session be?",["About ten minutes","About thirty minutes","About two hours","All day"],1],
+      ["Which light exercise is mentioned?",["Swimming","Football","Stretching","Lifting weights"],2],
+      ["What happens to students who follow these habits?",["They feel more nervous","They remember more and feel calmer","They study less","They skip the exam"],1]]}
+];
+
+/* Trò chuyện với Tân sau mỗi truyện: [câu hỏi, nghĩa, câu trả lời mẫu, mẫu kiểm tra (chữ thường, không dấu, không dấu câu), lời sửa, câu hỏi về em] */
+window.TRUYEN_HOI = {
+  t1:[["What does Tân have?","Tân có những gì?","He has a new school bag and two notebooks.","bag|notebook","Trong truyện, Tân có một cặp sách mới (school bag) và hai quyển vở (notebooks)."],
+      ["What do they do at break time?","Giờ ra chơi các bạn làm gì?","They play football together.","football|soccer","Giờ ra chơi, các bạn chơi bóng đá cùng nhau (play football)."],
+      ["Do you have a new friend this year?","Năm nay em có bạn mới không?","Yes, I do. Her name is Hoa.","^(yes|no)\\b|\\bi (do|have|dont|do not)\\b","Em trả lời bắt đầu bằng Yes hoặc No, ví dụ: Yes, I do.",1]],
+  t2:[["Where does Grandma live?","Bà sống ở đâu?","She lives in a stilt house near the forest.","stilt|forest","Bà sống trong một ngôi nhà sàn (stilt house) gần rừng (forest)."],
+      ["What animals are under the house?","Dưới nhà sàn có những con vật nào?","There are chickens and a pig.","chicken|pig","Dưới nhà sàn có gà (chickens) và một con lợn (a pig)."],
+      ["Where do your grandparents live?","Ông bà em sống ở đâu?","My grandparents live in Vinh Thanh.","\\b(live|lives|living)\\b|\\b(in|near|at) [a-z]","Em nói theo mẫu: My grandparents live in + tên nơi ông bà ở.",1]],
+  t3:[["What do they buy for Tet?","Mọi người mua gì cho Tết?","They buy flowers.","flower","Mọi người dọn nhà và mua hoa (buy flowers)."],
+      ["What does Grandpa give them?","Ông cho các bạn cái gì?","He gives them lucky money.","money","Sáng mùng Một, ông cho tiền mừng tuổi (lucky money)."],
+      ["What do you do at Tet?","Em làm gì vào dịp Tết?","I visit my grandparents and make banh chung.","\\b(i|we) (\\w+ )?(make|makes|clean|visit|buy|watch|go|eat|play|cook|wear|get|help|decorate|see)\\b","Em nói theo mẫu: I + việc em làm, ví dụ: I visit my grandparents.",1]],
+  t4:[["Why does Y Bin feel tired at school?","Vì sao Y Bin thấy mệt ở trường?","Because he stays up late with his phone.","stay(s|ed)? up late|phone|bed late|sleep late|not enough sleep","Y Bin mệt vì hay thức khuya (stays up late) với điện thoại."],
+      ["What time does he go to bed now?","Bây giờ Y Bin đi ngủ lúc mấy giờ?","He goes to bed at half past nine.","half past (9|nine)|\\b9 ?30\\b|nine thirty","Bây giờ Y Bin đi ngủ lúc chín giờ rưỡi (half past nine)."],
+      ["What time do you go to bed?","Em đi ngủ lúc mấy giờ?","I go to bed at ten o'clock.","\\b(at|around|about)\\b.*\\b(\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|half|quarter|oclock|pm)\\b","Em nói theo mẫu: I go to bed at + giờ, ví dụ: I go to bed at ten o'clock.",1]],
+  t5:[["What is in the river?","Dưới sông có gì?","There is a lot of rubbish in the river.","rubbish|trash|garbage|plastic|bottle|waste","Dưới sông có rất nhiều rác (rubbish)."],
+      ["What do they bring on Sunday?","Chủ nhật các bạn mang theo gì?","They bring gloves and big bags.","glove|bag","Các bạn mang găng tay (gloves) và túi to (big bags)."],
+      ["How can you help the environment?","Em có thể làm gì để bảo vệ môi trường?","I can pick up rubbish and plant trees.","\\b(can|should|will|pick|clean|plant|recycle|use|save|turn off|reuse|reduce|throw|put)\\b","Em nói theo mẫu: I can + việc làm, ví dụ: I can pick up rubbish.",1]],
+  t6:[["Where do people gather?","Mọi người tụ họp ở đâu?","They gather in front of the communal house.","communal house|rong house|nha rong|front of","Mọi người tụ họp trước nhà rông (the communal house)."],
+      ["Who plays the gongs?","Ai đánh cồng chiêng?","The elders play the gongs.","elder|old (people|men|man)|grandfather|village (head|leader)","Các già làng (the elders) đánh cồng chiêng."],
+      ["What festival do you like?","Em thích lễ hội nào?","I like the gong festival.","\\bi (like|love|enjoy)\\b|favourite|favorite|festival|tet","Em nói theo mẫu: I like + tên lễ hội, ví dụ: I like the gong festival.",1]],
+  t7:[["What does the radio say?","Đài báo tin gì?","It says a big storm is coming.","storm","Đài báo sắp có một cơn bão lớn (a big storm is coming)."],
+      ["What does Mum prepare?","Mẹ chuẩn bị những gì?","She prepares rice, water and a torch.","rice|water|torch|flashlight|light","Mẹ chuẩn bị gạo (rice), nước (water) và đèn pin (a torch)."],
+      ["Is anyone hurt?","Có ai bị thương không?","No, nobody is hurt.","\\bno\\b|nobody|no one","Thật may, không ai bị thương: No, nobody is hurt."]],
+  t8:[["What does Ama Thuy run?","Ama Thủy làm chủ cái gì?","She runs a small brocade shop.","brocade|shop|store","Ama Thủy có một cửa hàng thổ cẩm nhỏ (a small brocade shop)."],
+      ["Who taught her to weave?","Ai đã dạy bà dệt vải?","Her mother taught her.","mother|mum|mom","Mẹ của bà (her mother) đã dạy bà dệt vải khi bà mười tuổi."],
+      ["Would you like to learn to weave?","Em có muốn học dệt vải không?","Yes, I would. I want to learn from my grandma.","^(yes|no)\\b|\\bi (would|want|wouldnt|would not|like|dont|do not)\\b","Em trả lời: Yes, I would. hoặc No, I wouldn't.",1]],
+  t9:[["What does H'Mai want to be?","H'Mai muốn làm nghề gì?","She wants to be a nurse.","nurse","H'Mai muốn làm y tá (a nurse) ở làng quê của mình."],
+      ["What does Tân dream of?","Tân mơ ước điều gì?","He dreams of becoming an English teacher.","teacher","Tân mơ trở thành giáo viên tiếng Anh (an English teacher)."],
+      ["What do you want to be?","Em muốn làm nghề gì?","I want to be a doctor.","\\b(want to|would like to|will|dream of|plan to|hope to|going to)\\b|\\bi (am|m) going\\b|\\bto be\\b","Em nói theo mẫu: I want to be a + nghề, ví dụ: I want to be a farmer.",1]]
+};

@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F5C45">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homebar{display:flex;max-width:560px;margin:0 auto;padding-block:10px}
+.homebar a{font:600 14px "Be Vietnam Pro",system-ui,sans-serif;color:inherit;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(127,127,127,.35)}</style>
+<title>Nhập vai ở Gia Lai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: one phone-width column; an illustrated classroom stage (chalkboard + character + teacher's desk), speech bubble under it, chat log, answer choices below. */
+:root{
+  --bg:#F1F5F3; --surface:#FFFFFF; --ink:#1C2B27; --muted:#5A6A65; --line:#D5DFDA;
+  --sun:#F2B632; --sun-soft:#FCEFC9;
+  --ok:#2A8553; --ok-soft:#DDF1E5; --bad:#B9443A; --bad-soft:#F8E1DE;
+  --display:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
+  --body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --chalk:"Patrick Hand","Be Vietnam Pro",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101715; --surface:#19231F; --ink:#E5EDE9; --muted:#9AAAA4; --line:#2B3934;
+  --sun:#F5C350; --sun-soft:#3A3220;
+  --ok:#5DC48A; --ok-soft:#183427; --bad:#EE7D70; --bad-soft:#3A1E1B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101715; --surface:#19231F; --ink:#E5EDE9; --muted:#9AAAA4; --line:#2B3934;
+  --sun:#F5C350; --sun-soft:#3A3220;
+  --ok:#5DC48A; --ok-soft:#183427; --bad:#EE7D70; --bad-soft:#3A1E1B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);padding-inline:16px;padding-block:16px 32px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font:700 28px/1.1 var(--display);margin:2px 0 0;text-wrap:balance}
+.scenes{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:600 14px var(--body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--sun);background:var(--sun-soft)}
+.chip:focus-visible,.opt:focus-visible,.btn:focus-visible,input:focus-visible,.mini:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* classroom stage: a fixed illustration, same colors in both themes */
+.stage{border-radius:16px;overflow:hidden;background:#E8DFC8;line-height:0;position:relative}
+.stage svg{width:100%;height:auto;display:block}
+.tag{position:absolute;left:10px;bottom:10px;line-height:1.2;background:rgba(255,255,255,.88);color:#1C2B27;border-radius:10px;padding:4px 10px;font-size:12px}
+.tag b{font:700 15px var(--display);display:block}
+.bubble{background:var(--surface);border:1.5px solid var(--line);border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:16px;min-height:56px;position:relative}
+.bubble.talking{border-color:var(--sun)}
+.bubble .vi{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.bubble .w{transition:background .1s;border-radius:4px}
+.bubble .w.now{background:var(--sun-soft);box-shadow:0 0 0 2px var(--sun-soft)}
+
+/* chalkboard */
+.board-t{font-family:var(--chalk);fill:#F2EFE4}
+.board-in{animation:chalk .6s ease-out both}
+@keyframes chalk{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+/* character parts */
+.head,.arm-l,.arm-r,.body{transform-box:fill-box;transition:transform .35s ease}
+.head{transform-origin:50% 92%}
+.arm-l{transform-origin:85% 8%;transform:rotate(6deg)}
+.arm-r{transform-origin:15% 8%;transform:rotate(-6deg)}
+.body{transform-origin:50% 100%}
+.blink{animation:blink 4.2s infinite;transform-origin:center;transform-box:fill-box}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.breathe{animation:breathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes breathe{50%{transform:translateY(1.5px)}}
+.m-open,.m-o{display:none}
+.char.mopen .m-smile{display:none}.char.mopen .m-open{display:inline}
+.char.confused .m-smile,.char.confused .m-open{display:none}.char.confused .m-o{display:inline}
+.char.confused .brows{transform:translateY(-4px)}
+.char.confused .head{transform:rotate(-9deg)}
+.char.happy .cheeks{opacity:.6}
+.brows{transition:transform .2s}.cheeks{opacity:.25;transition:opacity .3s}
+
+.char.speaking .head{animation:talkhead .9s ease-in-out infinite}
+@keyframes talkhead{0%,100%{transform:rotate(0)}30%{transform:rotate(2.5deg)}70%{transform:rotate(-2deg)}}
+.char.act-wave .arm-r{animation:wave .45s ease-in-out infinite alternate}
+@keyframes wave{from{transform:rotate(-150deg)}to{transform:rotate(-115deg)}}
+.char.act-point .arm-l{transform:rotate(122deg)}
+.char.act-point .head{animation:none;transform:rotate(-7deg)}
+.char.act-open .arm-l{transform:rotate(38deg)}
+.char.act-open .arm-r{transform:rotate(-38deg)}
+.char.act-go .arm-r{transform:rotate(-78deg)}
+.char.act-nod .head{animation:nod .5s ease-in-out 2}
+@keyframes nod{50%{transform:translateY(3px) rotate(2deg)}}
+.char.act-nod .arm-r{transform:rotate(-120deg)}
+@media (prefers-reduced-motion:reduce){.blink,.breathe,.char.speaking .head,.char.act-wave .arm-r,.char.act-nod .head{animation:none}}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.toggle{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.mini{font:600 13px var(--body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer}
+
+.log{display:flex;flex-direction:column;gap:8px}
+.msg{max-width:85%;padding:8px 12px;border-radius:14px;font-size:15px;min-width:0}
+.msg .vi{display:block;font-size:12.5px;color:var(--muted)}
+.msg.them{background:var(--surface);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--sun-soft);align-self:flex-end;border-bottom-right-radius:4px}
+.hide-vi .vi{display:none}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.panel h2{font:700 17px var(--display);margin:0}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{font:500 15px/1.4 var(--body);text-align:left;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:11px 12px;cursor:pointer}
+.opt:hover{border-color:var(--sun)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);opacity:.75}
+.feedback{font-size:14px;border-radius:10px;padding:9px 11px}
+.feedback.ok{background:var(--ok-soft);color:var(--ok)}
+.feedback.bad{background:var(--bad-soft);color:var(--bad)}
+.btn{font:600 15px var(--body);border:0;background:var(--sun);color:#2A2210;border-radius:12px;padding:11px 16px;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+label{font-size:14px;color:var(--muted)}
+input[type=text]{font:500 16px var(--body);padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);flex:1;min-width:0}
+.stars{font:700 32px var(--display);color:var(--sun);letter-spacing:4px}
+.note{font-size:12.5px;color:var(--muted)}
+.progress{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.hint{margin:0;font-size:14px;color:var(--muted)}
+.microw{display:flex;align-items:center;gap:12px}
+.mic{width:60px;height:60px;flex:none;border-radius:50%;border:0;background:var(--sun);color:#2A2210;cursor:pointer;display:grid;place-items:center}
+.mic:disabled{opacity:.4;cursor:default}
+.mic.on{background:var(--bad);color:#fff;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px var(--bad-soft)}}
+.mic:focus-visible,.link:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.micstate{font-size:14px;color:var(--muted);min-width:0}
+.said{margin:0;font-size:15px}
+.link{align-self:flex-start;background:none;border:0;padding:2px 0;font:500 13.5px var(--body);color:var(--muted);text-decoration:underline;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fixvi{display:block;color:var(--bad)}
+.fixen{display:block;margin-top:6px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.mic.on{animation:none}}
+</style>
+
+</head>
+<body>
+<nav class="homebar"><a href="index.html">← Trang chủ</a></nav>
+<div class="wrap" id="app">
+  <header>
+    <div class="eyebrow">Lớp 7-9 · Nhập vai · Cuộc sống ở Gia Lai</div>
+    <h1 id="title">Trò chuyện cùng Tân</h1>
+  </header>
+
+  <div class="scenes" role="group" aria-label="Chọn tình huống">
+    <button class="chip" id="sc0" aria-pressed="true"></button>
+    <button class="chip" id="sc1" aria-pressed="false"></button>
+    <button class="chip" id="sc2" aria-pressed="false"></button>
+    <button class="chip" id="sc3" aria-pressed="false"></button>
+    <button class="chip" id="sc4" aria-pressed="false"></button>
+  </div>
+
+  <section class="stage" id="stage" aria-label="Lớp học"></section>
+  <div class="bubble" id="bubble" aria-live="polite"></div>
+
+  <div class="toolbar">
+    <label class="toggle"><input type="checkbox" id="vi" checked> Hiện nghĩa tiếng Việt</label>
+    <button class="mini" id="again">🔊 Nghe lại</button>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <section class="panel" id="panel"></section>
+  <p class="note" id="voiceNote"></p>
+</div>
+
+<script>
+/* board: what the chalkboard shows while the line is spoken; "map" draws the way to the library.
+   act: the character's gesture (wave, point at board, open hands, go, nod).
+   hint: what the student should say, in Vietnamese. say: model answers ({name} matches any name).
+   okRe: other answers that are also right. errors: common mistakes with their explanation and fix. */
+/* adds -ing to a base verb, used when fixing "like play" → "like playing" */
+const ing = v=>({swim:"swimming",run:"running",ride:"riding",make:"making",dance:"dancing",hang:"hanging",surf:"surfing"})[v] || (v.endsWith("e") && v!=="see" ? v.slice(0,-1)+"ing" : v+"ing");
+const SCENES = [
+  { title:"Mua cà phê ở chợ phiên", chip:"Chợ phiên", name:"Chú bán hàng", role:"Thầy đóng vai · Chợ phiên Vĩnh Thạnh", look:"teacher",
+    intro:"Nhập vai: sáng chủ nhật em đi chợ phiên, muốn mua cà phê làm quà. Thầy đóng vai chú bán cà phê.",
+    introBoard:["Chợ phiên","Sunday market"],
+    end:{en:"Thank you! Come back next week!", vi:"Cảm ơn cháu! Tuần sau lại đến nhé!", act:"wave", board:["Chợ phiên","See you next week!"]},
+    turns:[
+      {en:"Good morning! What would you like to buy?", vi:"Chào cháu! Cháu muốn mua gì?", act:"open", board:["Good morning!","What would you like?"],
+        hint:"Nói em muốn mua một ki-lô-gam cà phê (I'd like a kilo of coffee, please).",
+        say:["I'd like a kilo of coffee, please.", "I would like a kilo of coffee, please.", "Can I have a kilo of coffee, please?"],
+        okRe:/\b(i would like|id like|can i have|could i have|i want|i need) (a|one|2|half a) (kilo|kilos|kg|bag|packet) of\b/,
+        errors:[
+          {re:/^(i like|i love) (a|one|2) (kilo|kg|bag)\b/, vi:"“I like” là “tôi thích”. Muốn mua thì nói “I'd like” (tôi muốn).", fx:s=>s.replace(/^(i like|i love)\b/,"i would like")},
+          {re:/\b(kilo|kg|bag|packet) coffee\b/, vi:"Nói “a kilo of coffee”, cần có “of” ở giữa.", fx:s=>s.replace(/\b(kilo|kg|bag|packet) coffee\b/,"$1 of coffee")},
+          {re:/\b(2|3|4|5) kilo of\b/, vi:"Từ hai trở lên thì thêm “s”: “two kilos”.", fx:s=>s.replace(/\b(\d) kilo of\b/,"$1 kilos of")}],
+        opts:[
+        {en:"I like a kilo of coffee.", vi:"Cháu thích một ký cà phê.", why:"“I like” là “tôi thích”. Muốn mua thì nói “I'd like”."},
+        {en:"I'd like a kilo of coffee, please.", vi:"Cháu muốn mua một ký cà phê ạ.", ok:true, tip:"I'd like = I would like: tôi muốn (lịch sự hơn “I want”)."},
+        {en:"I'd like a kilo coffee, please.", vi:"Cháu muốn mua một ký cà phê ạ.", why:"Cần có “of”: “a kilo of coffee”."}]},
+      {en:"Here you are. This coffee is from our village.", vi:"Đây cháu. Cà phê này của làng chú đấy.", act:"point", board:["Coffee","from our village"],
+        hint:"Hỏi giá bao nhiêu tiền (How much is it?).",
+        say:["How much is it?", "How much is that?", "How much does it cost?"],
+        okRe:/\bhow much (is|does|are|do)\b/,
+        errors:[
+          {re:/\bhow many\b/, vi:"Hỏi giá dùng “How much”, không dùng “How many”.", fx:s=>s.replace(/\bhow many( money)?\b/,"how much")},
+          {re:/\bhow much (it is|it costs|this is|that is)\b/, vi:"Câu hỏi phải đảo “is” lên trước: “How much is it?”", fx:s=>s.replace(/\bhow much (it|this|that) (is|costs)\b/,"how much is $1")},
+          {re:/\bhow much money\b/, vi:"Hỏi giá chỉ cần nói “How much is it?”, không cần “money”.", fx:s=>s.replace(/\bhow much money( is it| is)?\b/,"how much is it")}],
+        opts:[
+        {en:"How many is it?", vi:"Bao nhiêu cái ạ?", why:"Hỏi giá dùng “How much”."},
+        {en:"How much it is?", vi:"Giá bao nhiêu ạ?", why:"Câu hỏi phải đảo “is” lên trước: “How much is it?”"},
+        {en:"How much is it?", vi:"Bao nhiêu tiền ạ?", ok:true, tip:"How much is it? = Giá bao nhiêu?"}]},
+      {en:"It's two hundred thousand dong.", vi:"Hai trăm nghìn đồng cháu ạ.", act:"open", board:["200,000 dong"],
+        hint:"Nói hơi đắt và hỏi chú bớt được không (That's a bit expensive. Can you make it cheaper?).",
+        say:["That's a bit expensive. Can you make it cheaper?", "Can you make it cheaper, please?", "It's a bit expensive. Can you make it cheaper?"],
+        okRe:/\b(can|could) you (make it|sell it|give it|give me|sell me)( a bit| a little)? (cheaper|a discount|a lower price)\b|\b(a bit|a little|very|too|quite) expensive\b/,
+        errors:[
+          {re:/\b(more cheap|more cheaper|cheaper more)\b/, vi:"So sánh hơn của “cheap” là “cheaper”, không thêm “more”.", fx:s=>s.replace(/\b(more cheap|more cheaper|cheaper more)\b/,"cheaper")},
+          {re:/\b(it is|that is|its|thats) (a bit |a little |very |too )?cheap\b/, vi:"“Cheap” là rẻ. Chê đắt thì nói “expensive”.", fx:s=>s.replace(/\bcheap\b/,"expensive")},
+          {re:/\b(it is|that is) (a bit |a little |very |too )?expensively\b/, vi:"Sau “is” dùng tính từ “expensive”, không dùng “expensively”.", fx:s=>s.replace(/\bexpensively\b/,"expensive")}],
+        opts:[
+        {en:"That's a bit expensive. Can you make it cheaper?", vi:"Hơi đắt ạ. Chú bớt cho cháu được không?", ok:true, tip:"cheap → cheaper: rẻ hơn. a bit expensive: hơi đắt."},
+        {en:"Can you make it more cheap?", vi:"Chú bớt cho cháu được không?", why:"So sánh hơn của “cheap” là “cheaper”."},
+        {en:"It's a bit cheap. Can you make it cheaper?", vi:"Hơi rẻ ạ. Chú bớt được không?", why:"“Cheap” là rẻ. Chê đắt phải nói “expensive”."}]},
+      {en:"OK. One hundred and eighty thousand for you.", vi:"Thôi được. Chú lấy cháu một trăm tám mươi nghìn.", act:"nod", board:["180,000 dong","OK!"],
+        hint:"Đồng ý, đưa tiền và cảm ơn chú (OK. Here you are. Thank you!).",
+        say:["OK. Here you are. Thank you!", "Here you are. Thank you very much!", "Great! Here you are. Thanks!"],
+        okRe:/\bhere (you are|it is)\b|\bthank(s| you)\b/,
+        errors:[
+          {re:/\bhere are you\b/, vi:"Khi đưa đồ cho ai, nói “Here you are”, không nói “Here are you”.", fx:s=>s.replace(/\bhere are you\b/,"here you are")},
+          {re:/\bthanks you\b/, vi:"Nói “Thank you” hoặc “Thanks”, không nói “Thanks you”.", fx:s=>s.replace(/\bthanks you\b/,"thank you")},
+          {re:/\bthank you (for|very much) you\b/, vi:"Không cần “you” ở cuối: “Thank you very much”.", fx:s=>s.replace(/\bthank you (for|very much) you\b/,"thank you very much")}],
+        opts:[
+        {en:"Here are you. Thank you!", vi:"Đây ạ. Cảm ơn chú!", why:"Nói “Here you are”."},
+        {en:"OK. Thanks you!", vi:"Vâng. Cảm ơn chú!", why:"Nói “Thank you” hoặc “Thanks”, không nói “Thanks you”."},
+        {en:"OK. Here you are. Thank you!", vi:"Vâng. Tiền đây ạ. Cảm ơn chú!", ok:true, tip:"Here you are: đây ạ (khi đưa đồ cho ai)."}]}
+    ]},
+  { title:"Chỉ đường cho du khách ở Pleiku", chip:"Hỏi đường ở Pleiku", name:"Mr. John", role:"Thầy đóng vai · Du khách ở Pleiku", look:"teacher",
+    intro:"Nhập vai: em đang ở trung tâm Pleiku. Một du khách hỏi đường đến Quảng trường Đại Đoàn Kết. Thầy đóng vai du khách.",
+    introBoard:["Pleiku","Asking the way"],
+    end:{en:"Great! Thanks for your help. Goodbye!", vi:"Tuyệt! Cảm ơn em đã giúp. Tạm biệt!", act:"wave", board:["Pleiku","Thank you!"]},
+    turns:[
+      {en:"Excuse me. Can you help me? I'm looking for Dai Doan Ket Square.", vi:"Xin lỗi. Em giúp tôi được không? Tôi đang tìm Quảng trường Đại Đoàn Kết.", act:"open", board:["Excuse me!","Dai Doan Ket Square?"],
+        hint:"Nói em giúp được (Sure. I can help you.).",
+        say:["Sure. I can help you.", "Yes, of course.", "Of course. I can help you."],
+        okRe:/^(sure|of course|yes|ok|okay|no problem)\b/,
+        errors:[
+          {re:/\bcan (helping|helps)\b/, vi:"Sau “can” dùng động từ nguyên mẫu: “can help”.", fx:s=>s.replace(/\bcan (helping|helps)\b/,"can help")},
+          {re:/\bcan to help\b/, vi:"Sau “can” không có “to”.", fx:s=>s.replace(/\bcan to help\b/,"can help")},
+          {re:/^no i can\b/, vi:"“No” là không. Đồng ý giúp thì nói “Sure” hoặc “Yes”.", fx:s=>s.replace(/^no i can\b/,"sure i can")}],
+        opts:[
+        {en:"Sure. I can help you.", vi:"Vâng. Cháu giúp được ạ.", ok:true, tip:"Sure / Of course: được chứ, tất nhiên rồi."},
+        {en:"Sure. I can to help you.", vi:"Vâng. Cháu giúp được ạ.", why:"Sau “can” không có “to”."},
+        {en:"No, I can help you.", vi:"Không, cháu giúp được.", why:"“No” là không. Đồng ý giúp thì nói “Sure” hoặc “Yes”."}]},
+      {en:"How can I get there from here?", vi:"Từ đây đến đó đi thế nào?", act:"open", board:["How can I","get there?"],
+        hint:"Bảo ông ấy đi thẳng rồi rẽ trái ở ngã tư thứ hai (Go straight and turn left at the second crossroads.).",
+        say:["Go straight and turn left at the second crossroads.", "Go straight ahead and turn left at the second crossroads.", "Go straight, then turn left at the second crossroads."],
+        okRe:/\bgo straight\b.*\bturn (left|right) at the (first|second|third|next)\b/,
+        errors:[
+          {re:/\bturn (left|right) (in|on) the\b/, vi:"Rẽ ở ngã tư dùng “at”: “turn left at the second crossroads”.", fx:s=>s.replace(/\bturn (left|right) (in|on) the\b/,"turn $1 at the")},
+          {re:/\bthe (2|3) crossroads?\b/, vi:"“Ngã tư thứ hai” dùng số thứ tự: “the second crossroads”.", fx:s=>s.replace(/\bthe 2 crossroads?\b/,"the second crossroads").replace(/\bthe 3 crossroads?\b/,"the third crossroads")},
+          {re:/\b(go|going) straightly\b/, vi:"Nói “go straight”, không thêm “-ly”.", fx:s=>s.replace(/\bstraightly\b/,"straight")},
+          {re:/\bturn to (the )?left\b/, vi:"Nói gọn “turn left”, không cần “to the”.", fx:s=>s.replace(/\bturn to (the )?left\b/,"turn left")}],
+        opts:[
+        {en:"Go straight and turn left in the second crossroads.", vi:"Đi thẳng rồi rẽ trái ở ngã tư thứ hai.", why:"Rẽ ở ngã tư dùng “at”."},
+        {en:"Go straight and turn left at the two crossroads.", vi:"Đi thẳng rồi rẽ trái ở hai ngã tư.", why:"“Thứ hai” là “second”."},
+        {en:"Go straight and turn left at the second crossroads.", vi:"Đi thẳng rồi rẽ trái ở ngã tư thứ hai.", ok:true, tip:"turn left / turn right at …: rẽ trái / phải ở …"}]},
+      {en:"Is it far from here?", vi:"Có xa đây không?", act:"open", board:["Is it far?"],
+        hint:"Nói không xa, đi bộ khoảng mười phút (No, it isn't. It's about ten minutes on foot.).",
+        say:["No, it isn't. It's about ten minutes on foot.", "No, it's not far. It's about ten minutes on foot.", "It's about ten minutes on foot."],
+        okRe:/\b(about|around|only) (5|10|15|20) minutes\b|\bnot (very )?far\b|^no it isnt\b/,
+        errors:[
+          {re:/\b(5|10|15|20) minute\b/, vi:"Nhiều phút thì thêm “s”: “ten minutes”.", fx:s=>s.replace(/\b(\d+) minute\b/,"$1 minutes")},
+          {re:/\bby foot\b/, vi:"Đi bộ thường nói “on foot”.", fx:s=>s.replace(/\bby foot\b/,"on foot")},
+          {re:/^no it is\b(?! not)/, vi:"Trả lời “không xa” phải nói “No, it isn't”.", fx:s=>s.replace(/^no it is\b/,"no it isnt")}],
+        opts:[
+        {en:"No, it is. It's about ten minutes on foot.", vi:"Không, có. Đi bộ khoảng mười phút.", why:"Trả lời phủ định: “No, it isn't.”"},
+        {en:"No, it isn't. It's about ten minutes on foot.", vi:"Không xa đâu ạ. Đi bộ khoảng mười phút.", ok:true, tip:"on foot: đi bộ. about ten minutes: khoảng mười phút."},
+        {en:"No, it isn't. It's about ten minute on foot.", vi:"Không xa đâu ạ. Đi bộ khoảng mười phút.", why:"Nhiều phút thì thêm “s”: “minutes”."}]},
+      {en:"Thank you so much! Is there a good place to eat near the square?", vi:"Cảm ơn em nhiều! Gần quảng trường có chỗ nào ăn ngon không?", act:"open", board:["A good place","to eat?"],
+        hint:"Khuyên ông ấy nên thử phở khô, rất ngon (You should try pho kho. It's delicious.).",
+        say:["You should try pho kho. It's delicious.", "You should try Gia Lai dry pho.", "You should try pho kho Gia Lai."],
+        okRe:/\byou should (try|eat|go)\b|\b(try|recommend)\b/,
+        errors:[
+          {re:/\bshould to\b/, vi:"Sau “should” không có “to”.", fx:s=>s.replace(/\bshould to\b/,"should")},
+          {re:/\bshould (trying|tries|eating|eats)\b/, vi:"Sau “should” dùng động từ nguyên mẫu: “should try”.", fx:s=>s.replace(/\bshould (trying|tries)\b/,"should try").replace(/\bshould (eating|eats)\b/,"should eat")},
+          {re:/\bit is (very )?deliciously\b/, vi:"Sau “is” dùng tính từ “delicious”.", fx:s=>s.replace(/\bdeliciously\b/,"delicious")}],
+        opts:[
+        {en:"You should to try pho kho.", vi:"Ông nên thử phở khô.", why:"Sau “should” không có “to”."},
+        {en:"You should try pho kho. It's delicious.", vi:"Ông nên thử phở khô. Ngon lắm ạ.", ok:true, tip:"You should + động từ: khuyên ai nên làm gì."},
+        {en:"You should trying pho kho.", vi:"Ông nên thử phở khô.", why:"Sau “should” dùng động từ nguyên mẫu: “try”."}]}
+    ]},
+  { title:"Giới thiệu lễ hội cồng chiêng", chip:"Giới thiệu lễ hội", name:"Mr. Tom", role:"Thầy đóng vai · Khách du lịch", look:"teacher",
+    intro:"Nhập vai: làng em đang mở lễ hội cồng chiêng. Một khách du lịch muốn hiểu về lễ hội. Thầy đóng vai khách.",
+    introBoard:["Gong festival","Welcome!"],
+    end:{en:"Wonderful! Thank you for telling me about your culture.", vi:"Tuyệt vời! Cảm ơn em đã kể cho tôi về văn hóa của em.", act:"nod", board:["Gong festival","Thank you!"]},
+    turns:[
+      {en:"Hello! What is this festival called?", vi:"Chào em! Lễ hội này tên là gì?", act:"open", board:["What is this","festival called?"],
+        hint:"Nói đây là lễ hội cồng chiêng (It's the gong festival.).",
+        say:["It's the gong festival.", "This is the gong festival.", "It's called the gong festival."],
+        okRe:/\bgong festival\b/,
+        errors:[
+          {re:/\bfestival (of )?gongs?\b/, vi:"Tiếng Anh đặt danh từ chính ở cuối: “gong festival”.", fx:s=>s.replace(/\b(the )?festival (of )?gongs?\b/,"the gong festival")},
+          {re:/\bgongs festival\b/, vi:"Nói “gong festival”: chữ “gong” đứng trước không thêm “s”.", fx:s=>s.replace(/\bgongs festival\b/,"gong festival")},
+          {re:/\bit (call|calls) the\b/, vi:"Tên gọi dùng bị động: “It's called…”.", fx:s=>s.replace(/\bit (call|calls) the\b/,"it is called the")}],
+        opts:[
+        {en:"It's the festival gong.", vi:"Đây là lễ hội cồng chiêng.", why:"Danh từ chính đứng cuối: “gong festival”."},
+        {en:"It's the gong festival.", vi:"Đây là lễ hội cồng chiêng.", ok:true, tip:"gong festival: lễ hội cồng chiêng (gong đứng trước, festival đứng sau)."},
+        {en:"It's the gongs festival.", vi:"Đây là lễ hội cồng chiêng.", why:"Chữ “gong” đứng trước không thêm “s”."}]},
+      {en:"When does it take place?", vi:"Lễ hội diễn ra khi nào?", act:"open", board:["When?"],
+        hint:"Nói lễ hội diễn ra vào mùa xuân, sau mùa gặt (It takes place in spring, after the harvest.).",
+        say:["It takes place in spring, after the harvest.", "It takes place in spring.", "It takes place after the harvest."],
+        okRe:/\b(takes place|is held|happens)\b.*\b(spring|harvest|every year|in (january|february|march|april|november|december))\b|^(in|after) (the )?(spring|harvest)\b/,
+        errors:[
+          {re:/\bit (take|taking) place\b/, vi:"Chủ ngữ “it” thì động từ thêm “s”: “it takes place”.", fx:s=>s.replace(/\bit (take|taking) place\b/,"it takes place")},
+          {re:/\b(on|at) (the )?spring\b/, vi:"Mùa trong năm dùng “in”: “in spring”.", fx:s=>s.replace(/\b(on|at) (the )?spring\b/,"in spring")},
+          {re:/\bit is take place\b/, vi:"Không dùng “is” với “take place”: “It takes place”.", fx:s=>s.replace(/\bit is take place\b/,"it takes place")}],
+        opts:[
+        {en:"It take place in spring.", vi:"Lễ hội diễn ra vào mùa xuân.", why:"Chủ ngữ “it” thì thêm “s”: “takes”."},
+        {en:"It takes place on spring.", vi:"Lễ hội diễn ra vào mùa xuân.", why:"Mùa dùng “in”: “in spring”."},
+        {en:"It takes place in spring, after the harvest.", vi:"Lễ hội diễn ra vào mùa xuân, sau mùa gặt.", ok:true, tip:"take place: diễn ra. in spring: vào mùa xuân."}]},
+      {en:"What do people do at the festival?", vi:"Mọi người làm gì trong lễ hội?", act:"open", board:["What do","people do?"],
+        hint:"Nói mọi người đánh cồng chiêng và múa quanh đống lửa (People play the gongs and dance around the fire.).",
+        say:["People play the gongs and dance around the fire.", "They play the gongs and dance around the fire.", "People play gongs and dance around the fire."],
+        okRe:/\b(play|playing) (the )?gongs?\b|\b(people|they|we) (dance|sing|drink|eat)\b/,
+        errors:[
+          {re:/\bpeople (plays|dances|sings)\b/, vi:"“People” là số nhiều, động từ không thêm “s”: “people play”.", fx:s=>s.replace(/\bpeople plays\b/,"people play").replace(/\bdances\b/,"dance").replace(/\bsings\b/,"sing")},
+          {re:/\bpeople is\b/, vi:"“People” là số nhiều, dùng “are”, hoặc bỏ “is”: “People play…”.", fx:s=>s.replace(/\bpeople is (play|playing)\b/,"people play").replace(/\bpeople is\b/,"people are")},
+          {re:/\bplay (the )?gong\b(?!s)/, vi:"Có nhiều chiếc cồng, nói “play the gongs”.", fx:s=>s.replace(/\bplay (the )?gong\b/,"play the gongs")}],
+        opts:[
+        {en:"People play the gongs and dance around the fire.", vi:"Mọi người đánh cồng chiêng và múa quanh đống lửa.", ok:true, tip:"people là số nhiều: people play, people dance."},
+        {en:"People plays the gongs and dances around the fire.", vi:"Mọi người đánh cồng chiêng và múa quanh đống lửa.", why:"“People” là số nhiều, động từ không thêm “s”."},
+        {en:"People is play the gongs.", vi:"Mọi người đánh cồng chiêng.", why:"Bỏ “is”: “People play the gongs.”"}]},
+      {en:"It looks fun! Can I join the dance?", vi:"Trông vui quá! Tôi tham gia múa được không?", act:"open", board:["Can I join?"],
+        hint:"Mời khách cùng múa (Of course! Let's dance together.).",
+        say:["Of course! Let's dance together.", "Sure! Let's dance together.", "Yes, of course. Come and join us!"],
+        okRe:/^(of course|sure|yes|ok|okay)\b/,
+        errors:[
+          {re:/\blets (dancing|to dance|dances)\b/, vi:"Sau “Let's” dùng động từ nguyên mẫu: “Let's dance”.", fx:s=>s.replace(/\blets (dancing|to dance|dances)\b/,"lets dance")},
+          {re:/^no you can\b/, vi:"Đồng ý thì nói “Yes” hoặc “Of course”, không nói “No”.", fx:s=>s.replace(/^no you can\b/,"yes you can")},
+          {re:/\bcome and joining\b/, vi:"Nói “Come and join us”.", fx:s=>s.replace(/\bcome and joining\b/,"come and join")}],
+        opts:[
+        {en:"Of course! Let's dancing together.", vi:"Tất nhiên rồi! Mình cùng múa nhé.", why:"Sau “Let's” dùng động từ nguyên mẫu: “dance”."},
+        {en:"No, you can. Let's dance.", vi:"Không, ông được. Mình múa nhé.", why:"Đồng ý thì nói “Yes” hoặc “Of course”."},
+        {en:"Of course! Let's dance together.", vi:"Tất nhiên rồi! Mình cùng múa nhé.", ok:true, tip:"Let's + động từ: mình cùng … nhé."}]}
+    ]},
+  { title:"Khám bệnh ở trạm y tế", chip:"Trạm y tế", name:"Bác sĩ Nam", role:"Thầy đóng vai · Trạm y tế xã", look:"teacher",
+    intro:"Nhập vai: em bị mệt và đến trạm y tế xã. Thầy đóng vai bác sĩ.",
+    introBoard:["Trạm y tế","Health centre"],
+    end:{en:"After meals. Get well soon!", vi:"Uống sau bữa ăn nhé. Em mau khỏe nhé!", act:"nod", board:["After meals","Get well soon!"]},
+    turns:[
+      {en:"Hello. What's the matter?", vi:"Chào em. Em bị sao thế?", act:"open", board:["What's the matter?"],
+        hint:"Nói em bị đau đầu và sốt (I have a headache and a fever.).",
+        say:["I have a headache and a fever.", "I've got a headache and a fever.", "I have a headache. I have a fever too."],
+        okRe:/\bi (have|ive got|have got|feel)\b.*\b(headache|fever|sore|cough|stomachache|stomach ache|cold|sick|ill|toothache)\b/,
+        errors:[
+          {re:/\bi (am|feel) (a )?(headache|fever)\b/, vi:"Đau đầu, bị sốt thì nói “I have a headache / a fever”, không dùng “am”.", fx:s=>s.replace(/\bi (am|feel) (a )?(headache|fever)\b/,"i have a $3")},
+          {re:/\bi have (headache|fever)\b/, vi:"Cần có “a”: “a headache”, “a fever”.", fx:s=>s.replace(/\bi have (headache|fever)\b/,"i have a $1").replace(/\band fever\b/,"and a fever")},
+          {re:/\bi has\b/, vi:"Với “I” dùng “have”, không dùng “has”.", fx:s=>s.replace(/\bi has\b/,"i have")}],
+        opts:[
+        {en:"I am headache and fever.", vi:"Em đau đầu và sốt.", why:"Nói “I have a headache and a fever”, không dùng “am”."},
+        {en:"I have a headache and a fever.", vi:"Em bị đau đầu và sốt.", ok:true, tip:"have a headache: bị đau đầu. have a fever: bị sốt."},
+        {en:"I has a headache and a fever.", vi:"Em bị đau đầu và sốt.", why:"Với “I” dùng “have”."}]},
+      {en:"How long have you had it?", vi:"Em bị bao lâu rồi?", act:"open", board:["How long?"],
+        hint:"Nói em bị từ hôm qua (Since yesterday.) hoặc hai ngày rồi (For two days.).",
+        say:["Since yesterday.", "I've had it since yesterday.", "For two days."],
+        okRe:/\b(since (yesterday|last|this|monday|tuesday|wednesday|thursday|friday|saturday|sunday|morning)|for (1|2|3|4|5|a|one) (day|days|week))\b/,
+        errors:[
+          {re:/\bfrom yesterday\b/, vi:"Kể từ một mốc thời gian dùng “since”: “since yesterday”.", fx:s=>s.replace(/\bfrom yesterday\b/,"since yesterday")},
+          {re:/\bsince (2|3|4|5) days\b/, vi:"Một khoảng thời gian dùng “for”: “for two days”.", fx:s=>s.replace(/\bsince (\d) days\b/,"for $1 days")},
+          {re:/\bfor (2|3|4|5) day\b/, vi:"Nhiều ngày thì thêm “s”: “two days”.", fx:s=>s.replace(/\bfor (\d) day\b/,"for $1 days")}],
+        opts:[
+        {en:"Since yesterday.", vi:"Từ hôm qua ạ.", ok:true, tip:"since + mốc thời gian (since yesterday). for + khoảng thời gian (for two days)."},
+        {en:"From yesterday.", vi:"Từ hôm qua ạ.", why:"Dùng “since yesterday” khi nói bị bệnh từ hôm qua đến giờ."},
+        {en:"Since two days.", vi:"Hai ngày rồi ạ.", why:"Một khoảng thời gian dùng “for”: “for two days”."}]},
+      {en:"You have a cold. Do you drink enough water?", vi:"Em bị cảm. Em có uống đủ nước không?", act:"open", board:["Enough water?"],
+        hint:"Nói không, em uống ít nước (No, I don't. I don't drink much water.).",
+        say:["No, I don't. I don't drink much water.", "No, I don't.", "No, I don't drink much water."],
+        okRe:/^no\b.*\b(do not|dont)\b|\b(do not|dont) drink (much|enough)\b/,
+        errors:[
+          {re:/^no i am not\b/, vi:"Câu hỏi bắt đầu bằng “Do you…?” thì trả lời “No, I don't.”", fx:s=>s.replace(/^no i am not\b/,"no i do not")},
+          {re:/\bmany water\b/, vi:"“Water” không đếm được, dùng “much”, không dùng “many”.", fx:s=>s.replace(/\bmany water\b/,"much water")},
+          {re:/^no i (not|no) drink\b/, vi:"Phủ định dùng “don't”: “I don't drink…”.", fx:s=>s.replace(/^no i (not|no) drink\b/,"no i do not drink")}],
+        opts:[
+        {en:"No, I'm not.", vi:"Không ạ.", why:"Hỏi “Do you…?” thì trả lời “No, I don't.”"},
+        {en:"No, I don't drink many water.", vi:"Không, em uống ít nước.", why:"“Water” không đếm được, dùng “much”."},
+        {en:"No, I don't. I don't drink much water.", vi:"Không ạ. Em uống ít nước.", ok:true, tip:"Do you…? → Yes, I do. / No, I don't."}]},
+      {en:"You should drink more water and rest. Take this medicine twice a day.", vi:"Em nên uống nhiều nước hơn và nghỉ ngơi. Uống thuốc này ngày hai lần.", act:"point", board:["Medicine","twice a day"],
+        hint:"Hỏi nên uống thuốc trước hay sau bữa ăn (Should I take it before or after meals?).",
+        say:["Should I take it before or after meals?", "Should I take it after meals?", "Do I take it before or after meals?"],
+        okRe:/^(should|do|can|must) i take (it|this|the medicine)\b/,
+        errors:[
+          {re:/^i should take (it|this)\b/, vi:"Đây là câu hỏi, đảo “should” lên trước: “Should I take it…?”", fx:s=>s.replace(/^i should take\b/,"should i take")},
+          {re:/\bshould i to take\b/, vi:"Sau “should” không có “to”.", fx:s=>s.replace(/\bshould i to take\b/,"should i take")},
+          {re:/\bshould i (taking|takes)\b/, vi:"Sau “should” dùng động từ nguyên mẫu: “take”.", fx:s=>s.replace(/\bshould i (taking|takes)\b/,"should i take")}],
+        opts:[
+        {en:"I should take it before or after meals?", vi:"Em nên uống trước hay sau bữa ăn ạ?", why:"Câu hỏi phải đảo “should” lên trước: “Should I…?”"},
+        {en:"Should I take it before or after meals?", vi:"Em nên uống trước hay sau bữa ăn ạ?", ok:true, tip:"Should I…? hỏi xin lời khuyên: tôi có nên… không?"},
+        {en:"Should I to take it after meals?", vi:"Em nên uống sau bữa ăn ạ?", why:"Sau “should” không có “to”."}]}
+    ]},
+  { title:"Phỏng vấn vào trường nghề", chip:"Phỏng vấn học nghề", name:"Thầy Phong", role:"Thầy đóng vai · Trường nghề", look:"teacher",
+    intro:"Nhập vai: em học xong lớp 9 và muốn học nghề sửa xe máy. Thầy đóng vai thầy phỏng vấn ở trường nghề.",
+    introBoard:["Interview","Trường nghề"],
+    end:{en:"Excellent answers. Welcome to our school!", vi:"Em trả lời rất tốt. Chào mừng em đến với trường!", act:"nod", board:["Welcome!","Good luck!"]},
+    turns:[
+      {en:"Good morning. Please tell me about yourself.", vi:"Chào em. Em giới thiệu về bản thân nhé.", act:"open", board:["Tell me about","yourself"],
+        hint:"Nói tên em và em học lớp 9 (My name is … I'm in grade nine.).",
+        say:["My name is {name}. I'm in grade nine.", "My name is {name}. I'm in grade nine at Vinh Thanh school.", "I'm {name}. I'm a grade nine student."],
+        okRe:/^(my name is|i am|good morning)\b/,
+        errors:[
+          {re:/\bmy name (?!is\b)\w+/, vi:"Nói “My name is …”, cần có “is”.", fx:s=>s.replace(/\bmy name\b(?! is)/,"my name is")},
+          {re:/\bi am grade 9\b/, vi:"Nói “I'm in grade nine”, cần có “in”.", fx:s=>s.replace(/\bi am grade\b/,"i am in grade")},
+          {re:/\bi am (\w+ )?years old\b.*\bi in\b|\bi in grade\b/, vi:"Thiếu động từ: “I am in grade nine”.", fx:s=>s.replace(/\bi in grade\b/,"i am in grade")}],
+        opts:[
+        {en:"My name {name}. I'm in grade nine.", vi:"Em tên là {name}. Em học lớp 9.", why:"Cần có “is”: “My name is …”."},
+        {en:"My name is {name}. I'm grade nine.", vi:"Em tên là {name}. Em học lớp 9.", why:"Cần có “in”: “I'm in grade nine”."},
+        {en:"My name is {name}. I'm in grade nine.", vi:"Em tên là {name}. Em học lớp 9.", ok:true, tip:"I'm in grade nine: em học lớp 9."}]},
+      {en:"Which job do you want to learn?", vi:"Em muốn học nghề gì?", act:"open", board:["Which job?"],
+        hint:"Nói em muốn học sửa xe máy (I want to learn to repair motorbikes.).",
+        say:["I want to learn to repair motorbikes.", "I'd like to learn to repair motorbikes.", "I want to be a motorbike mechanic."],
+        okRe:/^(i want to|i would like to|id like to)\b/,
+        errors:[
+          {re:/\bi want (learn|be|repair)\b/, vi:"Sau “want” cần có “to”: “want to learn”.", fx:s=>s.replace(/\bi want (learn|be|repair)\b/,"i want to $1")},
+          {re:/\bto repairing\b/, vi:"Sau “to” dùng động từ nguyên mẫu: “to repair”.", fx:s=>s.replace(/\bto repairing\b/,"to repair")},
+          {re:/\brepair motorbike\b/, vi:"Nói chung về xe máy thì dùng số nhiều: “motorbikes”.", fx:s=>s.replace(/\brepair motorbike\b/,"repair motorbikes")}],
+        opts:[
+        {en:"I want to learn to repair motorbikes.", vi:"Em muốn học sửa xe máy.", ok:true, tip:"want to + động từ: muốn làm gì."},
+        {en:"I want learn to repair motorbikes.", vi:"Em muốn học sửa xe máy.", why:"Sau “want” cần có “to”."},
+        {en:"I want to learn to repairing motorbikes.", vi:"Em muốn học sửa xe máy.", why:"Sau “to” dùng động từ nguyên mẫu: “repair”."}]},
+      {en:"Why do you want to learn this job?", vi:"Vì sao em muốn học nghề này?", act:"open", board:["Why?"],
+        hint:"Nói vì em thích máy móc và làng em cần thợ sửa xe (Because I like machines, and my village needs mechanics.).",
+        say:["Because I like machines, and my village needs mechanics.", "Because I like machines.", "Because my village needs mechanics."],
+        okRe:/^because\b/,
+        errors:[
+          {re:/\bmy village need\b/, vi:"“My village” là số ít, động từ thêm “s”: “needs”.", fx:s=>s.replace(/\bmy village need\b/,"my village needs")},
+          {re:/\bbecause of (i|my)\b/, vi:"Trước một câu có chủ ngữ và động từ, dùng “because”, không dùng “because of”.", fx:s=>s.replace(/\bbecause of (i|my)\b/,"because $1")},
+          {re:/\bi likes\b/, vi:"Với “I” động từ không thêm “s”: “I like”.", fx:s=>s.replace(/\bi likes\b/,"i like")}],
+        opts:[
+        {en:"Because of I like machines.", vi:"Vì em thích máy móc.", why:"Trước một câu dùng “because”, không dùng “because of”."},
+        {en:"Because I like machines, and my village needs mechanics.", vi:"Vì em thích máy móc, và làng em cần thợ sửa xe.", ok:true, tip:"because + câu: vì…"},
+        {en:"Because I like machines, and my village need mechanics.", vi:"Vì em thích máy móc, và làng em cần thợ sửa xe.", why:"“My village” là số ít: “needs”."}]},
+      {en:"Good. What will you do after the course?", vi:"Tốt. Học xong em sẽ làm gì?", act:"open", board:["After the course?"],
+        hint:"Nói em sẽ mở một tiệm sửa xe ở làng (I will open a repair shop in my village.).",
+        say:["I will open a repair shop in my village.", "I'll open a motorbike repair shop in my village.", "I'm going to open a repair shop in my village."],
+        okRe:/^(i will|ill|i am going to|i want to|i would like to|id like to|i plan to|i hope to) \w+/,
+        errors:[
+          {re:/\bi will (opening|opens)\b/, vi:"Sau “will” dùng động từ nguyên mẫu: “will open”.", fx:s=>s.replace(/\bi will (opening|opens)\b/,"i will open")},
+          {re:/\bi will to\b/, vi:"Sau “will” không có “to”.", fx:s=>s.replace(/\bi will to\b/,"i will")},
+          {re:/^i (open|opened) a\b/, vi:"Nói về việc sẽ làm sau này dùng “will”: “I will open…”.", fx:s=>s.replace(/^i (open|opened)\b/,"i will open")}],
+        opts:[
+        {en:"I will opening a repair shop in my village.", vi:"Em sẽ mở một tiệm sửa xe ở làng.", why:"Sau “will” dùng động từ nguyên mẫu: “open”."},
+        {en:"I will to open a repair shop.", vi:"Em sẽ mở một tiệm sửa xe.", why:"Sau “will” không có “to”."},
+        {en:"I will open a repair shop in my village.", vi:"Em sẽ mở một tiệm sửa xe ở làng.", ok:true, tip:"will + động từ nguyên mẫu: sẽ làm gì."}]}
+    ]}
+];
+
+const LOOKS = {
+  boy:{hair:"#2B1D16", shirt:"#FFFFFF", collar:"#3E7CB1", sleeve:"#FFFFFF", neck:"scarf", glasses:false},
+  teacher:{hair:"#1F1A17", shirt:"#5C7FA3", collar:"#4A6A8C", sleeve:"#5C7FA3", neck:"tie", glasses:true}
+};
+
+/* character in its own 160x200 box; placed into the classroom with a transform */
+function charSVG(k){
+  const L = LOOKS[k];
+  const hair = k==="boy"
+    ? `<path d="M36 70 Q34 22 80 20 Q126 22 124 70 Q120 48 104 42 Q96 52 78 46 Q62 54 46 50 Q38 58 36 70 Z" fill="${L.hair}"/>`
+    : `<path d="M38 66 Q38 24 80 22 Q122 24 122 66 Q118 46 100 42 Q80 50 56 44 Q42 50 38 66 Z" fill="${L.hair}"/>`;
+  const neck = L.neck==="scarf"
+    ? `<path d="M64 148 L96 148 L84 160 L92 184 L80 172 L70 186 L76 160 Z" fill="#D2342C"/>`
+    : `<path d="M77 152 L83 152 L86 192 L80 198 L74 192 Z" fill="#2F3E50"/>`;
+  const glasses = L.glasses ? `<g fill="none" stroke="#2A2A2A" stroke-width="2.5"><circle cx="64" cy="84" r="11"/><circle cx="96" cy="84" r="11"/><path d="M75 84 H85"/></g>` : "";
+  const arm = (x, side)=>`<g class="arm-${side}"><rect x="${x}" y="150" width="15" height="52" rx="7.5" fill="${L.sleeve}" stroke="${L.collar}" stroke-width="2"/><circle cx="${x+7.5}" cy="203" r="8" fill="var(--skin,#EDC19C)"/></g>`;
+  return `<g class="char" id="charg"><g class="breathe">
+    <g class="body">
+      ${arm(16,"l")}${arm(129,"r")}
+      <path d="M28 220 Q30 150 80 146 Q130 150 132 220 Z" fill="${L.shirt}" stroke="${L.collar}" stroke-width="3"/>
+      <path d="M64 148 L80 164 L96 148" fill="none" stroke="${L.collar}" stroke-width="4"/>
+      ${neck}
+    </g>
+    <g class="head">
+      <rect x="70" y="122" width="20" height="28" rx="8" fill="#D9A47C"/>
+      <ellipse cx="80" cy="82" rx="44" ry="48" fill="#EDC19C"/>
+      <ellipse cx="36" cy="86" rx="7" ry="10" fill="#D9A47C"/><ellipse cx="124" cy="86" rx="7" ry="10" fill="#D9A47C"/>
+      ${hair}
+      <g class="brows" stroke="#2B1D16" stroke-width="3" stroke-linecap="round"><path d="M56 68 Q64 64 72 68"/><path d="M88 68 Q96 64 104 68"/></g>
+      <g class="blink" fill="#1C1C1C"><ellipse cx="64" cy="84" rx="4.5" ry="5.5"/><ellipse cx="96" cy="84" rx="4.5" ry="5.5"/></g>
+      ${glasses}
+      <g class="cheeks" fill="#E8838A"><ellipse cx="54" cy="100" rx="7" ry="4"/><ellipse cx="106" cy="100" rx="7" ry="4"/></g>
+      <path class="m-smile" d="M68 106 Q80 116 92 106" fill="none" stroke="#7A3B2E" stroke-width="3.5" stroke-linecap="round"/>
+      <g class="m-open"><ellipse cx="80" cy="110" rx="10" ry="8" fill="#7A3B2E"/><ellipse cx="80" cy="114" rx="6" ry="3" fill="#E8838A"/></g>
+      <circle class="m-o" cx="80" cy="110" r="5" fill="none" stroke="#7A3B2E" stroke-width="3.5"/>
+    </g>
+  </g></g>`;
+}
+
+function classroomSVG(k){
+  const planks = [0,1,2,3,4,5,6,7].map(i=>`<path d="M${i*52} 252 L${i*52-30} 300" stroke="#9C7148" stroke-width="1.5"/>`).join("");
+  return `<svg viewBox="0 0 400 300" role="img" aria-label="Lớp học có bảng đen, cửa sổ và bàn giáo viên">
+    <rect width="400" height="252" fill="#E8DFC8"/>
+    <rect y="200" width="400" height="52" fill="#D9CBA8"/>
+    <rect y="250" width="400" height="50" fill="#B4875A"/>${planks}
+    <!-- window looking out on hills -->
+    <g><rect x="308" y="26" width="82" height="96" rx="3" fill="#FFFFFF"/>
+      <rect x="313" y="31" width="72" height="86" fill="#BFE3F2"/>
+      <path d="M313 92 Q336 70 356 86 Q372 74 385 84 L385 117 L313 117 Z" fill="#5E9A5E"/>
+      <path d="M313 104 Q345 92 385 102 L385 117 L313 117 Z" fill="#4C8450"/>
+      <circle cx="368" cy="48" r="8" fill="#F7D774"/>
+      <path d="M349 31 V117 M313 74 H385" stroke="#FFFFFF" stroke-width="4"/></g>
+    <!-- clock -->
+    <g><circle cx="268" cy="40" r="14" fill="#FFFFFF" stroke="#5A4632" stroke-width="3"/>
+      <path d="M268 40 V31 M268 40 L275 44" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round"/></g>
+    <!-- chalkboard -->
+    <rect x="14" y="24" width="214" height="134" rx="4" fill="#7A5634"/>
+    <rect x="21" y="31" width="200" height="118" fill="#2F5546"/>
+    <rect x="21" y="149" width="200" height="6" fill="#8E6A45"/>
+    <rect x="40" y="146" width="14" height="4" rx="1" fill="#F2EFE4"/><rect x="184" y="145" width="22" height="6" rx="1" fill="#C9B79A"/>
+    <g id="board"></g>
+    <!-- character -->
+    <g transform="translate(172 50) scale(.92)">${charSVG(k)}</g>
+    <!-- teacher's desk in front -->
+    <rect x="150" y="258" width="210" height="10" rx="2" fill="#A87A4E"/>
+    <rect x="156" y="268" width="198" height="32" fill="#8C6239"/>
+    <rect x="300" y="244" width="34" height="7" fill="#C8423A"/><rect x="303" y="237" width="30" height="7" fill="#3E7CB1"/><rect x="306" y="251" width="32" height="7" fill="#F2B632"/>
+    <path d="M166 258 L172 236 L182 236 L188 258 Z" fill="#6C9BC2"/><circle cx="177" cy="230" r="7" fill="#E46A6A"/><circle cx="171" cy="234" r="5" fill="#F2B632"/>
+    <!-- students' desk edge, front left -->
+    <rect x="-4" y="270" width="132" height="34" rx="4" fill="#C69C6D"/>
+  </svg>`;
+}
+
+function drawBoard(b){
+  const g = $("board"); if(!g) return;
+  let h;
+  if(b==="map"){
+    h = `<g class="board-in" stroke="#F2EFE4" stroke-width="2" fill="none" stroke-linecap="round">
+      <rect x="34" y="52" width="76" height="40" rx="3"/><rect x="118" y="52" width="88" height="40" rx="3" stroke="#F7D774"/>
+      <path d="M40 128 H160 M160 128 V98" stroke-dasharray="6 5"/><path d="M154 104 L160 96 L166 104"/></g>
+      <g class="board-t board-in" font-size="15" text-anchor="middle">
+      <text x="72" y="76">Computer</text><text x="72" y="88" font-size="12">room</text>
+      <text x="162" y="78" fill="#F7D774">Library</text>
+      <text x="36" y="122" text-anchor="start" font-size="13">You are here ★</text></g>`;
+  }else{
+    const n = b.length, top = 90 - (n-1)*14;
+    h = `<g class="board-t board-in" text-anchor="middle">` + b.map((l,i)=>
+      `<text x="121" y="${top+i*28}" font-size="${i===0?24:18}">${esc(l)}</text>`).join("") + `</g>`;
+  }
+  g.innerHTML = h;
+}
+
+/* ---------- speech, synced to the character ---------- */
+const synth = window.speechSynthesis;
+let voice = null, viVoice = null, flap = null, guard = null, bounds = false, wordTimer = null;
+function pickVoice(){
+  if(!synth) return;
+  const all = synth.getVoices();
+  const vs = all.filter(v=>/^en[-_]/i.test(v.lang));
+  voice = vs.find(v=>/en[-_](GB|US)/i.test(v.lang) && /google|samantha|daniel|zira|libby|sonia|ryan/i.test(v.name)) || vs[0] || null;
+  viVoice = all.find(v=>/^vi/i.test(v.lang)) || null;
+}
+if(synth){ pickVoice(); synth.onvoiceschanged = pickVoice; }
+$("voiceNote").textContent = synth
+  ? "Giọng đọc lấy từ điện thoại của em, không tốn phí. Nếu không nghe tiếng, hãy bật âm lượng và tắt chế độ im lặng."
+  : "Trình duyệt này chưa đọc được tiếng Anh. Em vẫn đọc câu trong khung thoại để luyện tập.";
+
+const G = ()=>$("charg");
+function mouth(open){ const g=G(); if(g) g.classList.toggle("mopen", open); }
+function setAct(a){ const g=G(); if(!g) return; g.className.baseVal = g.className.baseVal.replace(/\bact-\w+/g,"").trim(); if(a) g.classList.add("act-"+a); }
+function setExpr(e){ const g=G(); if(!g) return; g.classList.remove("happy","confused"); if(e) g.classList.add(e); }
+function highlight(i){
+  document.querySelectorAll("#bubble .w").forEach((w,k)=>w.classList.toggle("now", k===i));
+}
+function stopAll(){
+  if(synth) synth.cancel();
+  clearTimeout(guard); clearInterval(flap); clearInterval(wordTimer);
+}
+
+/* who: "char" moves the character's mouth, head and arms; "me" only reads the student's answer aloud.
+   lang "vi": Vietnamese explanation, read with the phone's Vietnamese voice when it has one. */
+function speak(text, who, act, done, lang){
+  const vi = lang==="vi";
+  const words = text.split(/\s+/);
+  clearTimeout(guard); clearInterval(flap); clearInterval(wordTimer); bounds = false;
+  let finished = false;
+  const g = G();
+  const finish = ()=>{
+    if(finished) return; finished = true;
+    clearTimeout(guard); clearInterval(flap); clearInterval(wordTimer);
+    if(who==="char"){ mouth(false); g && g.classList.remove("speaking"); $("bubble").classList.remove("talking"); highlight(-1);
+      setTimeout(()=>setAct(""), 700); }
+    const d = done; done = null; d && d();
+  };
+  if(who==="char"){
+    g && g.classList.add("speaking"); setAct(act); $("bubble").classList.add("talking");
+    // steady mouth rhythm until the voice reports word boundaries
+    flap = setInterval(()=>{ if(!bounds){ const gg=G(); gg && gg.classList.toggle("mopen"); } }, 150);
+    if(!vi){ let wi = 0; highlight(0); wordTimer = setInterval(()=>{ if(!bounds){ wi++; highlight(wi); } }, 380); }
+  }
+  guard = setTimeout(finish, words.length*(vi?330:480) + 1500);
+  if(!synth || (vi && !viVoice)) return;
+  try{
+    synth.cancel();
+    const spoken = vi ? text : text.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D");
+    const u = new SpeechSynthesisUtterance(spoken);
+    if(vi){ u.voice = viVoice; u.lang = viVoice.lang; u.rate = 1; }
+    else { u.lang = voice ? voice.lang : "en-GB"; if(voice) u.voice = voice; u.rate = 0.85; }
+    u.pitch = who==="char" ? (S().look==="teacher" ? 0.8 : 1.1) : 1;
+    u.onstart = ()=>{ clearTimeout(guard); guard = setTimeout(finish, words.length*900 + 3000); };
+    u.onboundary = e=>{
+      if(who!=="char" || e.name==="sentence") return;
+      bounds = true; clearInterval(flap);
+      if(!vi){ const upto = spoken.slice(0, e.charIndex); highlight(upto.trim() ? upto.trim().split(/\s+/).length : 0); }
+      mouth(true); setTimeout(()=>mouth(false), 130);
+      setTimeout(()=>mouth(true), 200); setTimeout(()=>mouth(false), 290);
+    };
+    u.onend = finish; u.onerror = finish;
+    synth.speak(u);
+  }catch(e){}
+}
+
+/* ---------- checking what the student said ---------- */
+const NUM = {one:"1",two:"2",three:"3",four:"4",five:"5",six:"6",seven:"7",eight:"8",nine:"9",ten:"10",eleven:"11",twelve:"12"};
+const SAME = {math:"maths",favorite:"favourite",okay:"ok","o.k.":"ok",mr:"mr",mister:"mr",socialize:"socialise",neighborhood:"neighbourhood",center:"centre",color:"colour",hardworking:"hard-working",counselor:"counsellor",prioritize:"prioritise",realize:"realise",apologize:"apologise",organized:"organised",traveler:"traveller",theater:"theatre",traveling:"travelling",traveled:"travelled",program:"programme",organize:"organise"};
+function norm(s){
+  let t = s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d")
+    .replace(/[’`]/g,"'").replace(/[.,!?;:"“”()]/g," ");
+  t = t.replace(/\b(i)'m\b/g,"i am").replace(/\b(you|we|they)'re\b/g,"$1 are")
+       .replace(/\b(it|name|that|what|where|he|she|there|who)'s\b/g,"$1 is")
+       .replace(/\bdon't\b/g,"do not").replace(/\bdoesn't\b/g,"does not").replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not")
+       .replace(/'/g,"");
+  let w = t.split(/\s+/).filter(Boolean).map(x=>NUM[x]||SAME[x]||x);
+  t = w.join(" ").replace(/\b(\d+) ([a-e])\b/g,"$1$2");
+  return t;
+}
+const toks = s=>s ? s.split(" ") : [];
+/* word-level edit distance; "{name}" in the model answer matches any one word */
+function align(said, model){
+  const a = toks(said), b = toks(model), n = a.length, m = b.length;
+  const eq = (x,y)=> y==="{name}" || x===y;
+  const d = Array.from({length:n+1},(_,i)=>Array.from({length:m+1},(_,j)=>i===0?j:j===0?i:0));
+  for(let i=1;i<=n;i++) for(let j=1;j<=m;j++)
+    d[i][j] = Math.min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1] + (eq(a[i-1],b[j-1])?0:1));
+  const ops = []; let i=n, j=m;
+  while(i>0 || j>0){
+    if(i>0 && j>0 && d[i][j]===d[i-1][j-1] + (eq(a[i-1],b[j-1])?0:1)){
+      if(!eq(a[i-1],b[j-1])) ops.unshift({t:"sub", said:a[i-1], want:b[j-1]}); i--; j--; }
+    else if(j>0 && d[i][j]===d[i][j-1]+1){ ops.unshift({t:"miss", want:b[j-1]}); j--; }
+    else { ops.unshift({t:"extra", said:a[i-1]}); i--; }
+  }
+  return {dist:d[n][m], score: 1 - d[n][m]/Math.max(n,m,1), ops};
+}
+const show = w=> w==="{name}" ? name : w==="i" ? "I" : w;
+function explain(op){
+  if(op.t==="miss"){
+    if(op.want==="{name}") return "Em chưa nói tên của mình.";
+    if(["am","is","are"].includes(op.want)) return `Em nói thiếu động từ “${op.want}”. Câu tiếng Anh cần có động từ.`;
+    return `Em nói thiếu từ “${show(op.want)}”.`;
+  }
+  if(op.t==="extra") return `Em nói thừa từ “${show(op.said)}”.`;
+  if(op.said===op.want+"s") return `Em nói “${op.said}”, phải nói “${op.want}”. Ở câu này động từ không thêm “s”.`;
+  return `Em nói “${show(op.said)}”, phải nói “${show(op.want)}”.`;
+}
+const PROPER = ["english","monday","tuesday","wednesday","thursday","friday","saturday","sunday","mr","vinh thanh","diy","gia lai","quy nhon","lan","minh","nam","mai","hoa","viet nam","vietnam","tet","ha noi","hanoi","ho chi minh city","hue","da nang","pleiku","london","sydney","tokyo","paris","new york","singapore","bangkok","australia","england","uk","usa","mars","jupiter","venus","the moon","canada","america","scotland","new zealand","halong bay","ha long bay","christmas","mid-autumn"];
+const FIXUP = [[/\blets\b/g,"let's"],[/\bisnt\b/g,"isn't"],[/\barent\b/g,"aren't"],[/\bdidnt\b/g,"didn't"],[/\bshouldnt\b/g,"shouldn't"],[/\bmustnt\b/g,"mustn't"],[/\bwont\b/g,"won't"],[/\bdoesnt\b/g,"doesn't"],[/\bdont\b/g,"don't"],[/\bcant\b/g,"can't"],[/\bwasnt\b/g,"wasn't"],[/\bwerent\b/g,"weren't"],[/\bhasnt\b/g,"hasn't"],[/\bhavent\b/g,"haven't"],[/\bcouldnt\b/g,"couldn't"],[/\bive\b/g,"I've"],[/\bweve\b/g,"we've"],[/\btheyve\b/g,"they've"],[/\byoull\b/g,"you'll"],[/\bwell\b(?= (be|go|have|need|meet|see|do|visit|plant|clean|make))/g,"we'll"],[/\bid\b/g,"I'd"],[/\bill\b/g,"I'll"],[/\bvinh thanh\b/g,"Vĩnh Thạnh"],[/\bdiy\b/g,"DIY"],[/(\w) however (?=\w)/g,"$1. however, "],[/\b(hello|hi|good morning|good afternoon) sir (?=(where|what|how|can|could|is|may|when|who|i)\b)/g,"$1, sir. "],[/(\w) (but|so) (?=(i|it|we|they|he|she|you|the|my|there)\b)/g,"$1, $2 "]];
+const pretty = s=>{ let q;
+  const m = s.match(/^(yes|no)( (?:i|it|there|he|she|we|they|you) (?:do|does|am|is|are|can|will|was|were|did|have|has|must|mustnt|must not|cannot|isnt|arent|wasnt|werent|didnt|havent|hasnt|cannot|do not|does not|will not|have not))?(?: (.+))?$/);
+  if(m){ const newSentence = m[3] && /^(i|it|we|they|he|she|you|the|my|our|your|there|this|that|please|thank|of|its|his|her|when|what|where|how|who|why|which|lets)\b/.test(m[3]);
+    s = m[1] + (m[2] ? ","+m[2] : (m[3] && !newSentence ? "," : "")) + (m[3] ? (newSentence ? ". " : " ") + m[3] : ""); }
+  let t = s.replace(/\bi\b/g,"I").replace(/\b(\d+)([a-e])\b/g,(m,d,l)=>d+l.toUpperCase());
+  for(const p of PROPER) t = t.replace(new RegExp("\\b"+p+"\\b","g"), w=>w.split(" ").map(x=>x[0].toUpperCase()+x.slice(1)).join(" "));
+  t = t.replace(/\b(Uk|Usa)\b/g, w=>w.toUpperCase()).replace(/\bThe Moon\b/g,"the Moon");
+  for(const [re,to] of FIXUP) t = t.replace(re,to);
+  t = t.replace(/\b(\d+)\b(?![A-E])/g,(m,d)=>Object.keys(NUM).find(k=>NUM[k]===d)||d);
+  t = t.replace(/\. ([a-z])/g,(x,c)=>". "+c.toUpperCase());
+  q = /^(when|what|where|how|who|why|which|do|does|did|can|could|will|would|is|are|shall)\b/i.test(t.split(/[.!?] /).pop());
+  return t[0].toUpperCase()+t.slice(1)+(q?"?":"."); };
+/* returns {status: ok | near | wrong | empty, model, notes[]} */
+function evaluate(raw, t){
+  const said = norm(raw);
+  if(!said) return {status:"empty", notes:[]};
+  let best = null;
+  for(const s of t.say){ const r = align(said, norm(s)); r.model = s; if(!best || r.dist < best.dist) best = r; }
+  // every matching mistake is explained and fixed; the fixed sentence is shown as the nearest model answer when it is close to one
+  const rules = (t.errors||[]).filter(e=>e.re.test(said));
+  if(rules.length){
+    let fixed = said; for(const e of rules) if(e.fx) fixed = e.fx(fixed);
+    let model = best.model;
+    if(rules.some(e=>e.fx)){
+      let near = null; for(const s of t.say){ const r = align(fixed, norm(s)); if(!near || r.dist < near.dist){ near = r; near.model = s; } }
+      const nm = toks(norm(near.model)), lost = toks(fixed).some(w=>w.length>=4 && !nm.includes(w));
+      model = !lost && near.dist <= 2 && near.dist*2 < toks(fixed).length ? near.model : pretty(fixed);
+    }
+    return {status:"wrong", model, notes: rules.map(e=>e.vi)};
+  }
+  if(best.dist===0) return {status:"ok", model:best.model, notes:[]};
+  if(t.okRe && t.okRe.test(said)) return {status:"ok", model:best.model, notes:[]};
+  const notes = best.ops.slice(0,3).map(explain);
+  if(best.dist<=1 && best.score>=0.75) return {status:"near", model:best.model, notes};
+  if(best.score < 0.4) return {status:"wrong", model:best.model, notes:["Câu em nói chưa đúng ý. " + t.hint]};
+  return {status:"wrong", model:best.model, notes};
+}
+
+/* ---------- state ---------- */
+let sceneIx = 0, turn = 0, misses = 0, firstTry = 0, name = "An", last = null, rec = null, micBlocked = false;
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function S(){ return SCENES[sceneIx]; }
+function $(id){ return document.getElementById(id); }
+const fill = s=>s.replaceAll("{name}", name);
+function esc(s){ return s.replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+/* Tân is a classmate, so he says "bạn"; the teacher says "em" */
+const voc = s=> S().look==="teacher" ? s : s.replace(/\bEm\b/g,"Bạn").replace(/\bem\b/g,"bạn");
+const spans = en=> en.split(/\s+/).map(w=>`<span class="w">${esc(w)}</span>`).join(" ");
+
+function sayChar(line){
+  last = {line};
+  const en = fill(line.en);
+  $("bubble").innerHTML = `<b>${esc(S().name)}:</b> ${spans(en)}<span class="vi">${esc(fill(line.vi))}</span>`;
+  if(line.board) drawBoard(line.board);
+  speak(en, "char", line.act);
+}
+/* correction: Vietnamese explanation first, then the English sentence to say */
+function sayFix(viText, en, done){
+  viText = voc(viText);
+  last = {fix:[viText, en]};
+  $("bubble").innerHTML = `<b>${esc(S().name)}:</b> <span class="fixvi">${esc(viText)}</span>
+    <span class="fixen">Say: ${spans(en)}</span>`;
+  speak(viText, "char", "open", ()=>{
+    setTimeout(()=>speak("Say: " + en, "char", "point", done), 250);
+  }, "vi");
+}
+function addMsg(text, vi, me){
+  const d = document.createElement("div"); d.className = "msg " + (me ? "me" : "them");
+  d.innerHTML = `${esc(text)}${vi ? `<span class="vi">${esc(vi)}</span>` : ""}`;
+  $("log").appendChild(d);
+}
+
+function loadScene(i){
+  sceneIx = i; turn = 0; misses = 0; firstTry = 0; last = null;
+  stopAll(); stopRec();
+  [0,1].forEach(k=>$("sc"+k).setAttribute("aria-pressed", k===i));
+  $("title").textContent = S().title;
+  $("stage").innerHTML = classroomSVG(S().look) + `<div class="tag"><b>${esc(S().name)}</b>${esc(S().role)}</div>`;
+  drawBoard(S().introBoard);
+  $("log").innerHTML = "";
+  $("bubble").textContent = S().intro;
+  $("panel").innerHTML = `<h2>Trước khi bắt đầu</h2>
+    <div class="row"><label for="nm">Tên của em (bằng tiếng Anh, không dấu cũng được)</label></div>
+    <div class="row"><input type="text" id="nm" value="${esc(name)}" maxlength="20" autocomplete="off"><button class="btn" id="go">Bắt đầu nói chuyện</button></div>
+    <p class="note">Nhân vật nói tiếng Anh. Em bấm nút micro và nói câu trả lời bằng tiếng Anh. Nếu em nói sai, nhân vật chỉ ra chỗ sai bằng tiếng Việt và đọc câu đúng bằng tiếng Anh để em nói lại.</p>`;
+  $("go").onclick = ()=>{ name = ($("nm").value.trim() || "An").slice(0,20); setExpr(""); showTurn(); };
+}
+
+function showTurn(){
+  const t = S().turns[turn]; misses = 0;
+  addMsg(fill(t.en), fill(t.vi), false); sayChar(t);
+  const micUI = SR && !micBlocked
+    ? `<button class="mic" id="mic" aria-label="Bấm để nói"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 12h-2Z"/></svg></button>
+       <div class="micstate" id="micstate">Bấm nút và nói câu trả lời bằng tiếng Anh</div>`
+    : `<div class="micstate">${SR ? "Trang thử này chưa được dùng micro." : "Trình duyệt này chưa nghe được giọng nói."} Em gõ câu em muốn nói vào ô bên dưới.</div>`;
+  $("panel").innerHTML = `<div class="row" style="justify-content:space-between"><h2>Em hãy nói</h2><span class="progress">Câu ${turn+1}/${S().turns.length}</span></div>
+    <p class="hint"><b>Gợi ý:</b> ${esc(t.hint)}</p>
+    <div class="microw">${micUI}</div>
+    <div id="heard"></div>
+    <div class="row"><label for="typed" class="sr">Câu em nói</label><input type="text" id="typed" placeholder="Hoặc gõ câu em nói…" autocomplete="off" enterkeyhint="send"><button class="mini" id="send">Gửi</button></div>
+    <div id="fb"></div>
+    <button class="link" id="pick">Khó quá? Chọn câu có sẵn</button>`;
+  if($("mic")) $("mic").onclick = listen;
+  $("send").onclick = ()=>{ const v = $("typed").value.trim(); if(v){ $("typed").value = ""; judge(v); } };
+  $("typed").onkeydown = e=>{ if(e.key==="Enter") $("send").click(); };
+  $("pick").onclick = showOptions;
+}
+
+/* ---------- microphone (the phone's own speech recognition, free) ---------- */
+function stopRec(){ if(rec){ try{ rec.abort(); }catch(e){} rec = null; } }
+function listen(){
+  if(rec){ stopRec(); setMic(false, "Bấm nút và nói câu trả lời bằng tiếng Anh"); return; }
+  stopAll(); mouth(false);
+  const r = new SR(); rec = r;
+  r.lang = "en-US"; r.interimResults = true; r.maxAlternatives = 3; r.continuous = false;
+  let finalAlts = null, gotAny = false;
+  r.onresult = e=>{
+    const res = e.results[e.results.length-1];
+    gotAny = true;
+    $("heard").innerHTML = `<p class="said">Em nói: “${esc(res[0].transcript)}”</p>`;
+    if(res.isFinal) finalAlts = Array.from(res).map(a=>a.transcript);
+  };
+  r.onerror = e=>{
+    if(e.error==="not-allowed" || e.error==="service-not-allowed" || e.error==="audio-capture"){
+      micBlocked = true;
+      $("micstate").textContent = "Không mở được micro. Em gõ câu em muốn nói vào ô bên dưới. Trong ứng dụng thật, em cho phép dùng micro là nói được.";
+      $("mic").disabled = true;
+    }
+  };
+  r.onend = ()=>{
+    if(rec!==r) return;
+    rec = null; setMic(false, "Bấm nút và nói câu trả lời bằng tiếng Anh");
+    if(micBlocked) return;
+    if(finalAlts && finalAlts.length){
+      // the recogniser offers several guesses; keep the one closest to a right answer
+      const t = S().turns[turn], rank = {ok:0, near:1, wrong:2, empty:3};
+      let pick = finalAlts[0], bestR = evaluate(pick, t);
+      for(const alt of finalAlts.slice(1)){ const r2 = evaluate(alt, t); if(rank[r2.status] < rank[bestR.status]){ pick = alt; bestR = r2; } }
+      judge(pick);
+    } else if(!gotAny){
+      $("fb").innerHTML = `<div class="feedback bad">Mình chưa nghe rõ. Em bấm nút và nói to, rõ hơn nhé.</div>`;
+    }
+  };
+  try{ r.start(); setMic(true, "Đang nghe… em nói đi"); }catch(e){ rec = null; }
+}
+function setMic(on, msg){
+  const b = $("mic"); if(b) b.classList.toggle("on", on);
+  const s = $("micstate"); if(s && !micBlocked) s.textContent = msg;
+}
+
+function judge(raw){
+  const t = S().turns[turn];
+  const r = evaluate(raw, t);
+  $("heard").innerHTML = `<p class="said">Em nói: “${esc(raw)}”</p>`;
+  if(r.status==="empty") return;
+  const model = fill(r.model);
+  if(r.status==="ok" || r.status==="near"){
+    if(misses===0) firstTry++;
+    setExpr("happy"); setAct("nod");
+    addMsg(raw, "", true);
+    const tip = (t.opts.find(o=>o.ok)||{}).tip || "";
+    const next = ()=>{ turn++; setTimeout(()=>{ setExpr(""); setAct(""); turn < S().turns.length ? showTurn() : finish(); }, 400); };
+    if(r.status==="ok"){
+      $("panel").innerHTML = `<div class="feedback ok"><b>Đúng rồi!</b> ${esc(tip)}</div>`;
+      speak("Great!", "char", "nod", next);
+    }else{
+      $("panel").innerHTML = `<div class="feedback ok"><b>Gần đúng rồi!</b> ${esc(voc(r.notes.join(" ")))}<br>Câu đúng: <b>${esc(model)}</b></div>`;
+      sayFix("Gần đúng rồi. " + r.notes.join(" "), model, next);
+    }
+  }else{
+    misses++;
+    setExpr("confused");
+    $("fb").innerHTML = `<div class="feedback bad"><b>Chỗ sai:</b> ${esc(voc(r.notes.join(" ")))}<br><b>Cách sửa:</b> ${voc("em")} nói “${esc(model)}”.</div>`;
+    sayFix(r.notes.join(" ") + (S().look==="teacher" ? " Em nói lại theo thầy nhé." : " Em nói lại theo mình nhé."), model, ()=>setExpr(""));
+  }
+}
+
+function showOptions(){
+  const t = S().turns[turn];
+  stopRec();
+  $("panel").innerHTML = `<div class="row" style="justify-content:space-between"><h2>Chọn câu trả lời</h2><span class="progress">Câu ${turn+1}/${S().turns.length}</span></div>
+    <div class="opts">${t.opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(fill(o.en))}</button>`).join("")}</div><div id="fb"></div>`;
+  $("panel").querySelectorAll(".opt").forEach(b=>b.onclick = ()=>choose(+b.dataset.k, b));
+}
+function choose(k, btn){
+  const o = S().turns[turn].opts[k];
+  if(o.ok){
+    if(misses===0) firstTry++;
+    setExpr("happy"); setAct("nod");
+    addMsg(fill(o.en), fill(o.vi), true);
+    $("panel").innerHTML = `<div class="feedback ok"><b>Đúng rồi!</b> ${esc(o.tip||"")}</div>`;
+    speak(fill(o.en), "me", null, ()=>{
+      turn++;
+      setTimeout(()=>{ setExpr(""); setAct(""); turn < S().turns.length ? showTurn() : finish(); }, 350);
+    });
+  }else{
+    misses++;
+    btn.classList.add("wrong"); btn.disabled = true;
+    setExpr("confused");
+    $("fb").innerHTML = `<div class="feedback bad"><b>Chưa đúng.</b> ${esc(o.why)} Em thử chọn câu khác nhé.</div>`;
+    sayFix(o.why, fill(S().turns[turn].say[0]), ()=>setExpr(""));
+  }
+}
+
+function finish(){
+  const total = S().turns.length;
+  const end = S().end; addMsg(fill(end.en), fill(end.vi), false); sayChar(end); setExpr("happy");
+  const stars = firstTry===total ? 3 : firstTry >= total-1 ? 2 : 1;
+  const next = sceneIx===0 ? `<button class="mini" id="nx">Sang tình huống tiếp: ${esc(SCENES[1].chip)}</button>` : "";
+  $("panel").innerHTML = `<h2>Hoàn thành!</h2>
+    <div class="stars" aria-label="${stars} sao">${"★".repeat(stars)}${"☆".repeat(3-stars)}</div>
+    <p>Em trả lời đúng ngay lần đầu <b>${firstTry}/${total}</b> câu.</p>
+    <div class="row"><button class="btn" id="rp">Làm lại</button>${next}</div>`;
+  $("rp").onclick = ()=>loadScene(sceneIx);
+  if(next) $("nx").onclick = ()=>loadScene(1);
+}
+
+$("sc0").onclick = ()=>loadScene(0);
+$("sc1").onclick = ()=>loadScene(1);
+$("again").onclick = ()=>{
+  if(!last) return;
+  if(last.line) sayChar(last.line); else sayFix(last.fix[0], last.fix[1]);
+};
+$("vi").onchange = e=>$("app").classList.toggle("hide-vi", !e.target.checked);
+SCENES.forEach((sc,k)=>{ $("sc"+k).textContent = sc.chip; });
+loadScene(0);
+</script>
+
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}</script>
+<script src="tra-tu.js" defer></script>
+<script src="dt-them.js" defer></script>
+</body>
+</html>
