@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F5C45">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homebar{display:flex;max-width:560px;margin:0 auto;padding-block:10px}
+.homebar a{font:600 14px "Be Vietnam Pro",system-ui,sans-serif;color:inherit;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(127,127,127,.35)}</style>
+<title>Tiếng Anh 5 phút</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F6F2; --surface:#FFFFFF; --ink:#16302A; --muted:#55706A; --line:#D6E0DA;
+  --board:#1F5C45; --board-ink:#F4F8F2; --chalk:#E8B931; --chalk-ink:#2A2206; --soft:#E7F0EA;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --bg:#0E1D18; --surface:#16291F; --ink:#E6EFE9; --muted:#9DB5AB; --line:#2A4238;
+    --board:#1B4A38; --board-ink:#EEF5EF; --chalk:#F0C849; --chalk-ink:#241C02; --soft:#1C3329;
+  }
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;padding-inline:16px;padding-block:0 40px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{background:var(--board);color:var(--board-ink);border-radius:0 0 20px 20px;margin-inline:-16px;padding:26px 20px 22px;display:flex;flex-direction:column;gap:6px}
+@media (min-width:600px){header{margin-inline:0}}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+h1{font:800 34px/1.05 "Baloo 2",system-ui,sans-serif;margin:0;text-wrap:balance}
+h1 span{color:var(--chalk)}
+header p{margin:0;font-size:14px;opacity:.9}
+.install{display:flex;flex-direction:column;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px}
+.install b{font-size:15px}
+.btn{font:600 15px "Be Vietnam Pro",sans-serif;border:0;background:var(--chalk);color:var(--chalk-ink);padding:11px 16px;border-radius:12px;cursor:pointer;align-self:flex-start;min-height:44px}
+.prog{display:flex;flex-direction:column;gap:10px}
+.prog-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+h2{font:600 24px/1.2 "Baloo 2",sans-serif;margin:0}
+.time{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lesson{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:inherit;text-decoration:none;min-height:64px}
+.lesson:hover{border-color:var(--board)}
+.lesson:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.badge{flex:none;width:44px;height:44px;border-radius:12px;background:var(--board);color:var(--board-ink);display:grid;place-items:center;font:800 15px "Baloo 2",sans-serif}
+.lesson .t{font-weight:600;display:block}
+.lesson .d{font-size:13px;color:var(--muted)}
+.lesson .go{margin-left:auto;color:var(--muted);font-size:20px}
+.soon{font-size:14px;color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:12px 16px;margin:0}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2}
+.grades button{font:600 15px "Be Vietnam Pro",sans-serif;border:0;background:none;color:var(--muted);padding:10px 4px;border-radius:10px;cursor:pointer;min-height:44px}
+.grades button[aria-pressed="true"]{background:var(--board);color:var(--board-ink)}
+.grades button:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.term{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:6px 0 -2px}
+.wk{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.wk.rv{background:var(--soft)}
+.wk .wn{font:800 15px/1.1 "Baloo 2",sans-serif;color:var(--board);font-variant-numeric:tabular-nums;text-align:center;padding-top:2px}
+.wk .wn small{display:block;font:600 11px "Be Vietnam Pro",sans-serif;color:var(--muted);letter-spacing:.04em}
+.wk .t{font-weight:600;display:block;min-width:0}
+.wk .d{font-size:13px;color:var(--muted);display:block}
+.wk .ls{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.wk .ls a{font:600 14px "Be Vietnam Pro",sans-serif;color:var(--chalk-ink);background:var(--chalk);text-decoration:none;padding:8px 12px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
+.wk .ls a:focus-visible{outline:3px solid var(--board);outline-offset:2px}
+.wk .wait{font-size:13px;color:var(--muted);margin-top:6px;display:block}
+@media (prefers-color-scheme: dark){.wk .wn{color:var(--chalk)}}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.daily{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:center;background:var(--surface);border:2px solid var(--chalk);border-radius:16px;padding:14px 16px;color:inherit;text-decoration:none}
+.daily .fl{font-size:36px;line-height:1;grid-row:span 2}
+.daily b{font:800 20px/1.2 "Baloo 2",sans-serif}
+.daily span{font-size:14px;color:var(--muted)}
+.dtools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.dtools a{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center;text-decoration:none;color:inherit;font-size:12.5px;font-weight:600;display:flex;flex-direction:column;gap:2px;align-items:center}
+.dtools a i{font-style:normal;font-size:24px;line-height:1.1}
+.daily:focus-visible,.dtools a:focus-visible{outline:3px solid var(--board);outline-offset:2px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Trường PTDTNT THCS và THPT Vĩnh Thạnh · Gia Lai</span>
+    <h1>Tiếng Anh <span>5 phút</span></h1>
+    <p>Mỗi ngày 5 phút: học từ, nghe và trò chuyện bằng tiếng Anh. Năm học 2026-2027.</p>
+  </header>
+
+  <div class="install" id="install" hidden>
+    <b>Cài app lên điện thoại</b>
+    <span id="installText">Bấm nút dưới đây để thêm app vào màn hình chính.</span>
+    <button class="btn" id="installBtn" hidden>Cài app</button>
+  </div>
+
+  <a class="daily" href="hoc-moi-ngay.html"><span class="fl">🔥</span><b id="dailyT">Học mỗi ngày 5 phút</b><span id="dailyD">Ôn từ, đọc to, đố nhanh cùng Tân</span></a>
+  <nav class="dtools" aria-label="Học thêm">
+    <a href="hoc-moi-ngay.html#so-tu"><i>📒</i>Sổ từ</a><a href="hoc-moi-ngay.html#truyen"><i>📖</i>Truyện</a>
+    <a href="hoc-moi-ngay.html#chu-cai"><i>🔤</i>Chữ cái</a><a href="hoc-moi-ngay.html#nghe"><i>🎧</i>Nghe thi</a>
+    <a href="hoc-moi-ngay.html#doc-to"><i>🎤</i>Đọc to</a><a href="hoc-moi-ngay.html#lop-hoc"><i>🏫</i>Đố cả lớp</a>
+    <a href="hoc-moi-ngay.html#thi-dua"><i>🏅</i>Thi đua</a><a href="hoc-moi-ngay.html#gop-y"><i>💬</i>Góp ý</a>
+  </nav>
+
+  <section class="prog">
+    <div class="prog-head"><h2>Global Success</h2><span class="time">Buổi tối 19:30 – 21:00</span></div>
+    <p class="hint" style="margin:0;font-size:14px;color:var(--muted)">Kế hoạch 35 tuần. Chọn lớp của em.</p>
+    <div class="grades" role="group" aria-label="Chọn lớp">
+      <button data-g="6" aria-pressed="true">Lớp 6</button><button data-g="7" aria-pressed="false">Lớp 7</button><button data-g="8" aria-pressed="false">Lớp 8</button><button data-g="9" aria-pressed="false">Lớp 9</button>
+    </div>
+    <div id="plan" class="prog"></div>
+  </section>
+
+  <section class="prog">
+    <div class="prog-head"><h2>Friends Plus</h2><span class="time">Buổi trưa 11:30 – 12:00</span></div>
+    <p class="soon">Bài học đang được soạn. Mỗi bài khoảng 30 phút, vừa với giờ học buổi trưa.</p>
+  </section>
+
+  <footer><a href="hoc-moi-ngay.html#gop-y" style="color:inherit;font-weight:600">💬 Góp ý cho app</a> · Nội dung soạn theo chủ đề sách giáo khoa, không chép nguyên văn sách. Học được cả khi mất mạng sau lần mở đầu tiên.</footer>
+</div>
+
+<script>
+const PLAN={"6": [{"w": "1–3", "t": "Unit 1 · My New School", "d": "Trường mới của em", "links": [["bai-1-truong-moi.html", "Bài học"], ["lop-6-unit-1-doi-thoai.html", "Nói với Tân"]]}, {"w": "4–5", "t": "Unit 2 · My House", "d": "Ngôi nhà của em", "links": [["lop-6-unit-2-my-house.html", "Bài học"], ["lop-6-unit-2-doi-thoai.html", "Nói với Tân"]]}, {"w": "6–8", "t": "Unit 3 · My Friends", "d": "Bạn bè của em", "links": [["lop-6-unit-3-my-friends.html", "Bài học"], ["lop-6-unit-3-doi-thoai.html", "Nói với Tân"]]}, {"w": "9", "t": "Ôn tập 1", "d": "Ôn Unit 1, 2, 3", "links": [["lop-6-on-tap-1.html", "Ôn tập"]], "review": true}, {"w": "10–11", "t": "Unit 4 · My Neighbourhood", "d": "Khu phố của em", "links": [["lop-6-unit-4-my-neighbourhood.html", "Bài học"], ["lop-6-unit-4-doi-thoai.html", "Nói với Tân"]]}, {"w": "12–14", "t": "Unit 5 · Natural Wonders of Viet Nam", "d": "Kỳ quan thiên nhiên Việt Nam", "links": [["lop-6-unit-5-natural-wonders-of-viet-nam.html", "Bài học"], ["lop-6-unit-5-doi-thoai.html", "Nói với Tân"]]}, {"w": "15–16", "t": "Unit 6 · Our Tet Holiday", "d": "Tết của chúng em", "links": [["lop-6-unit-6-our-tet-holiday.html", "Bài học"], ["lop-6-unit-6-doi-thoai.html", "Nói với Tân"]]}, {"w": "17", "t": "Ôn tập 2", "d": "Ôn Unit 4, 5, 6", "links": [["lop-6-on-tap-2.html", "Ôn tập"]], "review": true}, {"w": "18", "t": "Kiểm tra cuối học kỳ 1", "d": "Làm lại các bài ôn tập", "links": [["lop-6-on-tap-1.html", "Ôn tập 1"], ["lop-6-on-tap-2.html", "Ôn tập 2"]], "review": true}, {"w": "19–20", "t": "Unit 7 · Television", "d": "Truyền hình", "links": [["lop-6-unit-7-television.html", "Bài học"], ["lop-6-unit-7-doi-thoai.html", "Nói với Tân"]]}, {"w": "21–22", "t": "Unit 8 · Sports and Games", "d": "Thể thao và trò chơi", "links": [["lop-6-unit-8-sports-and-games.html", "Bài học"], ["lop-6-unit-8-doi-thoai.html", "Nói với Tân"]]}, {"w": "23–25", "t": "Unit 9 · Cities of the World", "d": "Các thành phố trên thế giới", "links": [["lop-6-unit-9-cities-of-the-world.html", "Bài học"], ["lop-6-unit-9-doi-thoai.html", "Nói với Tân"]]}, {"w": "26", "t": "Ôn tập 3", "d": "Ôn Unit 7, 8, 9", "links": [["lop-6-on-tap-3.html", "Ôn tập"]], "review": true}, {"w": "27–28", "t": "Unit 10 · Our Houses in the Future", "d": "Ngôi nhà tương lai", "links": [["lop-6-unit-10-our-houses-in-the-future.html", "Bài học"], ["lop-6-unit-10-doi-thoai.html", "Nói với Tân"]]}, {"w": "29–30", "t": "Unit 11 · Our Greener World", "d": "Thế giới xanh hơn", "links": [["lop-6-unit-11-our-greener-world.html", "Bài học"], ["lop-6-unit-11-doi-thoai.html", "Nói với Tân"]]}, {"w": "31–33", "t": "Unit 12 · Robots", "d": "Người máy", "links": [["lop-6-unit-12-robots.html", "Bài học"], ["lop-6-unit-12-doi-thoai.html", "Nói với Tân"]]}, {"w": "34", "t": "Ôn tập 4", "d": "Ôn Unit 10, 11, 12", "links": [["lop-6-on-tap-4.html", "Ôn tập"]], "review": true}, {"w": "35", "t": "Kiểm tra cuối năm", "d": "Làm lại các bài ôn tập", "links": [["lop-6-on-tap-1.html", "Ôn tập 1"], ["lop-6-on-tap-2.html", "Ôn tập 2"], ["lop-6-on-tap-3.html", "Ôn tập 3"], ["lop-6-on-tap-4.html", "Ôn tập 4"]], "review": true}], "7": [{"w": "1–3", "t": "Unit 1 · Hobbies", "d": "Sở thích", "links": [["lop-7-unit-1-hobbies.html", "Bài học"], ["lop-7-doi-thoai-tan.html", "Nói với Tân"]]}, {"w": "4–5", "t": "Unit 2 · Healthy Living", "d": "Sống khỏe", "links": [["lop-7-unit-2-healthy-living.html", "Bài học"], ["lop-7-unit-2-doi-thoai.html", "Nói với Tân"]]}, {"w": "6–8", "t": "Unit 3 · Community Service", "d": "Phục vụ cộng đồng", "links": [["lop-7-unit-3-community-service.html", "Bài học"], ["lop-7-unit-3-doi-thoai.html", "Nói với Tân"]]}, {"w": "9", "t": "Ôn tập 1", "d": "Ôn Unit 1, 2, 3", "links": [["lop-7-on-tap-1.html", "Ôn tập"]], "review": true}, {"w": "10–11", "t": "Unit 4 · Music and Arts", "d": "Âm nhạc và nghệ thuật", "links": [["lop-7-unit-4-music-and-arts.html", "Bài học"], ["lop-7-unit-4-doi-thoai.html", "Nói với Tân"]]}, {"w": "12–14", "t": "Unit 5 · Food and Drink", "d": "Đồ ăn và thức uống", "links": [["lop-7-unit-5-food-and-drink.html", "Bài học"], ["lop-7-unit-5-doi-thoai.html", "Nói với Tân"]]}, {"w": "15–16", "t": "Unit 6 · A Visit to a School", "d": "Thăm một ngôi trường", "links": [["lop-7-unit-6-a-visit-to-a-school.html", "Bài học"], ["lop-7-unit-6-doi-thoai.html", "Nói với Tân"]]}, {"w": "17", "t": "Ôn tập 2", "d": "Ôn Unit 4, 5, 6", "links": [["lop-7-on-tap-2.html", "Ôn tập"]], "review": true}, {"w": "18", "t": "Kiểm tra cuối học kỳ 1", "d": "Làm lại các bài ôn tập", "links": [["lop-7-on-tap-1.html", "Ôn tập 1"], ["lop-7-on-tap-2.html", "Ôn tập 2"]], "review": true}, {"w": "19–20", "t": "Unit 7 · Traffic", "d": "Giao thông", "links": [["lop-7-unit-7-traffic.html", "Bài học"], ["lop-7-unit-7-doi-thoai.html", "Nói với Tân"]]}, {"w": "21–22", "t": "Unit 8 · Films", "d": "Phim ảnh", "links": [["lop-7-unit-8-films.html", "Bài học"], ["lop-7-unit-8-doi-thoai.html", "Nói với Tân"]]}, {"w": "23–25", "t": "Unit 9 · Festivals around the World", "d": "Lễ hội trên thế giới", "links": [["lop-7-unit-9-festivals-around-the-world.html", "Bài học"], ["lop-7-unit-9-doi-thoai.html", "Nói với Tân"]]}, {"w": "26", "t": "Ôn tập 3", "d": "Ôn Unit 7, 8, 9", "links": [["lop-7-on-tap-3.html", "Ôn tập"]], "review": true}, {"w": "27–28", "t": "Unit 10 · Energy Sources", "d": "Các nguồn năng lượng", "links": [["lop-7-unit-10-energy-sources.html", "Bài học"], ["lop-7-unit-10-doi-thoai.html", "Nói với Tân"]]}, {"w": "29–30", "t": "Unit 11 · Travelling in the Future", "d": "Đi lại trong tương lai", "links": [["lop-7-unit-11-travelling-in-the-future.html", "Bài học"], ["lop-7-unit-11-doi-thoai.html", "Nói với Tân"]]}, {"w": "31–33", "t": "Unit 12 · English-speaking Countries", "d": "Các nước nói tiếng Anh", "links": [["lop-7-unit-12-english-speaking-countries.html", "Bài học"], ["lop-7-unit-12-doi-thoai.html", "Nói với Tân"]]}, {"w": "34", "t": "Ôn tập 4", "d": "Ôn Unit 10, 11, 12", "links": [["lop-7-on-tap-4.html", "Ôn tập"]], "review": true}, {"w": "35", "t": "Kiểm tra cuối năm", "d": "Làm lại các bài ôn tập", "links": [["lop-7-on-tap-1.html", "Ôn tập 1"], ["lop-7-on-tap-2.html", "Ôn tập 2"], ["lop-7-on-tap-3.html", "Ôn tập 3"], ["lop-7-on-tap-4.html", "Ôn tập 4"]], "review": true}], "8": [{"w": "1–3", "t": "Unit 1 · Leisure Time", "d": "Thời gian rảnh rỗi", "links": [["lop-8-unit-1-leisure-time.html", "Bài học"], ["lop-8-doi-thoai-tan.html", "Nói với Tân"]]}, {"w": "4–5", "t": "Unit 2 · Life in the Countryside", "d": "Cuộc sống ở nông thôn", "links": [["lop-8-unit-2-life-in-the-countryside.html", "Bài học"], ["lop-8-unit-2-doi-thoai.html", "Nói với Tân"]]}, {"w": "6–8", "t": "Unit 3 · Teenagers", "d": "Tuổi thiếu niên", "links": [["lop-8-unit-3-teenagers.html", "Bài học"], ["lop-8-unit-3-doi-thoai.html", "Nói với Tân"]]}, {"w": "9", "t": "Ôn tập 1", "d": "Ôn Unit 1, 2, 3", "links": [["lop-8-on-tap-1.html", "Ôn tập"]], "review": true}, {"w": "10–11", "t": "Unit 4 · Ethnic Groups of Viet Nam", "d": "Các dân tộc Việt Nam", "links": [["lop-8-unit-4-ethnic-groups-of-viet-nam.html", "Bài học"], ["lop-8-unit-4-doi-thoai.html", "Nói với Tân"]]}, {"w": "12–14", "t": "Unit 5 · Our Customs and Traditions", "d": "Phong tục và truyền thống", "links": [["lop-8-unit-5-our-customs-and-traditions.html", "Bài học"], ["lop-8-unit-5-doi-thoai.html", "Nói với Tân"]]}, {"w": "15–16", "t": "Unit 6 · Lifestyles", "d": "Lối sống", "links": [["lop-8-unit-6-lifestyles.html", "Bài học"], ["lop-8-unit-6-doi-thoai.html", "Nói với Tân"]]}, {"w": "17", "t": "Ôn tập 2", "d": "Ôn Unit 4, 5, 6", "links": [["lop-8-on-tap-2.html", "Ôn tập"]], "review": true}, {"w": "18", "t": "Kiểm tra cuối học kỳ 1", "d": "Làm lại các bài ôn tập", "links": [["lop-8-on-tap-1.html", "Ôn tập 1"], ["lop-8-on-tap-2.html", "Ôn tập 2"]], "review": true}, {"w": "19–20", "t": "Unit 7 · Environmental Protection", "d": "Bảo vệ môi trường", "links": [["lop-8-unit-7-environmental-protection.html", "Bài học"], ["lop-8-unit-7-doi-thoai.html", "Nói với Tân"]]}, {"w": "21–22", "t": "Unit 8 · Shopping", "d": "Mua sắm", "links": [["lop-8-unit-8-shopping.html", "Bài học"], ["lop-8-unit-8-doi-thoai.html", "Nói với Tân"]]}, {"w": "23–25", "t": "Unit 9 · Natural Disasters", "d": "Thiên tai", "links": [["lop-8-unit-9-natural-disasters.html", "Bài học"], ["lop-8-unit-9-doi-thoai.html", "Nói với Tân"]]}, {"w": "26", "t": "Ôn tập 3", "d": "Ôn Unit 7, 8, 9", "links": [["lop-8-on-tap-3.html", "Ôn tập"]], "review": true}, {"w": "27–28", "t": "Unit 10 · Communication in the Future", "d": "Giao tiếp trong tương lai", "links": [["lop-8-unit-10-communication-in-the-future.html", "Bài học"], ["lop-8-unit-10-doi-thoai.html", "Nói với Tân"]]}, {"w": "29–30", "t": "Unit 11 · Science and Technology", "d": "Khoa học và công nghệ", "links": [["lop-8-unit-11-science-and-technology.html", "Bài học"], ["lop-8-unit-11-doi-thoai.html", "Nói với Tân"]]}, {"w": "31–33", "t": "Unit 12 · Life on Other Planets", "d": "Sự sống trên hành tinh khác", "links": [["lop-8-unit-12-life-on-other-planets.html", "Bài học"], ["lop-8-unit-12-doi-thoai.html", "Nói với Tân"]]}, {"w": "34", "t": "Ôn tập 4", "d": "Ôn Unit 10, 11, 12", "links": [["lop-8-on-tap-4.html", "Ôn tập"]], "review": true}, {"w": "35", "t": "Kiểm tra cuối năm", "d": "Làm lại các bài ôn tập", "links": [["lop-8-on-tap-1.html", "Ôn tập 1"], ["lop-8-on-tap-2.html", "Ôn tập 2"], ["lop-8-on-tap-3.html", "Ôn tập 3"], ["lop-8-on-tap-4.html", "Ôn tập 4"]], "review": true}], "9": [{"w": "1–3", "t": "Unit 1 · Local Community", "d": "Cộng đồng địa phương", "links": [["lop-9-unit-1-local-community.html", "Bài học"], ["lop-9-doi-thoai-tan.html", "Nói với Tân"]]}, {"w": "4–5", "t": "Unit 2 · City Life", "d": "Cuộc sống thành phố", "links": [["lop-9-unit-2-city-life.html", "Bài học"], ["lop-9-unit-2-doi-thoai.html", "Nói với Tân"]]}, {"w": "6–8", "t": "Unit 3 · Healthy Living for Teens", "d": "Sống khỏe cho tuổi teen", "links": [["lop-9-unit-3-healthy-living-for-teens.html", "Bài học"], ["lop-9-unit-3-doi-thoai.html", "Nói với Tân"]]}, {"w": "9", "t": "Ôn tập 1", "d": "Ôn Unit 1, 2, 3", "links": [["lop-9-on-tap-1.html", "Ôn tập"]], "review": true}, {"w": "10–11", "t": "Unit 4 · Remembering the Past", "d": "Nhớ về quá khứ", "links": [["lop-9-unit-4-remembering-the-past.html", "Bài học"], ["lop-9-unit-4-doi-thoai.html", "Nói với Tân"]]}, {"w": "12–14", "t": "Unit 5 · Our Experiences", "d": "Trải nghiệm của chúng ta", "links": [["lop-9-unit-5-our-experiences.html", "Bài học"], ["lop-9-unit-5-doi-thoai.html", "Nói với Tân"]]}, {"w": "15–16", "t": "Unit 6 · Vietnamese Lifestyle: Then and Now", "d": "Lối sống Việt Nam xưa và nay", "links": [["lop-9-unit-6-vietnamese-lifestyle-then-and-now.html", "Bài học"], ["lop-9-unit-6-doi-thoai.html", "Nói với Tân"]]}, {"w": "17", "t": "Ôn tập 2", "d": "Ôn Unit 4, 5, 6", "links": [["lop-9-on-tap-2.html", "Ôn tập"]], "review": true}, {"w": "18", "t": "Kiểm tra cuối học kỳ 1", "d": "Làm lại các bài ôn tập", "links": [["lop-9-on-tap-1.html", "Ôn tập 1"], ["lop-9-on-tap-2.html", "Ôn tập 2"]], "review": true}, {"w": "19–20", "t": "Unit 7 · Natural Wonders of the World", "d": "Kỳ quan thiên nhiên thế giới", "links": [["lop-9-unit-7-natural-wonders-of-the-world.html", "Bài học"], ["lop-9-unit-7-doi-thoai.html", "Nói với Tân"]]}, {"w": "21–22", "t": "Unit 8 · Tourism", "d": "Du lịch", "links": [["lop-9-unit-8-tourism.html", "Bài học"], ["lop-9-unit-8-doi-thoai.html", "Nói với Tân"]]}, {"w": "23–25", "t": "Unit 9 · World Englishes", "d": "Tiếng Anh trên thế giới", "links": [["lop-9-unit-9-world-englishes.html", "Bài học"], ["lop-9-unit-9-doi-thoai.html", "Nói với Tân"]]}, {"w": "26", "t": "Ôn tập 3", "d": "Ôn Unit 7, 8, 9", "links": [["lop-9-on-tap-3.html", "Ôn tập"]], "review": true}, {"w": "27–28", "t": "Unit 10 · Planet Earth", "d": "Trái Đất", "links": [["lop-9-unit-10-planet-earth.html", "Bài học"], ["lop-9-unit-10-doi-thoai.html", "Nói với Tân"]]}, {"w": "29–30", "t": "Unit 11 · Electronic Devices", "d": "Thiết bị điện tử", "links": [["lop-9-unit-11-electronic-devices.html", "Bài học"], ["lop-9-unit-11-doi-thoai.html", "Nói với Tân"]]}, {"w": "31–33", "t": "Unit 12 · Career Choices", "d": "Chọn nghề nghiệp", "links": [["lop-9-unit-12-career-choices.html", "Bài học"], ["lop-9-unit-12-doi-thoai.html", "Nói với Tân"]]}, {"w": "34", "t": "Ôn tập 4", "d": "Ôn Unit 10, 11, 12", "links": [["lop-9-on-tap-4.html", "Ôn tập"]], "review": true}, {"w": "35", "t": "Kiểm tra cuối năm", "d": "Làm lại các bài ôn tập", "links": [["lop-9-on-tap-1.html", "Ôn tập 1"], ["lop-9-on-tap-2.html", "Ôn tập 2"], ["lop-9-on-tap-3.html", "Ôn tập 3"], ["lop-9-on-tap-4.html", "Ôn tập 4"]], "review": true}]};
+const escH=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function showGrade(g){
+  try{localStorage.setItem("grade",g)}catch(e){}
+  document.querySelectorAll(".grades button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.g===String(g)));
+  const rows=PLAN[g]||[];
+  document.getElementById("plan").innerHTML=rows.map((r,i)=>(i===0?'<p class="term">Học kỳ 1</p>':r.w==="19–20"?'<p class="term">Học kỳ 2</p>':"")+
+    `<div class="wk${r.review?" rv":""}"><span class="wn"><small>Tuần</small>${escH(r.w)}</span><span style="min-width:0"><span class="t">${escH(r.t)}</span><span class="d">${escH(r.d)}</span>`+
+    (r.links.length?`<span class="ls">${r.links.map(l=>`<a href="${escH(l[0])}">${escH(l[1])}</a>`).join("")}</span>`:'<span class="wait">Bài đang được soạn</span>')+`</span></div>`).join("");
+}
+document.querySelectorAll(".grades button").forEach(b=>b.onclick=()=>showGrade(b.dataset.g));
+let g0="6";try{g0=localStorage.getItem("grade")||"6"}catch(e){}
+showGrade(g0);
+</script>
+<script>
+let deferred=null;
+const box=document.getElementById("install"),btn=document.getElementById("installBtn"),txt=document.getElementById("installText");
+const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+if(!standalone){
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+    box.hidden=false;
+    txt.textContent='Trên iPhone: mở trang này bằng Safari, bấm nút Chia sẻ (hình vuông có mũi tên), rồi chọn "Thêm vào MH chính".';
+  }
+  addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;box.hidden=false;btn.hidden=false;});
+}
+btn.onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;box.hidden=true;};
+</script>
+
+<script>
+try{
+  const s=JSON.parse(localStorage.getItem("hmn-v1")||"null");
+  if(s){
+    const d=new Date(),t=Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/86400000);
+    const L=s.log&&s.log[t], done=L?L.t.filter(Boolean).length:0, st=s.streak||{};
+    const n=(st.last>=t-1||(st.last===t-2))?st.count:0;
+    document.getElementById("dailyT").textContent=n?`${n} ngày học liên tiếp`:"Học mỗi ngày 5 phút";
+    document.getElementById("dailyD").textContent=done===3?"Hôm nay em đã xong cả 3 việc. Giỏi lắm!":`Việc hôm nay: xong ${done}/3`;
+  }
+}catch(e){}
+</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}</script>
+<script src="tra-tu.js" defer></script>
+</body>
+</html>
