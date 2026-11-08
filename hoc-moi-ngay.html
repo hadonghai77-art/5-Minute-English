@@ -273,13 +273,13 @@ function logOf(d){ return S.log[d] || (S.log[d] = {r:0,s:0,q:0,t:[0,0,0]}); }
 
 /* ================= Dữ liệu bài học ================= */
 const gNum = ()=> parseInt(S.grade,10);
-const srcGrade = ()=> String(Math.min(9, Math.max(6, gNum())));
+const srcGrade = ()=> String(Math.min(12, Math.max(6, gNum())));
 function unitStartWeek(u){ return parseInt(String(u.week).split(/[–-]/)[0],10); }
 function learnedUnits(){
-  // Lớp 6-9: các bài đã tới tuần học + bài em tự thêm. Lớp 10-12: ôn lại từ vựng lớp 9 và bài tự thêm.
+  // Các bài đã tới tuần học + bài em tự thêm.
   const out = [];
   const g = srcGrade(), wk = schoolWeek();
-  for(const u of BAI[g]) if(gNum() > 9 || unitStartWeek(u) <= wk) out.push([g, u.u]);
+  for(const u of BAI[g]) if(unitStartWeek(u) <= wk) out.push([g, u.u]);
   for(const k in S.extra){ const [eg, eu] = k.split("-"); if(!out.some(x=>x[0]===eg && x[1]==+eu)) out.push([eg, +eu]); }
   return out;
 }
@@ -492,7 +492,7 @@ function gradeSelect(id){
 }
 function setGrade(g){
   S.grade = String(g); save();
-  if(+g <= 9){ try{ localStorage.setItem("grade", String(g)); }catch(e){} }
+  try{ localStorage.setItem("grade", String(g)); }catch(e){}
 }
 function header(title, sub){
   return `<div class="top"><a class="home-link" href="index.html">← Trang chủ</a>${gradeSelect("gsel")}</div>
@@ -576,7 +576,7 @@ VIEWS["hom-nay"] = ()=>{
   const daysHtml = VN_DAYS.map((d,i)=>{ const dn = mon+i, on = S.log[dn] && S.log[dn].t.every(Boolean);
     return `<span class="${on?"on":""}${dn===TODAY?" today":""}" title="${d}">${d}</span>`; }).join("");
   const wk = schoolWeek();
-  const g = srcGrade(); const curU = gNum()<=9 ? BAI[g].filter(u=>unitStartWeek(u)<=wk).slice(-1)[0] : null;
+  const g = srcGrade(); const curU = BAI[g].filter(u=>unitStartWeek(u)<=wk).slice(-1)[0];
   app.innerHTML = `
     <div class="top"><a class="home-link" href="index.html">← Trang chủ</a>${gradeSelect("gsel")}</div>
     <section class="hero">
@@ -626,7 +626,7 @@ function weekFiles(curU){
 function allFiles(){
   const f = CORE.slice();
   for(const g in BAI) for(const u of BAI[g]) u.links.forEach(l=>f.push(l[0]));
-  for(const g of ["6","7","8","9"]) for(let k=1;k<=4;k++) f.push(`lop-${g}-on-tap-${k}.html`);
+  for(const g in BAI) for(let k=1;k<=4;k++) f.push(`lop-${g}-on-tap-${k}.html`);
   return [...new Set(f)];
 }
 async function countCached(files){
@@ -673,7 +673,7 @@ VIEWS["so-tu"] = ()=>{
       ${[1,2,3,4,5,6].map(b=>`<div><div style="height:60px;display:flex;align-items:flex-end;justify-content:center"><i style="display:block;width:70%;background:var(--board);border-radius:6px 6px 0 0;height:${total?Math.max(4,Math.round(56*boxes[b]/Math.max(1,...boxes.slice(1)))):4}px"></i></div><b>${boxes[b]}</b><br><span class="muted">Hộp ${b}</span></div>`).join("")}</div>
       <p class="small muted" style="margin-top:8px">Hộp 1: ôn ngày mai · Hộp 2: sau 3 ngày · Hộp 3: sau 7 ngày · Hộp 4: 14 ngày · Hộp 5: 30 ngày · Hộp 6: 60 ngày.</p></section>
     <section class="card"><h3>Thêm bài vào sổ</h3><p class="small muted" style="margin:4px 0 10px">Từ của các bài đã học được tự thêm theo tuần. Em có thể thêm bài khác để ôn sớm hoặc ôn lại lớp dưới.</p>
-      <div class="row"><select id="addg">${["6","7","8","9"].map(g=>`<option${g===srcGrade()?" selected":""}>${g}</option>`).join("")}</select>
+      <div class="row"><select id="addg">${Object.keys(BAI).map(g=>`<option${g===srcGrade()?" selected":""}>${g}</option>`).join("")}</select>
       <select id="addu" style="flex:1;min-width:0"></select><button class="btn ghost" id="addb">Thêm</button></div>
       <p class="small" id="addmsg" style="margin-top:8px"></p></section>`;
   bindGrade();
@@ -1042,7 +1042,7 @@ VIEWS["lop-hoc"] = ()=>{
   const g = srcGrade();
   app.innerHTML = header("Đố vui cả lớp", "Dành cho thầy cô: chiếu điện thoại lên tivi. Học sinh giơ thẻ giấy, không cần điện thoại.") + `
     <div class="card" style="display:flex;flex-direction:column;gap:12px">
-      <label class="small" for="cg">Lớp</label><select id="cg">${["6","7","8","9"].map(x=>`<option${x===g?" selected":""}>${x}</option>`).join("")}</select>
+      <label class="small" for="cg">Lớp</label><select id="cg">${Object.keys(BAI).map(x=>`<option${x===g?" selected":""}>${x}</option>`).join("")}</select>
       <label class="small" for="cu">Bài</label><select id="cu"></select>
       <div class="grid2"><div><label class="small" for="cn">Số câu</label><select id="cn" style="width:100%"><option>5</option><option selected>10</option><option>15</option></select></div>
         <div><label class="small" for="ct">Thời gian mỗi câu</label><select id="ct" style="width:100%"><option value="15">15 giây</option><option value="20" selected>20 giây</option><option value="30">30 giây</option><option value="0">Không đếm giờ</option></select></div></div>
@@ -1327,7 +1327,7 @@ function ntEnd(){
 /* ================= Kiểm tra trình độ 5 phút ================= */
 let pt = null;
 VIEWS["kiem-tra"] = ()=>{
-  const plan = [["6",4],["7",4],["8",4],["9",3]], list = [];
+  const plan = [["6",3],["7",2],["8",2],["9",2],["10",2],["11",2],["12",2]], list = [];
   for(const [g,n] of plan){
     shuffle(BAI[g]).slice(0,n).forEach((U,k)=>{
       if(k % 2 === 1 && U.practice.length){ const p = pick(U.practice); list.push({g, q:p[0], o:shuffle(p[2]), a:p[1], u:U.u, src:`Lớp ${g}`}); }
@@ -1336,8 +1336,8 @@ VIEWS["kiem-tra"] = ()=>{
         list.push({g, q:`“${w[2]}” trong tiếng Anh là gì?`, o:shuffle([w[0], ...others]), a:w[0], key:`${g}-${U.u}-${i}`, u:U.u, src:`Lớp ${g}`}); }
     });
   }
-  pt = {list, i:0, by:{6:[0,0],7:[0,0],8:[0,0],9:[0,0]}, miss:[]};
-  app.innerHTML = header("Kiểm tra 5 phút", "15 câu, từ dễ (lớp 6) đến khó (lớp 9). Không tính điểm, chỉ để Tân biết em đang ở đâu.") + `
+  pt = {list, i:0, by:{6:[0,0],7:[0,0],8:[0,0],9:[0,0],10:[0,0],11:[0,0],12:[0,0]}, miss:[]};
+  app.innerHTML = header("Kiểm tra 5 phút", "15 câu, từ dễ (lớp 6) đến khó (lớp 12). Không tính điểm, chỉ để Tân biết em đang ở đâu.") + `
     <div class="card" id="ptbox" style="display:flex;flex-direction:column;gap:14px">
       ${tanBox("Câu nào em chưa biết thì bấm “Em chưa biết”, đừng đoán nhé. Như vậy Tân gợi ý bài đúng hơn.", "Let's start!")}
       ${S.placed ? `<p class="small muted">Lần trước em làm ngày ${esc(dayLabel(S.placed.d))}: đúng ${S.placed.total}/${S.placed.n} câu.</p>` : ""}
@@ -1365,9 +1365,9 @@ function ptDraw(){
 }
 function ptEnd(){
   let L = 5, total = 0, n = 0;
-  for(const g of ["6","7","8","9"]){ const [c, m] = pt.by[g]; total += c; n += m; }
-  for(const g of [6,7,8,9]){ const [c, m] = pt.by[g]; if(m && c/m >= 0.5) L = g; else break; }
-  const cur = Math.min(9, gNum());
+  for(const g of ["6","7","8","9","10","11","12"]){ const [c, m] = pt.by[g]; total += c; n += m; }
+  for(const g of [6,7,8,9,10,11,12]){ const [c, m] = pt.by[g]; if(m && c/m >= 0.5) L = g; else break; }
+  const cur = Math.min(12, gNum());
   // từ sai được đưa vào Sổ từ để ôn ngay hôm nay; câu ngữ pháp sai ở lớp dưới thì thêm cả bài đó để ôn dần
   let seeded = 0, units = 0;
   for(const q of pt.miss){
@@ -1380,7 +1380,7 @@ function ptEnd(){
   else if(L < cur){ msg = `Em nắm khá chắc đến ${L >= 6 ? "lớp " + L : "các từ cơ bản"}. Phần lớp ${Math.max(6, L+1)} còn khó với em, Tân đã đưa các từ và bài em làm sai vào Sổ từ để em ôn dần.`; go = `<a class="btn green" href="#so-tu">📒 Ôn trong Sổ từ</a>`; }
   else { msg = `Em nắm tốt chương trình đến lớp ${L}. Em cứ học theo bài của tuần, và thử Truyện tranh, Nhập vai để nói nhiều hơn nhé.`; go = `<a class="btn green" href="#hom-nay">Về việc hôm nay</a>`; }
   $("ptbox").innerHTML = `<div class="flash" style="min-height:0"><div style="font-size:48px">🧭</div><h2>Em đúng ${total}/${n} câu</h2></div>
-    ${["6","7","8","9"].map(g=>{ const [c,m] = pt.by[g]; return `<div class="ptbar"><span>Lớp ${g}</span><span><i style="width:${m ? Math.round(100*c/m) : 0}%"></i></span><b>${c}/${m}</b></div>`; }).join("")}
+    ${["6","7","8","9","10","11","12"].map(g=>{ const [c,m] = pt.by[g]; return `<div class="ptbar"><span>Lớp ${g}</span><span><i style="width:${m ? Math.round(100*c/m) : 0}%"></i></span><b>${c}/${m}</b></div>`; }).join("")}
     ${tanBox(msg, "")}
     ${seeded || units ? `<p class="small muted">Đã thêm ${seeded} từ vào Sổ từ để ôn hôm nay${units ? ` và ${units} bài lớp dưới để ôn dần` : ""}.</p>` : ""}
     <div class="row" style="justify-content:center">${go}<button class="btn ghost" id="ptagain">Làm lại</button></div>`;
