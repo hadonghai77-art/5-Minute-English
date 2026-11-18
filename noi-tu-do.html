@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F5C45">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Nói tự do với Tân</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+/* Một cột vừa điện thoại. Trên cùng: chọn lớp và bài. Lớp 10-12: thẻ "Nói tự do với AI" (Gemini/ChatGPT).
+   Mọi lớp: Tân hỏi câu mở, em nói hoặc gõ, Tân tự chấm ngay trong máy và sửa bằng tiếng Việt kèm câu đúng tiếng Anh. */
+:root{
+  --bg:#F3F6F2; --surface:#FFFFFF; --ink:#16302A; --muted:#55706A; --line:#D6E0DA;
+  --board:#1F5C45; --board-ink:#F4F8F2; --chalk:#E8B931; --chalk-ink:#2A2206; --soft:#E7F0EA;
+  --ok:#2A8553; --ok-soft:#DDF1E5; --warn:#9A6A00; --warn-soft:#FCEFC9; --bad:#B9443A; --bad-soft:#F8E1DE;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0E1D18; --surface:#16291F; --ink:#E6EFE9; --muted:#9DB5AB; --line:#2A4238;
+  --board:#1B4A38; --board-ink:#EEF5EF; --chalk:#F0C849; --chalk-ink:#241C02; --soft:#1C3329;
+  --ok:#5DC48A; --ok-soft:#183427; --warn:#F2C35A; --warn-soft:#3A3220; --bad:#EE7D70; --bad-soft:#3A1E1B; }}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#0E1D18; --surface:#16291F; --ink:#E6EFE9; --muted:#9DB5AB; --line:#2A4238;
+  --board:#1B4A38; --board-ink:#EEF5EF; --chalk:#F0C849; --chalk-ink:#241C02; --soft:#1C3329;
+  --ok:#5DC48A; --ok-soft:#183427; --warn:#F2C35A; --warn-soft:#3A3220; --bad:#EE7D70; --bad-soft:#3A1E1B; }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;padding:0 16px 48px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.homebar{display:flex;gap:8px;padding-top:10px}
+.homebar a{font:600 14px "Be Vietnam Pro",system-ui,sans-serif;color:inherit;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+header{background:var(--board);color:var(--board-ink);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:4px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+h1{font:800 30px/1.1 "Baloo 2",system-ui,sans-serif;margin:0}
+h1 span{color:var(--chalk)}
+header p{margin:0;font-size:14px;opacity:.92}
+h2{font:700 22px/1.2 "Baloo 2",sans-serif;margin:0}
+h3{font:600 17px/1.3 "Be Vietnam Pro",sans-serif;margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.small{font-size:14px}.muted{color:var(--muted)}
+.grades{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--soft);border-radius:12px;padding:4px}
+.grades button{font:600 15px "Be Vietnam Pro",sans-serif;border:0;background:none;color:var(--muted);padding:8px 0;border-radius:9px;cursor:pointer;min-height:42px}
+.grades button[aria-pressed="true"]{background:var(--board);color:var(--board-ink)}
+select{font:500 15px "Be Vietnam Pro",sans-serif;width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-height:46px}
+.btn{font:600 15px "Be Vietnam Pro",sans-serif;border:0;background:var(--chalk);color:var(--chalk-ink);padding:11px 16px;border-radius:12px;cursor:pointer;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;text-align:center}
+.btn.green{background:var(--board);color:var(--board-ink)}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn:focus-visible,.grades button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ai-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ai-pick .btn{flex-direction:column;gap:2px;padding:14px 8px;font-size:16px}
+.ai-pick .btn small{font-weight:500;font-size:12.5px;opacity:.85}
+ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.safe{background:var(--warn-soft);border-radius:12px;padding:12px 14px;font-size:14px}
+.safe b{display:block;margin-bottom:2px}
+details summary{cursor:pointer;font-weight:600;font-size:14px;padding:4px 0}
+.prompt{white-space:pre-wrap;font:13.5px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--soft);border-radius:12px;padding:12px;max-height:260px;overflow:auto;margin:8px 0}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;font-size:14px;max-width:min(92vw,520px);z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+/* trò chuyện */
+.stage{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:start}
+.tan{width:76px;height:76px;border-radius:50%;background:var(--soft);display:grid;place-items:center;overflow:hidden}
+.tan svg{width:76px;height:76px}
+.tan .mo{display:none}.tan.talk .mo{display:inline}.tan.talk .ms{display:none}
+.bubble{background:var(--soft);border-radius:4px 16px 16px 16px;padding:12px 14px;min-height:60px}
+.bubble .q{font-weight:600;font-size:18px;line-height:1.4}
+.bubble .vi{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.prog{font-size:13px;color:var(--muted);font-weight:600}
+textarea{font:16px/1.5 "Be Vietnam Pro",sans-serif;width:100%;min-height:70px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical}
+.mic{width:56px;height:56px;border-radius:50%;border:0;background:var(--board);color:var(--board-ink);font-size:24px;cursor:pointer;flex:none}
+.mic.on{background:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+@media (prefers-reduced-motion: reduce){.mic.on{animation:none}}
+.answer{display:flex;gap:8px;align-items:flex-end}
+.answer textarea{flex:1}
+.fb{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.fb.ok{background:var(--ok-soft)}.fb.fixed,.fb.vi{background:var(--bad-soft)}.fb.short,.fb.off{background:var(--warn-soft)}
+.fb .said{font-size:14px;color:var(--muted)}
+.fb .note{font-size:15px}
+.fb .good{font-size:17px}
+.fb .good b{font-weight:700}
+.switches{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.switches label{display:flex;gap:10px;align-items:center;cursor:pointer}
+.switches input{width:22px;height:22px;accent-color:var(--board)}
+.sum li{margin-bottom:8px}
+.one{background:var(--warn-soft);border-radius:12px;padding:12px 14px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="homebar"><a href="index.html">← Trang chủ</a><a href="hoc-moi-ngay.html">🔥 Học mỗi ngày</a></nav>
+  <header>
+    <span class="eyebrow">Tiếng Anh 5 phút</span>
+    <h1>Nói tự do <span>với Tân</span></h1>
+    <p id="sub">Tân hỏi, em trả lời bằng tiếng Anh. Tân sửa lỗi bằng tiếng Việt và nói lại câu đúng.</p>
+  </header>
+
+  <section class="card" aria-label="Chọn lớp và bài">
+    <div class="grades" role="group" aria-label="Chọn lớp" id="grades"></div>
+    <select id="unit" aria-label="Chọn bài"></select>
+  </section>
+
+  <!-- Lớp 10-12: trò chuyện với AI miễn phí -->
+  <section class="card" id="aiCard" hidden>
+    <h2>🤖 Nói tự do với Tân (AI)</h2>
+    <p class="small" id="aiTopic"></p>
+    <ol class="steps small">
+      <li>Bấm <b>Gemini</b> hoặc <b>ChatGPT</b>. App tự <b>sao chép câu lệnh</b> và mở trang AI.</li>
+      <li>Nếu ô chat còn trống: <b>chạm giữ vào ô chat → Dán</b>, rồi bấm Gửi. Tân (AI) sẽ chào và hỏi em.</li>
+      <li>Trả lời bằng tiếng Anh: gõ, hoặc bấm 🎤 để nói. Muốn nghe đọc thành tiếng: Gemini bấm nút <b>Live</b> (hình sóng âm), ChatGPT bấm nút <b>giọng nói</b> (hình sóng âm) cạnh ô chat.</li>
+    </ol>
+    <div class="ai-pick">
+      <button class="btn green" id="goGemini">✨ Gemini<small>cần tài khoản Google</small></button>
+      <button class="btn" id="goGpt">💬 ChatGPT<small>dùng được không cần đăng nhập</small></button>
+    </div>
+    <div class="safe"><b>⚠️ Trước khi dùng AI</b>
+      Em cần tài khoản riêng của em và đủ tuổi theo quy định của Google/OpenAI (thường từ 13 tuổi; dưới 18 tuổi cần cha mẹ đồng ý). Không gõ họ tên đầy đủ, số điện thoại, địa chỉ, ảnh hay mật khẩu vào AI. AI có thể sai: thấy lạ thì hỏi thầy cô.</div>
+    <details><summary>Xem câu lệnh gửi cho AI</summary>
+      <div class="prompt" id="promptBox"></div>
+      <button class="btn ghost" id="copyAgain">📋 Sao chép câu lệnh</button>
+    </details>
+    <p class="small muted">Không có tài khoản hoặc không có mạng? Luyện với Tân ngay bên dưới, Tân tự chấm trong máy.</p>
+  </section>
+
+  <!-- Mọi lớp: câu hỏi mở, Tân tự chấm -->
+  <section class="card" id="talk">
+    <div class="row" style="justify-content:space-between"><h2 id="talkTitle">💬 Tân hỏi, em trả lời</h2><span class="prog" id="prog"></span></div>
+    <div class="stage">
+      <div class="tan" id="tan" aria-hidden="true">
+        <svg viewBox="20 18 120 120"><ellipse cx="80" cy="82" rx="44" ry="48" fill="#EDC19C"/><ellipse cx="36" cy="86" rx="7" ry="10" fill="#D9A47C"/><ellipse cx="124" cy="86" rx="7" ry="10" fill="#D9A47C"/>
+          <path d="M36 70 Q34 22 80 20 Q126 22 124 70 Q120 48 104 42 Q96 52 78 46 Q62 54 46 50 Q38 58 36 70 Z" fill="#2B1D16"/>
+          <g stroke="#2B1D16" stroke-width="3" stroke-linecap="round"><path d="M56 68 Q64 64 72 68"/><path d="M88 68 Q96 64 104 68"/></g>
+          <g fill="#1C1C1C"><ellipse cx="64" cy="84" rx="4.5" ry="5.5"/><ellipse cx="96" cy="84" rx="4.5" ry="5.5"/></g>
+          <g fill="#E8838A" opacity=".8"><ellipse cx="54" cy="100" rx="7" ry="4"/><ellipse cx="106" cy="100" rx="7" ry="4"/></g>
+          <path class="ms" d="M68 106 Q80 116 92 106" fill="none" stroke="#7A3B2E" stroke-width="3.5" stroke-linecap="round"/>
+          <g class="mo"><ellipse cx="80" cy="110" rx="10" ry="8" fill="#7A3B2E"/><ellipse cx="80" cy="114" rx="6" ry="3" fill="#E8838A"/></g></svg>
+      </div>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+    </div>
+    <div id="askArea">
+      <div class="answer">
+        <textarea id="ans" placeholder="Bấm 🎤 để nói, hoặc gõ câu trả lời tiếng Anh…" aria-label="Câu trả lời của em"></textarea>
+        <button class="mic" id="mic" aria-label="Bấm để nói">🎤</button>
+      </div>
+      <p class="small muted" id="micNote" style="margin:6px 0 0"></p>
+      <div class="row" style="margin-top:8px"><button class="btn green" id="send">Gửi cho Tân</button><button class="btn ghost" id="hint">💡 Gợi ý</button><button class="btn ghost" id="again">🔊 Nghe lại câu hỏi</button></div>
+    </div>
+    <div id="fb"></div>
+    <div class="row" id="nextRow" hidden><button class="btn green" id="next">Câu tiếp theo →</button><button class="btn ghost" id="retry">🔁 Nói lại</button></div>
+    <div id="sum"></div>
+    <div class="switches">
+      <label><input type="checkbox" id="swEn"> 🔊 Tân đọc câu tiếng Anh (giọng Anh)</label>
+      <label><input type="checkbox" id="swVi"> 🗣️ Tân đọc lời giải thích (giọng Việt)</label>
+      <span class="muted" id="voiceNote"></span>
+    </div>
+  </section>
+
+  <footer>Phần “Tân hỏi, em trả lời” chạy ngay trong điện thoại, không cần mạng, không gửi câu trả lời của em đi đâu. Tân chấm theo các lỗi hay gặp nên có thể chưa bắt hết lỗi; câu nào chưa chắc, em hỏi thầy cô.</footer>
+</div>
+
+<script src="du-lieu-bai.js"></script>
+<script src="cau-hoi-mo.js"></script>
+<script src="tan-cham.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = id=>document.getElementById(id);
+const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LS = {get(k,d){ try{ const v = localStorage.getItem(k); return v==null ? d : v; }catch(e){ return d; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }};
+const HMN = ()=>{ try{ return JSON.parse(localStorage.getItem("hmn-v1")||"{}"); }catch(e){ return {}; } };
+const dayNum = d=>Math.floor((d.getTime() - d.getTimezoneOffset()*60000)/86400000);
+const TODAY = dayNum(new Date()), START = dayNum(new Date(2026,8,7));
+const week = Math.max(1, Math.min(35, Math.floor((TODAY-START)/7)+1));
+
+/* ---------- chọn lớp, bài ---------- */
+const P = new URLSearchParams(location.search);
+let grade = P.get("lop") || HMN().grade || LS.get("grade","6");
+if(!BAI[grade]) grade = "6";
+let unit = parseInt(P.get("u"),10);
+function curUnit(g){ const us = BAI[g]; let pick = us[0]; for(const u of us){ if(parseInt(u.week,10) <= week) pick = u; } return pick.u; }
+if(!BAI[grade].some(u=>u.u===unit)) unit = curUnit(grade);
+$("grades").innerHTML = Object.keys(BAI).map(g=>`<button data-g="${g}" aria-pressed="${g===String(grade)}">${g}</button>`).join("");
+$("grades").onclick = e=>{ const b = e.target.closest("button"); if(!b) return; grade = b.dataset.g; unit = curUnit(grade); LS.set("grade", grade); render(); };
+$("unit").onchange = ()=>{ unit = parseInt($("unit").value,10); render(); };
+const U = ()=>BAI[grade].find(u=>u.u===unit);
+
+/* ---------- giọng đọc ---------- */
+const synth = window.speechSynthesis;
+let enV = null, viV = null;
+function pickV(){ if(!synth) return; const a = synth.getVoices(); const en = a.filter(v=>/^en[-_]/i.test(v.lang)); enV = en.find(v=>/en[-_](GB|US)/i.test(v.lang) && /google|samantha|daniel|libby|sonia|ryan/i.test(v.name)) || en[0] || null; viV = a.find(v=>/^vi/i.test(v.lang)) || null; voiceNote(); }
+if(synth){ pickV(); synth.onvoiceschanged = pickV; }
+$("swEn").checked = LS.get("ntd-en","1")==="1";
+$("swVi").checked = LS.get("ntd-vi","1")==="1";
+$("swEn").onchange = ()=>{ LS.set("ntd-en", $("swEn").checked ? "1" : "0"); if(!$("swEn").checked && synth) synth.cancel(); };
+$("swVi").onchange = ()=>{ LS.set("ntd-vi", $("swVi").checked ? "1" : "0"); if(!$("swVi").checked && synth) synth.cancel(); };
+function voiceNote(){
+  $("voiceNote").textContent = !synth ? "Trình duyệt này chưa đọc được thành tiếng, em đọc chữ nhé."
+    : (synth.getVoices().length && !viV) ? "Điện thoại chưa có giọng tiếng Việt nên Tân chỉ đọc câu tiếng Anh. Phần tiếng Việt em đọc chữ." : "Giọng đọc lấy từ điện thoại, không tốn phí.";
+}
+/* parts: [{t, vi:true|false}] đọc lần lượt; phần nào bị tắt công tắc thì bỏ qua */
+function say(parts, done){
+  if(synth) synth.cancel();
+  const list = parts.filter(p=>p.t && (p.vi ? $("swVi").checked && viV : $("swEn").checked));
+  const tan = $("tan");
+  if(!synth || !list.length){ done && done(); return; }
+  let i = 0;
+  const next = ()=>{
+    if(i >= list.length){ tan.classList.remove("talk"); done && done(); return; }
+    const p = list[i++];
+    try{
+      const u = new SpeechSynthesisUtterance(p.vi ? p.t : p.t.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D"));
+      if(p.vi){ u.voice = viV; u.lang = viV.lang; u.rate = 1.05; } else { if(enV) u.voice = enV; u.lang = enV ? enV.lang : "en-GB"; u.rate = 0.85; u.pitch = 1.1; }
+      u.onstart = ()=>tan.classList.add("talk");
+      u.onend = u.onerror = ()=>{ tan.classList.remove("talk"); setTimeout(next, 220); };
+      synth.speak(u);
+    }catch(e){ next(); }
+  };
+  next();
+}
+
+/* ---------- AI (lớp 10-12) ---------- */
+const LEVEL = {"10":"A2–B1","11":"B1","12":"B1"};
+function buildPrompt(){
+  const u = U(), words = u.words.slice(0,10).map(w=>w[0]).join(", ");
+  return `Bạn hãy đóng vai Tân, một học sinh lớp ${grade} người Việt, vui vẻ, giỏi tiếng Anh, học ở một trường dân tộc nội trú vùng Tây Nguyên. Mình là bạn cùng lớp của Tân, đang luyện nói tiếng Anh.
+
+Chủ đề hôm nay: Unit ${u.u} – ${u.name} (${u.vi}).
+Từ vựng nên dùng: ${words}.
+
+Cách trò chuyện:
+1. Mở đầu bằng một câu chào ngắn và MỘT câu hỏi tiếng Anh dễ về chủ đề.
+2. Mỗi lần mình trả lời (nói hoặc gõ), bạn trả lời đúng 3 phần, mỗi phần một dòng:
+✅ Câu đúng: câu của mình đã sửa thành tiếng Anh đúng và tự nhiên. Nếu mình nói đúng rồi thì khen ngắn và nhắc lại câu đó.
+💡 Giải thích: bằng tiếng Việt, tối đa 2 câu, chỉ ra lỗi quan trọng nhất và vì sao sai. Nếu không có lỗi, gợi ý một từ hay hơn.
+❓ Câu hỏi tiếp: một câu hỏi tiếng Anh ngắn để mình nói tiếp.
+3. Dùng tiếng Anh trình độ ${LEVEL[grade]||"A2"}, câu ngắn, dễ hiểu. Mỗi lần chỉ hỏi một câu.
+4. Nếu mình viết hoặc nói tiếng Việt, hãy chỉ cách nói câu đó bằng tiếng Anh rồi bảo mình nói lại.
+5. Chỉ nói về chủ đề học tập này. Không hỏi tên thật, tuổi, địa chỉ, số điện thoại, trường lớp hay ảnh của mình. Nếu mình lỡ chia sẻ thông tin cá nhân, nhắc mình không nên làm vậy.
+6. Khi đang ở chế độ giọng nói: đọc câu tiếng Anh chậm và rõ; đọc phần giải thích bằng tiếng Việt.
+7. Sau khoảng 8 lượt, hoặc khi mình gõ "tổng kết", hãy tóm tắt: 3 lỗi mình hay mắc (giải thích bằng tiếng Việt) và 3 câu đúng nên nhớ (tiếng Anh).
+
+Bắt đầu nhé!`;
+}
+function copyText(t){
+  let ok = false;
+  try{ const ta = document.createElement("textarea"); ta.value = t; ta.setAttribute("readonly",""); ta.style.position = "fixed"; ta.style.top = "-1000px"; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, t.length); ok = document.execCommand("copy"); ta.remove(); }catch(e){}
+  try{ if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).catch(()=>{}); ok = true; }catch(e){}
+  return ok;
+}
+let toastT = 0;
+function toast(msg){ let el = document.querySelector(".toast"); if(!el){ el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); document.body.appendChild(el); } el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>el.hidden = true, 7000); }
+function openAI(which){
+  const p = buildPrompt();
+  const ok = copyText(p);
+  const url = which==="gpt" ? "https://chatgpt.com/?q=" + encodeURIComponent(p) : "https://gemini.google.com/app";
+  window.open(url, "_blank", "noopener");
+  toast(ok ? "Đã sao chép câu lệnh. Nếu ô chat trống, chạm giữ vào ô chat → Dán → Gửi." : "Chưa sao chép được. Em mở “Xem câu lệnh gửi cho AI”, chạm giữ để chọn rồi sao chép.");
+  try{ const S = HMN(); S.aiTalks = (S.aiTalks||0) + 1; localStorage.setItem("hmn-v1", JSON.stringify(S)); }catch(e){}
+}
+$("goGemini").onclick = ()=>openAI("gemini");
+$("goGpt").onclick = ()=>openAI("gpt");
+$("copyAgain").onclick = ()=>toast(copyText(buildPrompt()) ? "Đã sao chép câu lệnh." : "Em chạm giữ vào câu lệnh để chọn rồi sao chép.");
+
+/* ---------- Tân hỏi, em trả lời ---------- */
+let qs = [], qi = 0, tries = 0, phase = "ask", results = [], followQ = null;
+function unitWords(){ const u = U(); return u ? u.words.map(w=>w[0].toLowerCase()) : []; }
+function startTalk(){
+  qs = ((window.CAU_HOI_MO||{})[grade]||{})[unit] || [];
+  qi = 0; results = []; $("sum").innerHTML = "";
+  if(!qs.length){ $("bubble").innerHTML = "Bài này chưa có câu hỏi."; $("askArea").hidden = true; return; }
+  $("askArea").hidden = false; ask();
+}
+function ask(){
+  const q = qs[qi]; tries = 0; phase = "ask"; followQ = null;
+  $("prog").textContent = `Câu ${qi+1}/${qs.length}`;
+  $("bubble").innerHTML = `<span class="q">${esc(q.q)}</span><span class="vi">${esc(q.vi)}</span>`;
+  $("fb").innerHTML = ""; $("nextRow").hidden = true; $("ans").value = ""; $("askArea").hidden = false;
+  say([{t:q.q}]);
+}
+$("again").onclick = ()=>{ const q = followQ || qs[qi]; if(q) say([{t:q.q}]); };
+$("hint").onclick = ()=>{
+  const q = followQ || qs[qi]; if(!q) return;
+  const start = q.a.split(" ").slice(0, Math.min(3, Math.ceil(q.a.split(" ").length/3))).join(" ");
+  $("fb").innerHTML = `<div class="fb short"><span class="note">💡 ${esc(q.vi)} Em có thể bắt đầu bằng: <b>${esc(start)} …</b></span></div>`;
+};
+function fbHTML(raw, r, q){
+  const icon = {ok:"✅", fixed:"✏️", short:"🟡", off:"🟡", vi:"🇻🇳"}[r.status] || "";
+  const good = r.status==="ok" ? r.fixed : (r.status==="fixed" ? r.fixed : q.a);
+  const label = r.status==="ok" ? "Câu của em" : r.status==="fixed" ? "Câu đúng" : "Câu mẫu";
+  const viText = r.status==="ok" ? [r.praise, r.tip].filter(Boolean).join(" ") : r.notes.join(" ");
+  return {html:`<div class="fb ${r.status}">
+      <span class="said">Em nói: “${esc(raw)}”</span>
+      <span class="note">${icon} ${esc(viText)}</span>
+      <span class="good">${label}: <b>${esc(good)}</b> <button class="btn ghost" style="min-height:36px;padding:4px 10px" data-say="${esc(good)}" aria-label="Nghe câu này">🔊</button></span>
+      ${r.status!=="ok" && r.status!=="fixed" ? "" : ""}</div>`, viText, good};
+}
+$("fb").onclick = e=>{ const b = e.target.closest("[data-say]"); if(b) say([{t:b.dataset.say}]); };
+function submit(raw){
+  raw = (raw||"").trim();
+  if(!raw){ $("ans").focus(); return; }
+  stopRec();
+  const q = followQ || qs[qi];
+  const r = TanCham.check(raw, q, unitWords());
+  if(r.status==="empty") return;
+  // câu hỏi phụ "Why?" khi em trả lời đúng mà chưa nêu lý do
+  const wantWhy = r.status==="ok" && !followQ && !/\bwhy\b/i.test(q.q) && /^(pres|like|opin|fut)$/.test(q.type) && !/\b(because|so|since)\b/i.test(raw) && !/^(Is|Are|Can|Do|Does|Will|Would|Have|Has|Was|Were|Did)\b/.test(q.q) && raw.split(/\s+/).length < 12;
+  if(wantWhy) r.tip = "";
+  tries++;
+  const f = fbHTML(raw, r, q);
+  $("fb").innerHTML = f.html;
+  const intro = r.status==="ok" ? "" : r.status==="fixed" ? "Em nói lại theo Tân nhé." : "Em nghe câu mẫu rồi thử lại nhé.";
+  const sayIt = [{t: f.viText + (intro ? " " + intro : ""), vi:true}, {t: f.good}];
+  const rec = {q: q.q, raw, st: r.status, note: r.status==="ok" ? "" : r.notes[0] || "", good: f.good};
+  if(r.status==="ok" || r.status==="fixed" || tries >= 2){
+    const key = qi + (followQ ? "w" : "");
+    const at = results.findIndex(x=>x.key===key); rec.key = key;
+    if(at < 0) results.push(rec); else results[at] = rec;
+    if(wantWhy){
+      followQ = {type:q.type, q:"Why?", vi:"Vì sao vậy? Em nói thêm lý do, bắt đầu bằng “Because …”.", k:["because","so","since","to","it","i"], a:"Because it is interesting and useful."};
+      $("bubble").innerHTML = `<span class="q">Why?</span><span class="vi">${esc(followQ.vi)}</span>`; $("ans").value = "";
+      say(sayIt.concat([{t:"Why?"}]));
+      $("nextRow").hidden = false; $("retry").hidden = true;
+      return;
+    }
+    $("nextRow").hidden = false; $("retry").hidden = r.status==="ok";
+    $("askArea").hidden = r.status==="ok";
+  } else {
+    $("nextRow").hidden = true;
+    $("ans").value = "";
+  }
+  say(sayIt);
+}
+$("send").onclick = ()=>submit($("ans").value);
+$("ans").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); submit($("ans").value); } });
+$("retry").onclick = ()=>{ $("askArea").hidden = false; $("ans").value = ""; $("fb").innerHTML = ""; $("nextRow").hidden = true; tries = 0; $("ans").focus(); };
+$("next").onclick = ()=>{ if(synth) synth.cancel(); followQ = null; qi++; if(qi < qs.length) ask(); else finish(); };
+
+function finish(){
+  $("askArea").hidden = true; $("nextRow").hidden = true; $("fb").innerHTML = ""; $("prog").textContent = "Xong";
+  const bad = results.filter(x=>x.st!=="ok" && x.note);
+  const kind = n=>n.split(/(?<=[.”])\s/)[0];
+  const cnt = {}; bad.forEach(x=>{ const k = kind(x.note); cnt[k] = (cnt[k]||0) + 1; });
+  const topK = Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  const ex = topK ? bad.find(x=>kind(x.note)===topK) : null;
+  const top = ex ? (cnt[topK] > 1 ? `Lỗi này em gặp ${cnt[topK]} lần. ` : "") + ex.note : "";
+  const okN = results.filter(x=>x.st==="ok").length;
+  $("bubble").innerHTML = `<span class="q">Great job! See you next time.</span><span class="vi">Em đúng ngay ${okN}/${results.length} câu. Xem lại bên dưới nhé.</span>`;
+  $("sum").innerHTML = `<h3>Xem lại câu em đã nói</h3><ol class="sum small">${results.map(x=>`<li>${x.st==="ok" ? "✅" : "✏️"} ${esc(x.q)}<br><span class="muted">Em: “${esc(x.raw)}”</span><br>${x.st==="ok" ? "" : "Câu đúng: "}<b>${esc(x.good)}</b></li>`).join("")}</ol>
+    <div class="one"><b>🎯 Một điều cần sửa nhất</b><br>${top ? `${esc(top)}<br>Ví dụ: <b>${esc(ex.good)}</b>` : "Em không có lỗi nào cần sửa. Lần sau em thử nói dài hơn và thêm lý do bằng “because …”."}</div>
+    <div class="row"><button class="btn green" id="restart">Luyện lại bài này</button><button class="btn ghost" id="nextUnit">Bài tiếp theo →</button></div>`;
+  say([{t:"Great job! See you next time.", vi:false}, {t: top ? "Một điều cần sửa nhất: " + top : "Em làm rất tốt, không có lỗi nào cần sửa.", vi:true}]);
+  try{ const K = "hmn-v1", S = HMN(); S.fixes = (S.fixes||[]).slice(-29);
+    S.fixes.push({d: TODAY, src: `Nói tự do · Lớp ${grade} Unit ${unit}`, t: top || "", ex: ex ? ex.good : "", ok: !top});
+    S.talks = (S.talks||0) + 1; localStorage.setItem(K, JSON.stringify(S)); }catch(e){}
+  $("restart").onclick = startTalk;
+  $("nextUnit").onclick = ()=>{ const us = BAI[grade]; const i = us.findIndex(u=>u.u===unit); unit = us[(i+1) % us.length].u; render(); window.scrollTo({top:0, behavior:"smooth"}); };
+}
+
+/* ---------- micro ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null;
+function stopRec(){ if(rec){ try{ rec.abort(); }catch(e){} rec = null; } $("mic").classList.remove("on"); }
+if(!SR){ $("mic").hidden = true; $("micNote").textContent = "Máy này chưa nghe được giọng nói, em gõ câu trả lời nhé."; }
+$("mic").onclick = ()=>{
+  if(rec){ stopRec(); return; }
+  if(synth) synth.cancel();
+  try{
+    rec = new SR(); rec.lang = "en-US"; rec.interimResults = true; rec.maxAlternatives = 1;
+    $("mic").classList.add("on"); $("micNote").textContent = "Tân đang nghe… Em nói tiếng Anh nhé.";
+    let finalT = "";
+    rec.onresult = e=>{ let t = ""; for(let i=0;i<e.results.length;i++){ t += e.results[i][0].transcript; if(e.results[i].isFinal) finalT = t; } $("ans").value = t; };
+    rec.onerror = e=>{ $("micNote").textContent = /not-allowed|service-not-allowed/.test(e.error) ? "Micro đang bị chặn. Em gõ câu trả lời, hoặc cho phép dùng micro trong cài đặt trình duyệt." : e.error==="no-speech" ? "Tân chưa nghe thấy gì. Em bấm 🎤 và nói to hơn nhé." : "Chưa nghe được. Em thử lại hoặc gõ câu trả lời."; stopRec(); };
+    rec.onend = ()=>{ const t = $("ans").value.trim(); const was = !!rec; stopRec(); if(was && t){ $("micNote").textContent = ""; submit(t); } };
+    rec.start();
+  }catch(e){ stopRec(); $("micNote").textContent = "Chưa mở được micro, em gõ câu trả lời nhé."; }
+};
+
+/* ---------- vẽ lại khi đổi lớp/bài ---------- */
+function render(){
+  document.querySelectorAll("#grades button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.g===String(grade)));
+  $("unit").innerHTML = BAI[grade].map(u=>`<option value="${u.u}"${u.u===unit?" selected":""}>Unit ${u.u} · ${esc(u.name)} – ${esc(u.vi)}</option>`).join("");
+  const big = parseInt(grade,10) >= 10, u = U();
+  $("aiCard").hidden = !big;
+  $("talkTitle").textContent = big ? "📴 Luyện với Tân trong app" : "💬 Tân hỏi, em trả lời";
+  $("sub").textContent = big ? "Lớp " + grade + ": trò chuyện tự do với Tân bằng AI miễn phí, hoặc luyện câu hỏi mở ngay trong app." : "Tân hỏi, em trả lời bằng tiếng Anh. Tân sửa lỗi bằng tiếng Việt và nói lại câu đúng.";
+  if(big){ $("aiTopic").innerHTML = `Chủ đề: <b>Unit ${u.u} · ${esc(u.name)}</b> (${esc(u.vi)}). Tân (AI) sẽ hỏi em về chủ đề này, sửa lỗi bằng tiếng Việt và nói lại câu đúng bằng tiếng Anh.`; $("promptBox").textContent = buildPrompt(); }
+  try{ history.replaceState(null, "", "?lop=" + grade + "&u=" + unit); }catch(e){}
+  if(synth) synth.cancel();
+  startTalk();
+}
+render();
+})();
+</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}</script>
+<script src="tra-tu.js" defer></script>
+</body>
+</html>

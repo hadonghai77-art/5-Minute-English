@@ -92,6 +92,7 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
   </div>
 
   <a class="daily" href="hoc-moi-ngay.html"><span class="fl">🔥</span><b id="dailyT">Học mỗi ngày 5 phút</b><span id="dailyD">Ôn từ, đọc to, đố nhanh cùng Tân</span></a>
+  <a class="daily" href="noi-tu-do.html"><span class="fl">🗣️</span><b>Nói tự do với Tân</b><span>Lớp 6-9: Tân hỏi, em trả lời, Tân sửa. Lớp 10-12: trò chuyện với AI miễn phí.</span></a>
   <nav class="dtools" aria-label="Học thêm">
     <a href="hoc-moi-ngay.html#so-tu"><i>📒</i>Sổ từ</a><a href="hoc-moi-ngay.html#truyen"><i>📖</i>Truyện</a>
     <a href="hoc-moi-ngay.html#chu-cai"><i>🔤</i>Chữ cái</a><a href="hoc-moi-ngay.html#nghe"><i>🎧</i>Nghe thi</a>
@@ -125,7 +126,7 @@ function showGrade(g){
   const rows=PLAN[g]||[];
   document.getElementById("plan").innerHTML=rows.map((r,i)=>(i===0?'<p class="term">Học kỳ 1</p>':parseInt(r.w)===19?'<p class="term">Học kỳ 2</p>':"")+
     `<div class="wk${r.review?" rv":""}"><span class="wn"><small>Tuần</small>${escH(r.w)}</span><span style="min-width:0"><span class="t">${escH(r.t)}</span><span class="d">${escH(r.d)}</span>`+
-    (r.links.length?`<span class="ls">${r.links.map(l=>`<a href="${escH(l[0])}">${escH(l[1])}</a>`).join("")}</span>`:'<span class="wait">Bài đang được soạn</span>')+`</span></div>`).join("");
+    (r.links.length?`<span class="ls">${r.links.map(l=>`<a href="${escH(l[0])}">${escH(l[1])}</a>`).join("")}${/^Unit (\d+)/.test(r.t)?`<a href="noi-tu-do.html?lop=${g}&u=${r.t.match(/^Unit (\d+)/)[1]}">Nói tự do</a>`:""}</span>`:'<span class="wait">Bài đang được soạn</span>')+`</span></div>`).join("");
 }
 document.querySelectorAll(".grades button").forEach(b=>b.onclick=()=>showGrade(b.dataset.g));
 let g0="6";try{g0=localStorage.getItem("grade")||"6"}catch(e){}

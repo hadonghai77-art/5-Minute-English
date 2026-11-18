@@ -52,6 +52,14 @@ function remember(fix){
   }catch(err){}
 }
 
+/* liên kết sang trang "Nói tự do với Tân" cùng lớp, cùng bài */
+const ntd = (()=>{ const f = location.pathname.split("/").pop();
+  let m = f.match(/^lop-(\d+)-unit-(\d+)-doi-thoai\.html$/); if(m) return `noi-tu-do.html?lop=${m[1]}&u=${m[2]}`;
+  m = f.match(/^lop-(\d+)-doi-thoai-tan\.html$/); if(m) return `noi-tu-do.html?lop=${m[1]}&u=1`;
+  if(f === "doi-thoai-tan.html") return "noi-tu-do.html?lop=6&u=1";
+  return ""; })();
+if(ntd){ const hb = document.querySelector(".homebar"); if(hb && !document.getElementById("dtFreeTop")){ const a = document.createElement("a"); a.id = "dtFreeTop"; a.href = ntd; a.textContent = "🗣️ Nói tự do"; a.style.marginLeft = "8px"; hb.appendChild(a); } }
+
 window.finish = function(){
   _finish();
   const panel = document.getElementById("panel");
@@ -72,7 +80,8 @@ window.finish = function(){
       ${x.st==="ok"||x.st==="pick" ? "" : `<span class="dt-note">${e(tu(x.notes.join(" ")))}</span><span class="dt-good">Câu đúng: <b>${e(x.model)}</b></span>`}
       <button class="mini dt-say" data-i="${i}">🔊 Nghe câu đúng</button></span></li>`).join("")}</ol>`
       : `<p class="note">Em chưa nói câu nào.</p>`}
-    <div class="dt-one"><b>🎯 Một điều cần sửa nhất</b><span id="dtOne"></span></div>`;
+    <div class="dt-one"><b>🎯 Một điều cần sửa nhất</b><span id="dtOne"></span></div>
+    ${ntd ? `<a class="dt-free" href="${ntd}">🗣️ Nói tự do với Tân về chủ đề này</a>` : ""}`;
   panel.appendChild(box);
   const oneTxt = fix
     ? `${fix.times > 1 ? `Lỗi này em gặp ${fix.times} lần. ` : ""}${fix.note} Lần sau em nhớ nói: “${fix.model}”`
@@ -86,6 +95,7 @@ window.finish = function(){
 .dt-list li>span:last-child{display:flex;flex-direction:column;gap:4px;min-width:0}
 .dt-ic{flex:none}.dt-said{font-size:14.5px}.dt-note{font-size:13.5px;color:var(--bad)}.dt-good{font-size:14.5px}
 .dt-say{align-self:flex-start}
+.dt-free{display:block;text-align:center;margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--sun);color:#2A2206;font-weight:600;text-decoration:none}
 .dt-one{background:var(--sun-soft);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:14.5px;margin-top:8px}`;
     document.head.appendChild(st);
   }

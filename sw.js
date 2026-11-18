@@ -1,5 +1,5 @@
 // Lưu bài học vào máy để học khi mất mạng. Khi sửa bài, tăng số phiên bản.
-const VERSION = "v-ad18df71";
+const VERSION = "v-8e99405a";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "hoc-moi-ngay.html",
   "the-tra-loi.html",
@@ -8,6 +8,9 @@ const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon
   "tra-tu.js",
   "tu-dien.js",
   "cau-vi.js",
+  "cau-hoi-mo.js",
+  "tan-cham.js",
+  "noi-tu-do.html",
   "nhap-vai-gia-lai.html",
   "dt-them.js",
   "phat-am-du-lieu.js",

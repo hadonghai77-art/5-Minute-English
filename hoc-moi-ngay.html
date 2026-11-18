@@ -596,7 +596,7 @@ VIEWS["hom-nay"] = ()=>{
       <p class="small muted">Mỗi tuần em được nghỉ 1 ngày mà không mất chuỗi ngày học.</p>
     </section>
     ${curU ? `<section class="card"><p class="small muted">Tuần ${wk} · Bài đang học</p><h3>Unit ${curU.u} · ${esc(curU.name)}</h3>
-      <div class="row" style="margin-top:10px">${curU.links.map(l=>`<a class="btn ghost" href="${esc(l[0])}">${esc(l[1])}</a>`).join("")}</div></section>` : ""}
+      <div class="row" style="margin-top:10px">${curU.links.map(l=>`<a class="btn ghost" href="${esc(l[0])}">${esc(l[1])}</a>`).join("")}<a class="btn ghost" href="noi-tu-do.html?lop=${g}&u=${curU.u}">🗣️ Nói tự do</a></div></section>` : ""}
     <section class="card" id="offline"><h3>Học khi không có mạng</h3><p class="small muted" id="offst">Đang kiểm tra bài đã lưu trong máy…</p>
       <div class="bar" style="margin:10px 0"><i id="offbar" style="width:0"></i></div>
       <div class="row"><button class="btn green" id="dlweek">⬇ Tải bài tuần này</button><button class="btn ghost" id="dlall">Tải tất cả</button></div></section>
@@ -606,6 +606,7 @@ VIEWS["hom-nay"] = ()=>{
       <a class="tool" href="#nghe"><span>🎧</span><span>Nghe luyện thi</span></a>
       <a class="tool" href="#lop-hoc"><span>🏫</span><span>Đố vui cả lớp</span></a>
       <a class="tool" href="#thi-dua"><span>🏅</span><span>Thi đua tuần</span></a>
+      <a class="tool" href="noi-tu-do.html"><span>🗣️</span><span>Nói tự do với Tân</span></a>
       <a class="tool" href="nhap-vai-gia-lai.html"><span>🎭</span><span>Nhập vai ở Gia Lai</span></a>
       <a class="tool" href="#kiem-tra"><span>🧭</span><span>Kiểm tra trình độ</span></a>
       <a class="tool" href="#gop-y"><span>💬</span><span>Góp ý cho app</span></a></div></section>
@@ -1229,6 +1230,7 @@ VIEWS["them"] = ()=>{
       <a class="tool" href="#nghe"><span>🎧</span><span>Nghe luyện thi</span></a>
       <a class="tool" href="#lop-hoc"><span>🏫</span><span>Đố vui cả lớp</span></a>
       <a class="tool" href="#thi-dua"><span>🏅</span><span>Thi đua tuần</span></a>
+      <a class="tool" href="noi-tu-do.html"><span>🗣️</span><span>Nói tự do với Tân</span></a>
       <a class="tool" href="nhap-vai-gia-lai.html"><span>🎭</span><span>Nhập vai ở Gia Lai</span></a>
       <a class="tool" href="#kiem-tra"><span>🧭</span><span>Kiểm tra trình độ</span></a>
       <a class="tool" href="#huy-hieu"><span>🎖️</span><span>Huy hiệu</span></a>
