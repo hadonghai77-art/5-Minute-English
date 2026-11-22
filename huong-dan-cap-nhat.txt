@@ -1,0 +1,70 @@
+HƯỚNG DẪN CẬP NHẬT APP "TIẾNG ANH 5 PHÚT"
+Bản cập nhật ngày 22/11/2026: 10 tính năng học từ app ELSA Speak
+
+========================================================
+A. GÓI NÀY CÓ GÌ
+========================================================
+Gói cap-nhat-10-de-xuat.zip có 6 file, chỉ gồm file mới hoặc file đã sửa:
+  1. hoc-moi-ngay.html   (sửa)  trang Học mỗi ngày, có thêm các phần mới
+  2. dt-them.js          (sửa)  thêm cho 80 trang Nói với Tân và Nhập vai
+  3. khau-hinh.js        (MỚI)  miệng Tân cử động theo âm, mắt chớp tự nhiên
+  4. noi-dung-them.js    (sửa)  thêm 30 đề "Nói 1 phút" cho lớp 10, 11, 12
+  5. index.html          (sửa)  trang chủ, thêm nút "Dành cho thầy cô"
+  6. sw.js               (sửa)  để điện thoại học sinh tự nhận bản mới
+
+Các file khác giữ nguyên, thầy KHÔNG cần tải lại.
+Gói này đã có sẵn phần "Gửi qua Telegram" (bản cập nhật cùng ngày).
+
+========================================================
+B. CÁCH TẢI LÊN GITHUB (khoảng 5 phút)
+========================================================
+1. Giải nén file cap-nhat-10-de-xuat.zip ra một thư mục trên máy.
+   Thầy sẽ thấy 6 file ở trên (và file hướng dẫn này, không cần tải lên).
+2. Mở trang: https://github.com/hadonghai77-art/5-Minute-English
+   (đăng nhập GitHub nếu được hỏi).
+3. Bấm nút "Add file" rồi chọn "Upload files".
+4. Kéo cả 6 file vào ô "Drag files here" (hoặc bấm "choose your files" rồi chọn 6 file).
+   GitHub sẽ báo các file trùng tên sẽ được thay bằng bản mới, như vậy là đúng.
+5. Kéo xuống dưới, bấm nút xanh "Commit changes".
+6. Đợi khoảng 1 đến 3 phút để trang web cập nhật.
+7. Mở thử: https://hadonghai77-art.github.io/5-Minute-English/hoc-moi-ngay.html
+   Nếu chưa thấy phần mới, thầy kéo trang xuống để tải lại, hoặc đóng hẳn app rồi mở lại.
+
+========================================================
+C. 10 TÍNH NĂNG MỚI NẰM Ở ĐÂU
+========================================================
+1. Giao bài bằng đường link
+   Trang chủ > "Dành cho thầy cô" (hoặc Học mỗi ngày > Thêm > Dành cho thầy cô).
+   Thầy chọn lớp, bài, việc cần làm, hạn nộp, bấm "Tạo đường link giao bài" rồi "Gửi qua Zalo".
+   Học sinh bấm link: bài hiện ở đầu mục Hôm nay, có đếm ngược hạn nộp.
+   Làm xong, học sinh bấm "Gửi kết quả qua Zalo" để gửi cho thầy.
+   LƯU Ý: Zalo hay mở link trong trình duyệt riêng của Zalo. Học sinh cần bấm "⋯" rồi chọn
+   "Mở bằng trình duyệt" để bài lưu vào app của em. Nếu không được, em chép mã và dán vào
+   mục "📥 Nhập mã bài" trong app.
+   Thầy phải tạo link khi mở app ở địa chỉ web thật (github.io), không phải mở file trên máy.
+2. Kết quả 3 mức: 🟢 Tốt, 🟡 Gần đúng, 🟠 Cần luyện, mỗi mức có tiếng báo riêng.
+   Có ở Đọc to (từ gần đúng tô vàng), Nói với Tân, Nối cặp, Từ khác loại, Nói điền chỗ trống, Nói 1 phút.
+3. Tốc độ nói: khi em nói bằng micro, app tính số từ mỗi phút và số lần ngắt dài,
+   rồi khuyên "chậm lại" hay "nói liền mạch hơn". Mục tiêu 80 đến 130 từ mỗi phút.
+4. Tân mấp máy môi theo từng âm (9 hình miệng: môi tròn cho o, u; răng chạm môi cho f, v;
+   lưỡi giữa răng cho th...) và chớp mắt ngẫu nhiên như người thật.
+5. Trong các trang Nói với Tân: nút "💡 Gợi ý câu trả lời" hiện 2 đến 3 câu mẫu để em đọc;
+   khi tắt "Hiện nghĩa tiếng Việt" để luyện nghe, có nút "🇻🇳 Dịch câu này".
+6. Ba dạng bài mới trong Học mỗi ngày > Học thêm: 🔗 Nối cặp, 🔍 Từ khác loại,
+   🎙️ Nói điền chỗ trống. Lần đầu mở, app hiện hướng dẫn ngắn có hình động.
+7. Thẻ khoe thành tích: Thi đua tuần > "📸 Tạo thẻ thành tích", hoặc nút "Khoe thành tích"
+   khi xong việc trong ngày. App vẽ một tấm ảnh có tên em, chuỗi ngày học, số từ đã nhớ để gửi nhóm lớp.
+8. Bộ từ do thầy cô tạo: "Dành cho thầy cô" > "Tạo bộ từ cho lớp". Mỗi dòng: từ = nghĩa = câu ví dụ.
+   Học sinh mở link là từ vào Sổ từ để ôn ngay.
+9. Nói 1 phút (lớp 10-12): Học mỗi ngày > Học thêm > ⏱️ Nói 1 phút. Có đề và 3 câu hỏi gợi ý
+   cho cả 30 bài. App đếm số từ, từ khác nhau, từ nối, từ chủ đề, tốc độ và chỗ ngắt dài.
+   App chấm bằng quy tắc, chưa chấm được ngữ pháp sâu.
+10. Nhận xét lịch sự: cuối mỗi cuộc trò chuyện (nhất là Nhập vai ở Gia Lai), app nhắc nếu em
+   quên please, thank you, excuse me, sorry... mà câu mẫu có dùng.
+
+========================================================
+D. NHỮNG ĐIỀU CẦN BIẾT
+========================================================
+- Tất cả miễn phí, không cần tài khoản, không có máy chủ. Dữ liệu học của em lưu trên điện thoại của em.
+- Phần micro (nghe giọng nói) cần mở bằng Chrome và có mạng, giống như trước.
+- Không có tính năng cũ nào bị bỏ. App vẫn có 205 file.

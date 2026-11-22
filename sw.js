@@ -1,5 +1,5 @@
 // Lưu bài học vào máy để học khi mất mạng. Khi sửa bài, tăng số phiên bản.
-const VERSION = "v-8e99405a";
+const VERSION = "v-telegram-20261122";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png",
   "hoc-moi-ngay.html",
   "the-tra-loi.html",
@@ -13,6 +13,7 @@ const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon
   "noi-tu-do.html",
   "nhap-vai-gia-lai.html",
   "dt-them.js",
+  "khau-hinh.js",
   "phat-am-du-lieu.js",
   "phat-am.js",
   "bai-1-truong-moi.html",
